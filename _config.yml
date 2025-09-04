@@ -1,0 +1,27 @@
+title: "Null Hypothesis Accepted"
+tagline: "A blog by Gilles Colling"
+description: "A minimalist blog about Stats, Math and other interesting Stuff"
+
+# If you're serving under /blog (e.g., GitHub Pages project site)
+url: "https://gcol33.github.io"
+baseurl: "/blog"   # since the repo is gcol33/blog
+
+# Theme off; we use custom layouts
+theme: null
+
+# Useful defaults
+permalink: /:title/
+markdown: kramdown
+kramdown:
+  input: GFM
+
+# Plugins (feed stays enabled; no header link needed)
+plugins:
+  - jekyll-feed
+
+# Housekeeping
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - README.md

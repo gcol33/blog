@@ -1,0 +1,10 @@
+---
+layout: default
+title: Home
+---
+{% for post in site.posts %}
+  <a class="entryLink" href="{{ post.url | relative_url }}">
+    <b class="link">{{ post.title }}</b><br />
+    <span>{{ post.excerpt | strip_html | truncate: 180 }}</span>
+  </a>
+{% endfor %}

@@ -1,0 +1,78 @@
+/* Final spacing + underline overrides (load LAST) */
+
+/* Top air comes from container padding to avoid body resets elsewhere */
+.container {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  padding-top: 4.5rem; /* tweak: 4–6rem to taste */
+}
+
+/* Header layout: title/tagline + nav stacked */
+#header {
+  padding: 1.5rem 0 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #eee;
+}
+
+.brand {
+  margin-bottom: 1rem;   /* more space before nav */
+}
+
+.brand-title {
+  font-weight: 700;
+  color: #000;
+  font-size: 1.4rem;
+  line-height: 1.2;
+}
+
+.brand-tagline {
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 2px;
+}
+
+.brand-tagline a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: .06em;
+  text-underline-offset: .15em;
+}
+.brand-tagline a:hover {
+  color: #468CC7;
+}
+
+.nav {
+  display: flex;
+  gap: 14px;
+}
+
+
+/* Homepage entries: spacing + underline like reference */
+.entryLink {
+  display: block;
+  margin-bottom: 2em; /* reference uses ~2em gaps */
+  background: none;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+.entryLink .link {
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: .065em;
+  text-underline-offset: .2em;
+  text-decoration-skip-ink: auto;
+}
+
+/* Post page rhythm */
+.post-title { margin: 0 0 0.75rem; line-height: 1.2; }
+.post-date  { display: block; color: #666; margin: 0 0 1.25rem; }
+.post-content { padding-top: 0.5rem; }
+.post-content img { max-width: 100%; height: auto; display: block; margin: 18px auto; }
+
+/* Global underline feel */
+a, .link {
+  text-decoration-thickness: .06em;
+  text-underline-offset: .17em;
+  text-decoration-skip-ink: auto;
+}
