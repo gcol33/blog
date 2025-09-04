@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Frequentist Slices, Bayesian Shadows"
-date: 2025-09-04
+date: 2025-09-03
 categories: probability measure-theory bayesian
 ---
 
@@ -60,9 +60,8 @@ $$
 E[Y \mid x_1, x_2 = 0.2] = \beta_0 + \beta_1 x_1 + \beta_2 \cdot 0.2.
 $$
 
-The fitted line is conditional on soil moisture being set at 20% and on the estimated parameters $\hat{\beta}$.  
-The surrounding uncertainty band comes from the **sampling distribution** of the estimates:  
-if we repeatedly drew new datasets from the same true model, 95% of such bands would contain the true regression line.  
+The fitted line is conditional on soil moisture being set at 20% and on the estimated parameters $\hat{\boldsymbol{\beta}}$ (the hat denotes that these are estimates of the true but unknown coefficients $\boldsymbol{\beta}$).
+The surrounding uncertainty band comes from the sampling distribution of these estimates: if we repeatedly drew new datasets from the same true model, 95% of such bands would contain the true regression line.
 
 Frequentist prediction plots are conditional in two senses:  
 they are conditional on fixed values of covariates and conditional on fixed parameter estimates.
@@ -80,11 +79,11 @@ Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \varepsilon,
 $$
 
 we again want to study the effect of elevation $x_1$ while holding soil moisture at $x_2 = 20\%$.  
-Instead of inserting point estimates for $\beta$, we integrate over the entire posterior distribution:  
+Instead of inserting point estimates for $\boldsymbol{\beta}$, we integrate over the entire posterior distribution:
 
 $$
 p(y^* \mid x_1, x_2 = 0.2, \text{data})  
-= \int p(y^* \mid x_1, x_2 = 0.2, \beta) \, p(\beta \mid \text{data}) \, d\beta.
+= \int p(y^* \mid x_1, x_2 = 0.2, \boldsymbol{\beta}) \, p(\boldsymbol{\beta} \mid \text{data}) \, d\boldsymbol{\beta}.
 $$
 
 This is a **marginal prediction**: we marginalize over parameter uncertainty to obtain a predictive distribution for $y^*$.  
