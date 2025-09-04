@@ -19,13 +19,19 @@ There are two further categorical ingredients. A functor is a systematic way of 
 
 ## Two Canonical Transports
 
-Fix a measurable map $f: X \to Y$. Two mechanisms are available immediately.
+Fix a measurable map $f: X \to Y$.  
+Two mechanisms appear immediately.  
 
-The first is inverse image. For an event $B$ in $Y$, the set $f^{-1}(B) = \{x\in X : f(x)\in B\}$ is an event in $X$. Inverse images commute with the set operations that define the σ-algebra. This direction is reliable.
+- **Inverse image.** For an event $B$ in $Y$, the set  
+  $f^{-1}(B) = \{x \in X : f(x) \in B\}$ is an event in $X$.  
+  Inverse images respect the set operations that generate the σ-algebra.  
 
-The second is composition. For an observable $g: Y \to \mathbb{R}$, the composite $g\circ f: X \to \mathbb{R}$ is an observable on $X$. Composition is how information defined on the target is read on the source. This direction is also reliable.
+- **Composition.** For an observable $g: Y \to \mathbb{R}$, the composite  
+  $g \circ f : X \to \mathbb{R}$ is an observable on $X$.  
+  Composition is how information defined on the target is read on the source.  
 
-These two mechanisms (inverse image and composition) are the core ideas behind the formal definitions.
+Both directions are stable: inverse images preserve events, and composition preserves observables.  
+Together they form the core ideas behind the formal definitions.
 
 ## Covariant Transport Of Measures
 
@@ -41,25 +47,40 @@ $$
 (g\circ f)_{*} \;=\; g_{*} \circ f_{*}, \qquad (\mathrm{id}_{X})_{*}=\mathrm{id}.
 $$
 
-Direct images do not work for this purpose. If $A_1,A_2,\dots$ are disjoint in $X$, their images $f(A_i)$ need not be disjoint in $Y$, so countable additivity would be lost. Inverse images preserve exactly the structure a measure needs.
+One might wonder why not use direct images instead. If $A_1,A_2,\dots$ are disjoint in $X$, their images $f(A_i)$ need not be disjoint in $Y$, so countable additivity would fail.  
+Inverse images preserve exactly the structure a measure needs.  
 
-There is a second, equivalent point of view. Consider the assignment that sends a measurable space $X$ to the set of all measures on $X$. Then $f: X\to Y$ induces a map $f_{*}: \mathrm{Measures}(X)\to \mathrm{Measures}(Y)$. This assignment is a covariant functor from measurable spaces to sets.
+From a functorial point of view, we can also describe pushforward differently.  
+Send each measurable space $X$ to the set of all measures on $X$.  
+Then any measurable map $f: X \to Y$ induces a map  
+$f_{*}: \mathrm{Measures}(X) \to \mathrm{Measures}(Y)$.  
+This makes the assignment a covariant functor from measurable spaces to sets.
 
 ## Contravariant Transport Of Observables
 
-Let $g: Y\to\mathbb{R}$ be measurable. Transport it back along $f$ by composition,
+Let $g: Y \to \mathbb{R}$ be measurable.  
+Transport it back along $f$ by composition,
 
 $$
-f^{*} g \;=\; g\circ f : X \to \mathbb{R}.
+f^{*} g \;=\; g \circ f : X \to \mathbb{R}.
 $$
 
-This is the pullback of $g$. It is contravariant because composition reverses:
+This is the pullback of $g$.  
+It is contravariant because composition reverses:
 
 $$
-(g\circ f)^{*} \;=\; f^{*} \circ g^{*}, \qquad (\mathrm{id}_{Y})^{*}=\mathrm{id}.
+(g\circ f)^{*} \;=\; f^{*} \circ g^{*}, \qquad (\mathrm{id}_{Y})^{*} = \mathrm{id}.
 $$
 
-Again there is a functorial point of view. Fix a target space of values, say $\mathbb{R}$. The assignment that sends a measurable space $Y$ to the set $\mathrm{Obs}(Y)=\{g: Y\to\mathbb{R} \text{ measurable}\}$ and sends $f: X\to Y$ to $f^{*}: \mathrm{Obs}(Y)\to \mathrm{Obs}(X)$ is a contravariant functor.
+From a functorial point of view, fix a target value space such as $\mathbb{R}$.  
+Send each measurable space $Y$ to the set  
+
+$$
+\mathrm{Obs}(Y) = \{ g: Y \to \mathbb{R} \;\text{measurable} \},
+$$  
+
+and send $f: X \to Y$ to $f^{*}: \mathrm{Obs}(Y) \to \mathrm{Obs}(X)$.  
+This makes the assignment a contravariant functor.
 
 ## Adjunction Via Integration
 
@@ -95,19 +116,43 @@ $$
 (\pi_{X})_{*}(\mu)(A) \;=\; \mu\!\bigl(A\times Y\bigr).
 $$
 
-Conditioning is of a different kind. For an event $B$ with positive mass, the conditional $P(\,\cdot\,\mid B)$ is $A \mapsto P(A\cap B)/P(B)$. This is a restriction to a slice followed by renormalisation, not a transport along an arrow.
+Distributions and marginals both arise as pushforwards of the base measure.  
+It is natural to ask whether other familiar operations in probability fit the same pattern.  
+
+A counterexample is conditioning.  
+Conditioning is fundamental because it formalises how probabilities update when new information is known.  
+It underlies Bayes’ rule, posterior distributions, regression, and conditional expectation.  
+
+Concretely, conditioning means updating probabilities once we know that some event $B$ has occurred.  
+The new measure tells us how likely other events $A$ are, given that we restrict attention to outcomes inside $B$.  
+Formally, for an event $B$ with positive mass,  
+
+$$
+P(\,\cdot\,\mid B) : A \mapsto \frac{P(A\cap B)}{P(B)}.
+$$  
+
+This is not transport along a map.  
+It is restriction to the slice $B$, followed by renormalisation so that total mass is $1$.
 
 ## From Categories To Statistical Practice
 
-A statistical model sends parameters and covariates to a distribution for an outcome. In a frequentist workflow a single estimate $\hat{\boldsymbol{\beta}}$ for the coefficient vector $\boldsymbol{\beta}$ is chosen and predictions are read conditionally at fixed covariates; uncertainty bands describe the sampling distribution of $\hat{\boldsymbol{\beta}}$ under repeated sampling. In a Bayesian workflow the posterior over $\boldsymbol{\beta}$ is transported through the model. With covariates fixed at representative values,
+The abstract transports reappear in statistics when models carry probability across spaces.  
+A statistical model maps parameters and covariates to a distribution for an outcome.  
+
+In a frequentist workflow, one chooses a single estimate $\hat{\boldsymbol{\beta}}$ for the coefficient vector $\boldsymbol{\beta}$.  
+Predictions are then read conditionally at fixed covariates, and uncertainty bands describe the sampling distribution of $\hat{\boldsymbol{\beta}}$ under repeated sampling.  
+
+In a Bayesian workflow, by contrast, the entire posterior over $\boldsymbol{\beta}$ is transported through the model.  
+With covariates fixed at representative values,  
 
 $$
 p(y^{*} \mid \text{data})
 \;=\;
 \int p\!\bigl(y^{*} \mid \boldsymbol{\beta}\bigr)\, p(\boldsymbol{\beta}\mid \text{data})\, d\boldsymbol{\beta},
-$$
+$$  
 
-which is a pushforward of the posterior through the model map. The curve with credible bands is the image of that transported mass in the outcome space.
+which is exactly a pushforward of the posterior through the model map.  
+The curve with credible bands is the image of that transported mass in the outcome space.
 
 ## A Discrete Case With Dice
 
