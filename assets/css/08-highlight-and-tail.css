@@ -1,13 +1,16 @@
-The theme used by the syntax highlighting app */
+/* 
+The theme used by the syntax highlighting app 
+*/
+
 .hljs {
-	display: block;
-	overflow-x: auto;
+  display: block;
+  overflow-x: auto;
 }
 
 .hljs-comment,
 .hljs-quote,
 .hljs-variable {
-	color: #008000;
+  color: #008000;
 }
 
 .hljs-keyword,
@@ -15,7 +18,7 @@ The theme used by the syntax highlighting app */
 .hljs-built_in,
 .hljs-name,
 .hljs-tag {
-	color: #00f;
+  color: #00f;
 }
 
 .hljs-string,
@@ -27,37 +30,50 @@ The theme used by the syntax highlighting app */
 .hljs-template-variable,
 .hljs-type,
 .hljs-addition {
-	color: #a31515;
+  color: #a31515;
 }
 
 .hljs-deletion,
 .hljs-selector-attr,
 .hljs-selector-pseudo,
 .hljs-meta {
-	color: #2b91af;
+  color: #2b91af;
 }
 
 .hljs-doctag {
-	color: #808080;
+  color: #808080;
 }
 
 .hljs-attr {
-	color: #f00;
+  color: #f00;
 }
 
 .hljs-symbol,
 .hljs-bullet,
 .hljs-link {
-	color: #00b0e8;
+  color: #00b0e8;
 }
 
 .hljs-emphasis {
-	font-style: italic;
+  font-style: italic;
 }
 
 .hljs-strong {
-	font-weight: bold;
+  font-weight: bold;
 }
-.post-content img { max-width: 100%; height: auto; display: block; margin: 18px auto; }
-.post-content pre { margin: 1em 0; }
-#header { padding: 24px 0 16px; border-bottom: 1px solid #eee; }
+
+.post-content img { 
+  max-width: 100%; 
+  height: auto; 
+  display: block; 
+  margin: 18px auto; 
+}
+
+.post-content pre { 
+  margin: 1em 0; 
+}
+
+#header { 
+  padding: 24px 0 16px; 
+  border-bottom: 1px solid #eee; 
+}

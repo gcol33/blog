@@ -69,6 +69,16 @@
 .post-date  { display: block; color: #666; margin: 0 0 1.25rem; }
 .post-content { padding-top: 0.5rem; }
 .post-content img { max-width: 100%; height: auto; display: block; margin: 18px auto; }
+/* add vertical spacing for headings inside posts */
+.post-content h2 {
+  margin-top: 2.5rem;   /* space before */
+  margin-bottom: 1rem;  /* space after */
+}
+.post-content h3 {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
 
 /* Global underline feel */
 a, .link {
