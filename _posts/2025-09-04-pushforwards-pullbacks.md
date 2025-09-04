@@ -25,7 +25,7 @@ The first is inverse image. For an event $B$ in $Y$, the set $f^{-1}(B) = \{x\in
 
 The second is composition. For an observable $g: Y \to \mathbb{R}$, the composite $g\circ f: X \to \mathbb{R}$ is an observable on $X$. Composition is how information defined on the target is read on the source. This direction is also reliable.
 
-These two mechanisms — inverse image and composition — are the engines behind the formal definitions.
+These two mechanisms (inverse image and composition) are the core ideas behind the formal definitions.
 
 ## Covariant Transport Of Measures
 
@@ -111,27 +111,62 @@ which is a pushforward of the posterior through the model map. The curve with cr
 
 ## A Discrete Case With Dice
 
-Take $\Omega=\{\omega_1,\dots,\omega_6\}$ with the power-set σ-algebra and the uniform probability $P(\{\omega_i\})=1/6$. Map faces to numbers by $X: \Omega \to \mathbb{R}$ with $X(\omega_i)=i$. The distribution is the pushforward $P_{X}$ satisfying
+Take  
 
 $$
-P_{X}(\{k\}) \;=\; P\!\bigl(X^{-1}(\{k\})\bigr) \;=\; \tfrac{1}{6}
-\quad\text{for } k=1,\dots,6.
-$$
+\Omega = \{\omega_1, \dots, \omega_6\}, \qquad  
+P(\{\omega_i\}) = \tfrac{1}{6},
+$$  
 
-Map faces to parity by $f: \Omega \to \{\text{odd},\text{even}\}$ with $f(\omega_i)=\text{parity}(i)$. The pushed measure on parity satisfies
+with the power-set σ-algebra. This is the uniform probability space of a die.  
 
-$$
-f_{*}P(\{\text{even}\}) = P(\{2,4,6\}) = \tfrac12,
-\qquad
-f_{*}P(\{\text{odd}\}) = P(\{1,3,5\}) = \tfrac12.
-$$
-
-Define an observable on parity $g: \{\text{odd},\text{even}\}\to\mathbb{R}$ by $g(\text{even})=1$ and $g(\text{odd})=0$. The pullback $f^{*} g = g\circ f$ is the indicator of $\{2,4,6\}$ on $\Omega$. The adjunction through the integral reads
+Map faces to numbers by  
 
 $$
-\int_{\{\text{odd},\text{even}\}} g\, d(f_{*}P)
+X: \Omega \to \mathbb{R}, \qquad X(\omega_i) = i.
+$$  
+
+The distribution of $X$ is the pushforward measure  
+
+$$
+P_X(\{k\}) = P\!\bigl(X^{-1}(\{k\})\bigr) = \tfrac{1}{6}, 
+\quad k=1,\dots,6.
+$$  
+
+Now map faces to parity by  
+
+$$
+f: \Omega \to \{\text{odd},\text{even}\}, \qquad f(\omega_i) = \text{parity}(i).
+$$  
+
+The pushforward of $P$ along $f$ is the fair distribution on parity:  
+
+$$
+f_{*}P(\{\text{even}\}) = P(\{2,4,6\}) = \tfrac{1}{2}, 
+\qquad  
+f_{*}P(\{\text{odd}\}) = P(\{1,3,5\}) = \tfrac{1}{2}.
+$$  
+
+Take an observable on parity,  
+
+$$
+g: \{\text{odd}, \text{even}\} \to \mathbb{R}, \qquad 
+g(\text{even}) = 1, \; g(\text{odd}) = 0.
+$$  
+
+Its pullback is  
+
+$$
+f^{*}g = g \circ f : \Omega \to \mathbb{R},
+$$  
+
+which is exactly the indicator function of $\{2,4,6\}$.  
+
+Finally, the change-of-variables identity holds:  
+
+$$
+\int_{\{\text{odd},\text{even}\}} g \, d(f_{*}P)
 \;=\;
-\int_{\Omega} f^{*} g \, dP
-\;=\;
-\tfrac12.
-$$
+\int_{\Omega} f^{*}g \, dP
+\;=\; \tfrac{1}{2}.
+$$  
