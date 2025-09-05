@@ -7,15 +7,34 @@ categories: category-theory measure-theory probability
 
 ## How Maps Move Structure
 
-Category theory organises mathematics around maps and the structures they transport. A category consists of things called objects and directed arrows between them. Arrows compose in sequence, and each object carries an identity arrow that leaves it unchanged. This minimal scaffolding is enough to ask a sharp question: once a single arrow $f: X \to Y$ is fixed, how should structures that live on $X$ or on $Y$ travel along that arrow?
+Roll a die.  
 
-Some structures travel with the arrow. Others travel against it. The first kind of transport is called a pushforward. The second is called a pullback. Their direction is not a convention but a consequence of how inverse images and composition behave.
+The sample space consists of the six faces, which map to the numbers $1$ through $6$, and those numbers map further to properties such as odd or even. At each step the probability measure is carried along: the uniform measure on faces becomes the uniform measure on numbers, and then the fair distribution on parity.  
+
+Maps can be more abstract too. For example, in Dungeons & Dragons the sample space is the set of character classes. Each class maps to the abilities it grants, and each ability maps to the actions available in combat. Structure travels through these maps: the class a player chooses determines a set of abilities, and those abilities in turn determine the kinds of actions that can occur in play.  
+
+Whether the maps are injective or surjective does not matter. What matters is that structure moves from one space to another along them.  
+
+To capture this movement in general, mathematicians invented **category theory**. A category consists of **objects** (the spaces) and **arrows** (the maps). Arrows compose in sequence, and each object carries an identity arrow that leaves it unchanged.  
+
+This minimal framework is enough to ask a sharp question: once a single arrow $f: X \to Y$ is fixed, how should structures that live on $X$ or on $Y$ be transported along it?
+
+
+---
 
 ## Categories Of Spaces And Arrows
 
-To speak about probability we use the category whose objects are measurable spaces and whose arrows are measurable maps. A measurable space is a set together with a σ-algebra of subsets called events. A map is measurable when inverse images of events are events. This is the arena where measures, random variables, and integrals live.
+In probability we work in the category of measurable spaces.  
+- **Objects** are sets equipped with a σ-algebra of subsets, called events.  
+- **Morphisms** are measurable maps, meaning the preimage of every event is an event.  
 
-There are two further categorical ingredients. A functor is a systematic way of transporting data that respects composition and identities. When arrows keep their direction we call the functor covariant. When arrows reverse we call it contravariant. An adjunction is a pairing of two functors that face one another, tied together by a universal rule that identifies two ways of computing the same quantity.
+On this foundation we define measures, random variables, and integrals.
+
+Two categorical notions appear quickly:  
+- A **functor** assigns data in a way that respects composition and identities.  
+  - If it preserves the direction of morphisms, it is *covariant*.  
+  - If it reverses them, it is *contravariant*.  
+- An **adjunction** is a pair of functors pointing in opposite directions, connected by a universal property that equates two ways of forming the same object.
 
 ## Two Canonical Transports
 

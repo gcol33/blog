@@ -86,3 +86,6 @@ a, .link {
   text-underline-offset: .17em;
   text-decoration-skip-ink: auto;
 }
+mjx-container[jax="CHTML"][display="false"] {
+  display: inline-block;
+}
