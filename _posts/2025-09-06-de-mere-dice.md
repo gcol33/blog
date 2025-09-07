@@ -66,9 +66,14 @@ This wager is slightly unfavorable.
 
 ## Why the Results Differ
 
-The expectation of successes in both cases is the same, $\;2/3\;$. What differs is the probability of at least one success.  
+Both wagers give the same expectation of $2/3$ successes, but the probability of winning is different. The reason is that two different measures are involved.
 
-Expectation counts the average number of favorable outcomes, but probability of winning counts the chance that one occurs at all. The second wager involves a rarer event. It is more likely to cluster or to be missed entirely, which lowers the chance of success.
+- **Expectation of successes** is linear. If the chance of success in one trial is $p$, then the expected number of successes in $n$ trials is $np$.  
+- **Probability of at least one success** is nonlinear. It is given by $1 - (1-p)^n$, which reflects how independent failures combine.
+
+Expectation treats each trial separately and simply adds them. Probability of at least one success compounds the chance of failure across all trials.  
+
+In the first wager the event is common enough that one of the four trials usually succeeds. In the second wager the event is rarer, so independence makes it quite likely that all twenty four trials fail. This difference between a linear measure and a nonlinear measure explains why two wagers with the same expectation can lead to different probabilities of winning.
 
 ## The Historical Impact
 
