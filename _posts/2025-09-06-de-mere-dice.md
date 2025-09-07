@@ -1,5 +1,3 @@
-# De Méré's Dice Paradox
-
 ---
 layout: post
 title: "De Méré's Dice Paradox"

@@ -65,7 +65,7 @@ $$
 H = -\sum_i p_i \log p_i
 $$  
 
-where \(p_i\) is the relative abundance of each species.  
+where $p_i$ is the relative abundance of each species.  
 
 ## Worked Example: Communities  
 
