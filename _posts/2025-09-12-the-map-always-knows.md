@@ -94,11 +94,11 @@ Heuristics help in practice on real maps, yet the worst-case remains enormous.
 
 ## One Stroke versus One Visit
 
-Using every **edge** once is an Eulerian question; visiting every **vertex** once is a Hamiltonian one. The statements sound similar but behave very differently.
+Tracing every **edge** once defines an Eulerian path; visiting every **vertex** once defines a Hamiltonian path. The two problems sound alike but behave very differently.
 
-For edges the rule is sharp: a connected graph has an Eulerian trail exactly when the count of odd-degree nodes is in $\{0,2\}$. Street sweeping and snow routing follow this edge view, and the Chinese Postman fix (pairing odd nodes with a minimum-weight matching) runs in polynomial time.
+A connected graph has an Eulerian trail exactly when the number of odd-degree nodes is $0$ or $2$. Street sweeping and snow plowing fit this model, and the Chinese Postman method — pairing odd nodes with a minimum-weight matching — is solvable in polynomial time.
 
-Sales rounds and sightseeing tours follow the vertex view. Visiting each location once is Hamiltonian and is NP hard in general.
+Sales routes and sightseeing tours fit the vertex view. Visiting each location once is Hamiltonian, and the problem is NP-hard in general.
 
 ## Networks: Packets and Tours
 
