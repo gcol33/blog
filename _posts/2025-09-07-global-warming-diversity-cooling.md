@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Global Warming and Diversity Cooling"
+title: "Global Warming and Diversity Heating"
 date: 2025-09-07
 categories: ecology thermodynamics
 ---
@@ -9,13 +9,13 @@ categories: ecology thermodynamics
 
 Before instruments, people gauged heat by sensation. Galileo’s thermoscope in the 1600s showed relative changes, and later scales by Fahrenheit and Celsius made them reproducible. Kelvin gave an absolute zero, tying temperature to physical law.  
 
-The naive view was that temperature measures molecular motion. Faster molecules mean hotter matter. This works for gases but fails elsewhere. Ice at 0 °C has vibrating molecules but stays solid. Metals with similar average motion conduct heat differently. Something deeper was hidden.  
+A naive view is that temperature measures molecular motion. Faster molecules mean hotter matter. This is true for gases, where translational motion dominates, but too simple elsewhere. Ice at 0 °C still has vibrating molecules but stays solid. Metals with similar average motion conduct heat differently. Something deeper was hidden.  
 
 ---
 
 ## Carnot, Clausius, and Kelvin  
 
-In 1824, Sadi Carnot showed that steam engine efficiency depends only on the *difference* between two temperatures. Rudolf Clausius later defined entropy:  
+In 1824, Sadi Carnot showed that the *maximum* efficiency of a steam engine depends only on the *difference* between two temperatures. Rudolf Clausius later defined entropy:  
 
 $$
 dS = \frac{\delta Q}{T}
@@ -25,7 +25,7 @@ Entropy was a state function, and temperature a universal quantity. Kelvin then 
 
 ## Boltzmann and Gibbs: Microstates and Macrostates  
 
-Ludwig Boltzmann provided the missing bridge. A **macrostate** is the bulk description of a system-pressure, volume, energy. A **microstate** is a single detailed arrangement of all particles consistent with that macrostate.  
+Ludwig Boltzmann provided the missing bridge. A **macrostate** is the bulk description of a system—pressure, volume, energy. A **microstate** is a single detailed arrangement of all particles consistent with that macrostate.  
 
 Entropy counts the multiplicity of microstates:  
 
@@ -118,9 +118,8 @@ $$
 
 High turnover: each plot contributes new species, just as each subsystem adds distinct microstates in statistical mechanics.  
 
-## Global Warming and Diversity Cooling  
+## Global Warming and Diversity Heating  
 
-Most people think we live from the Sun’s heat. But the Earth is already close to thermal equilibrium with the Sun. What drives life is not heat, but the flow of low entropy energy (the difference between incoming sunlight and outgoing radiation).  
+Most people think we live from the Sun’s heat. But the Earth is already close to thermal equilibrium with the Sun. What drives life is not raw heat, but the flow of **low entropy energy**—the difference between incoming sunlight and outgoing radiation.  
 
-That difference builds order. It allows complex structures to exist, from molecules to forests. When species are lost, that order fades. Communities collapse into uniformity. Diversity cools as entropy rises.
-
+That difference builds order. It allows complex structures to exist, from molecules to forests. When species are lost, that order fades. Communities collapse toward uniformity. Diversity heats as entropy rises.
