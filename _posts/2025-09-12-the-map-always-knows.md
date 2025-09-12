@@ -47,7 +47,131 @@ $$
 \text{CPP} = 42 + 6 = 48.
 $$  
 
-So the sweeper covers every road, with only $6$ units of extra distance beyond the raw street network.
+So the postman covers every road, with only $6$ units of extra distance beyond the raw street network.
+
+<!-- CPP Worked Example — inline SVG visual with toggleable pairings -->
+<div id="cpp-visual" style="margin:1rem 0;">
+  <!-- Controls -->
+  <div class="cpp-controls" style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;margin-bottom:0.5rem;">
+    <strong style="margin-right:0.5rem;">Pair odd nodes:</strong>
+
+    <label style="cursor:pointer;">
+      <input type="radio" name="cpp-pair" id="cpp-opt1" data-extra="6" checked>
+      (a,b) + (c,d) — cost 3 + 3
+    </label>
+
+    <label style="cursor:pointer;">
+      <input type="radio" name="cpp-pair" id="cpp-opt2" data-extra="6">
+      (a,c) + (b,d) — cost 4 + 2
+    </label>
+
+    <label style="cursor:pointer;">
+      <input type="radio" name="cpp-pair" id="cpp-opt3" data-extra="11">
+      (a,d) + (b,c) — cost 6 + 5
+    </label>
+  </div>
+
+  <!-- Summary line (auto-updates) -->
+  <div class="cpp-summary" style="font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin-bottom:0.5rem;">
+    Extra distance to add: <strong><span id="cpp-extra">6</span></strong>  
+    | Base street length: <strong>42</strong>  
+    | Chinese Postman total: <strong><span id="cpp-total">48</span></strong>
+  </div>
+
+  <!-- Diagram -->
+  <div class="cpp-svgwrap" style="max-width:640px;border:1px solid #ddd;border-radius:8px;overflow:hidden;">
+    <svg viewBox="0 0 520 300" width="100%" height="auto" aria-labelledby="cpp-title cpp-desc" role="img">
+      <title id="cpp-title">Pairings between odd intersections a, b, c, d</title>
+      <desc id="cpp-desc">Toggle the radio buttons to highlight which odd nodes are paired. Labels show the pair costs.</desc>
+
+      <!-- Background grid (subtle) -->
+      <defs>
+        <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+          <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#eee" stroke-width="1"/>
+        </pattern>
+      </defs>
+      <rect x="0" y="0" width="100%" height="100%" fill="url(#grid)"></rect>
+
+      <!-- Node positions -->
+      <!-- a(80,60)  b(440,60)  c(120,240)  d(400,240) -->
+      <!-- Base nodes & labels -->
+      <g fill="#111" font-family="system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="16">
+        <circle cx="80" cy="60" r="8" fill="#111"></circle>
+        <text x="80" y="45" text-anchor="middle">a</text>
+
+        <circle cx="440" cy="60" r="8" fill="#111"></circle>
+        <text x="440" y="45" text-anchor="middle">b</text>
+
+        <circle cx="120" cy="240" r="8" fill="#111"></circle>
+        <text x="120" y="265" text-anchor="middle">c</text>
+
+        <circle cx="400" cy="240" r="8" fill="#111"></circle>
+        <text x="400" y="265" text-anchor="middle">d</text>
+      </g>
+
+      <!-- Pairings (only one group visible at a time via CSS) -->
+      <!-- (a,b) + (c,d) => costs 3 and 3 -->
+      <g class="pairing pairing-ab-cd">
+        <line x1="80" y1="60" x2="440" y2="60" stroke="currentColor" stroke-width="5" opacity="0.9"/>
+        <line x1="120" y1="240" x2="400" y2="240" stroke="currentColor" stroke-width="5" opacity="0.9"/>
+        <g fill="#111" font-family="system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14">
+          <text x="260" y="40" text-anchor="middle">3</text>
+          <text x="260" y="260" text-anchor="middle">3</text>
+        </g>
+      </g>
+
+      <!-- (a,c) + (b,d) => costs 4 and 2 -->
+      <g class="pairing pairing-ac-bd">
+        <line x1="80" y1="60" x2="120" y2="240" stroke="currentColor" stroke-width="5" opacity="0.9"/>
+        <line x1="440" y1="60" x2="400" y2="240" stroke="currentColor" stroke-width="5" opacity="0.9"/>
+        <g fill="#111" font-family="system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14">
+          <text x="100" y="150" text-anchor="middle">4</text>
+          <text x="420" y="150" text-anchor="middle">2</text>
+        </g>
+      </g>
+
+      <!-- (a,d) + (b,c) => costs 6 and 5 -->
+      <g class="pairing pairing-ad-bc">
+        <line x1="80" y1="60" x2="400" y2="240" stroke="currentColor" stroke-width="5" opacity="0.9"/>
+        <line x1="440" y1="60" x2="120" y2="240" stroke="currentColor" stroke-width="5" opacity="0.9"/>
+        <g fill="#111" font-family="system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14">
+          <text x="240" y="150" text-anchor="middle">6</text>
+          <text x="280" y="150" text-anchor="middle">5</text>
+        </g>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<style>
+  /* Only show the selected pairing */
+  #cpp-visual .pairing { display: none; }
+  #cpp-opt1:checked ~ .cpp-summary ~ .cpp-svgwrap .pairing-ab-cd { display: block; }
+  #cpp-opt2:checked ~ .cpp-summary ~ .cpp-svgwrap .pairing-ac-bd { display: block; }
+  #cpp-opt3:checked ~ .cpp-summary ~ .cpp-svgwrap .pairing-ad-bc { display: block; }
+
+  /* Color the active pairing line using the current text color; tweak here if you want a brand color */
+  #cpp-visual .pairing line { color: #0a7; } /* change to your accent color */
+</style>
+
+<script>
+  (function () {
+    var base = 42; // total length of all original streets
+    var extraSpan = document.getElementById('cpp-extra');
+    var totalSpan = document.getElementById('cpp-total');
+    function update() {
+      var checked = document.querySelector('input[name="cpp-pair"]:checked');
+      var extra = Number(checked.getAttribute('data-extra') || 0);
+      extraSpan.textContent = String(extra);
+      totalSpan.textContent = String(base + extra);
+    }
+    document.querySelectorAll('input[name="cpp-pair"]').forEach(function (el) {
+      el.addEventListener('change', update);
+    });
+    update();
+  })();
+</script>
+
 
 ## One Trip: Dijkstra and A*
 
