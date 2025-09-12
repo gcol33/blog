@@ -59,13 +59,13 @@ $$
 
 So the postman covers every road, with only \(6\) units of extra distance beyond the raw street network.
 
-<!-- CPP Worked Example — wide parallelogram (scaled to fit) -->
+<!-- CPP Worked Example — wide parallelogram (scaled to fit, no label overlap) -->
 <div id="cpp-visual" style="margin:1rem 0;">
   <div class="cpp-controls" style="margin-bottom:0.5rem;">
     <strong style="display:block;margin-bottom:0.5rem;">Pair odd nodes:</strong>
     <div><label><input type="radio" name="cpp-pair" value="ab-cd" checked> (a,b) + (c,d)</label></div>
     <div><label><input type="radio" name="cpp-pair" value="ac-bd"> (a,c) + (b,d)</label></div>
-    <div><label><input type="radio" name="cpp-pair" value="ad-bc"> (a,d) + (b,c)</label></div>
+    <div><label><input type="radio" name="cpp-pair" value="ad-bc"> (a,d) + (b, c)</label></div>
   </div>
 
   <div class="cpp-summary" style="font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin-bottom:0.5rem;">
@@ -77,83 +77,182 @@ So the postman covers every road, with only \(6\) units of extra distance beyond
   <div class="cpp-svgwrap" style="max-width:700px;margin:auto;border:1px solid #ddd;border-radius:8px;overflow:hidden;">
     <svg id="cpp-svg" viewBox="0 0 700 420" width="100%" height="auto" aria-labelledby="cpp-title cpp-desc" role="img">
       <title id="cpp-title">Parallelogram layout: sides 3 and 4 at 60°, diagonals √37 and √13</title>
-      <desc id="cpp-desc">Nodes a,b on top; c,d below. Selecting a pairing highlights edges and updates extra cost.</desc>
+      <desc id="cpp-desc">Interactive CPP matching on a slanted 3×4 parallelogram. Distances are Euclidean.</desc>
 
       <defs>
         <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
           <path d="M20 0 L0 0 0 20" fill="none" stroke="#eee" stroke-width="1"/>
         </pattern>
       </defs>
+
       <rect x="0" y="0" width="100%" height="100%" fill="url(#grid)"></rect>
 
-      <g id="nodes" fill="#111" font-family="system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="18">
-        <circle id="n-a" r="8"></circle><text id="t-a" text-anchor="middle">a</text>
-        <circle id="n-b" r="8"></circle><text id="t-b" text-anchor="middle">b</text>
-        <circle id="n-c" r="8"></circle><text id="t-c" text-anchor="middle">c</text>
-        <circle id="n-d" r="8"></circle><text id="t-d" text-anchor="middle">d</text>
-      </g>
-
+      <!-- Edges -->
       <g id="edges" stroke="#bbb" stroke-width="3">
-        <line id="e-ab" /><line id="e-ac" /><line id="e-bd" />
-        <line id="e-cd" /><line id="e-ad" /><line id="e-bc" />
+        <line id="e-ab" />
+        <line id="e-ac" />
+        <line id="e-bd" />
+        <line id="e-cd" />
+        <line id="e-ad" />
+        <line id="e-bc" />
       </g>
 
-      <g id="labels" fill="#111" font-size="18" font-weight="bold"></g>
+      <!-- Edge labels (JS adds text + white backplates) -->
+      <g id="labels"></g>
+
+      <!-- Nodes -->
+      <g id="nodes">
+        <circle id="n-a" r="8" fill="#111"></circle>
+        <circle id="n-b" r="8" fill="#111"></circle>
+        <circle id="n-c" r="8" fill="#111"></circle>
+        <circle id="n-d" r="8" fill="#111"></circle>
+      </g>
+
+      <!-- Node labels (JS adds text + white backplates) -->
+      <g id="node-labels"></g>
     </svg>
   </div>
 </div>
 
 <script>
 (function(){
-  const SQRT3=Math.sqrt(3);
-  const W={a:{X:0,Y:0}, b:{X:3,Y:0}, c:{X:2,Y:2*SQRT3}, d:{X:5,Y:2*SQRT3}};
-  const s=90, x0=80, y0=360; // smaller scale, larger margin
-  function map(P){return {x:x0+s*P.X,y:y0-s*P.Y};}
-  function dist(P,Q){const dx=P.X-Q.X,dy=P.Y-Q.Y;return Math.hypot(dx,dy);}
+  // --- Geometry: parallelogram with sides 3 and 4 at 60° ---
+  const SQRT3 = Math.sqrt(3);
+  const W = {
+    a:{X:0, Y:0},
+    b:{X:3, Y:0},
+    c:{X:2, Y:2*SQRT3},
+    d:{X:5, Y:2*SQRT3}
+  };
 
-  [['a','n-a','t-a',-20],['b','n-b','t-b',-20],['c','n-c','t-c',25],['d','n-d','t-d',25]]
-    .forEach(([k,cid,tid,ty])=>{
-      const p=map(W[k]);
-      document.getElementById(cid).setAttribute('cx',p.x);
-      document.getElementById(cid).setAttribute('cy',p.y);
-      const t=document.getElementById(tid);
-      t.setAttribute('x',p.x);t.setAttribute('y',p.y+ty);
+  // --- Mapping (scaled to fit 700×420 nicely) ---
+  const s = 90, x0 = 80, y0 = 360;               // scale and margins
+  function map(P){ return { x: x0 + s*P.X, y: y0 - s*P.Y }; }
+  function dist(P,Q){ const dx=P.X-Q.X, dy=P.Y-Q.Y; return Math.hypot(dx,dy); }
+
+  // --- Place nodes ---
+  ['a','b','c','d'].forEach(k=>{
+    const p = map(W[k]);
+    const el = document.getElementById('n-'+k);
+    el.setAttribute('cx', p.x);
+    el.setAttribute('cy', p.y);
+  });
+
+  // --- Helper: add centered text with a white rounded backplate ---
+  function addTextWithBg(parent, x, y, text, fontSize=18, weight='700'){
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x', x); t.setAttribute('y', y);
+    t.setAttribute('font-size', fontSize);
+    t.setAttribute('font-weight', weight);
+    t.setAttribute('font-family', 'system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif');
+    t.setAttribute('fill', '#111');
+    t.setAttribute('text-anchor', 'middle');
+    t.setAttribute('dominant-baseline', 'middle');
+    t.textContent = text;
+
+    // Append text first to measure
+    parent.appendChild(t);
+    const w = t.getComputedTextLength();
+    const h = fontSize;
+    const padX = 6, padY = 4;
+
+    const r = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    r.setAttribute('x', x - w/2 - padX);
+    r.setAttribute('y', y - h/2 - padY);
+    r.setAttribute('width', w + 2*padX);
+    r.setAttribute('height', h + 2*padY);
+    r.setAttribute('fill', '#fff');
+    r.setAttribute('opacity', '0.93');
+    r.setAttribute('rx', '3');
+
+    parent.insertBefore(r, t); // backplate behind text
+    return {g, t, r};
+  }
+
+  // --- Build edges + labels with controlled offsets (no overlaps) ---
+  // opts: { k: perpendicular offset px, t: along-edge offset px, side: +1 or -1 }
+  function setEdge(id, u, v, label, opts={}){
+    const U = map(W[u]), V = map(W[v]);
+    const e = document.getElementById(id);
+    e.setAttribute('x1', U.x); e.setAttribute('y1', U.y);
+    e.setAttribute('x2', V.x); e.setAttribute('y2', V.y);
+    e.dataset.weight = dist(W[u], W[v]);
+
+    // Edge geometry
+    const dx = V.x - U.x, dy = V.y - U.y;
+    const len = Math.hypot(dx, dy) || 1;
+    const tx = dx/len, ty = dy/len; // unit tangent
+    const nx = -ty,   ny = tx;      // unit normal
+
+    const k = (opts.k ?? 20);
+    const t = (opts.t ??  0);
+    const side = (opts.side ?? 1);
+
+    const mx = (U.x + V.x)/2, my = (U.y + V.y)/2;
+    const lx = mx + side*k*nx + t*tx;
+    const ly = my + side*k*ny + t*ty;
+
+    addTextWithBg(document.getElementById('labels'), lx, ly, label, 18, '700');
+  }
+
+  // Sides
+  setEdge('e-ab','a','b','3',   { k:16, t:  0, side:  1 });
+  setEdge('e-cd','c','d','3',   { k:16, t:  0, side:  1 });
+  setEdge('e-ac','a','c','4',   { k:16, t:  0, side:  1 });
+  setEdge('e-bd','b','d','4',   { k:16, t:  0, side:  1 });
+
+  // Diagonals — opposite sides + along-edge nudges so they never meet
+  setEdge('e-ad','a','d','√37', { k:22, t: 24, side:  1 });
+  setEdge('e-bc','b','c','√13', { k:22, t:-24, side: -1 });
+
+  // --- Node labels (a, b, c, d) with backplates + offsets so they avoid edges ---
+  (function placeNodeLabels(){
+    const NL = document.getElementById('node-labels');
+    const cfg = {
+      a: {dx: 0, dy: -28, text: 'a'},
+      b: {dx: 0, dy: -28, text: 'b'},
+      c: {dx: 0, dy:  32, text: 'c'},
+      d: {dx: 0, dy:  32, text: 'd'}
+    };
+    ['a','b','c','d'].forEach(k=>{
+      const nEl = document.getElementById('n-'+k);
+      const x = parseFloat(nEl.getAttribute('cx')) + cfg[k].dx;
+      const y = parseFloat(nEl.getAttribute('cy')) + cfg[k].dy;
+      addTextWithBg(NL, x, y, cfg[k].text, 18, '700');
     });
+  })();
 
-  function setLine(id,u,v,label){
-    const U=map(W[u]),V=map(W[v]);
-    const e=document.getElementById(id);
-    e.setAttribute('x1',U.x);e.setAttribute('y1',U.y);
-    e.setAttribute('x2',V.x);e.setAttribute('y2',V.y);
-    e.dataset.weight=dist(W[u],W[v]);
-    const mx=(U.x+V.x)/2,my=(U.y+V.y)/2;
-    const t=document.createElementNS('http://www.w3.org/2000/svg','text');
-    t.setAttribute('x',mx+6);t.setAttribute('y',my-6);
-    t.textContent=label;document.getElementById('labels').appendChild(t);
+  // --- Highlight + summary ---
+  const accent = '#0a7', base = 42;
+  function resetEdges(){
+    document.querySelectorAll('#edges line').forEach(e=>{
+      e.setAttribute('stroke', '#bbb');
+      e.setAttribute('stroke-width', 3);
+      e.setAttribute('opacity', 1);
+    });
   }
-  setLine('e-ab','a','b','3');
-  setLine('e-cd','c','d','3');
-  setLine('e-ac','a','c','4');
-  setLine('e-bd','b','d','4');
-  setLine('e-ad','a','d','√37');
-  setLine('e-bc','b','c','√13');
-
-  const accent='#0a7',base=42;
-  function reset(){document.querySelectorAll('#edges line').forEach(e=>{e.setAttribute('stroke','#bbb');e.setAttribute('stroke-width',3);});}
-  function mark(id){const e=document.getElementById(id);e.setAttribute('stroke',accent);e.setAttribute('stroke-width',5);return +e.dataset.weight;}
+  function mark(id){
+    const e = document.getElementById(id);
+    e.setAttribute('stroke', accent);
+    e.setAttribute('stroke-width', 5);
+    e.setAttribute('opacity', 0.95);
+    return +e.dataset.weight;
+  }
   function update(){
-    reset();let extra=0,val=document.querySelector('input[name="cpp-pair"]:checked').value;
-    if(val==='ab-cd')extra=mark('e-ab')+mark('e-cd');
-    if(val==='ac-bd')extra=mark('e-ac')+mark('e-bd');
-    if(val==='ad-bc')extra=mark('e-ad')+mark('e-bc');
-    document.getElementById('cpp-extra').textContent=extra.toFixed(3);
-    document.getElementById('cpp-total').textContent=(base+extra).toFixed(3);
+    resetEdges();
+    const val = document.querySelector('input[name="cpp-pair"]:checked').value;
+    let extra = 0;
+    if (val==='ab-cd') extra = mark('e-ab') + mark('e-cd');     // 3 + 3 = 6
+    if (val==='ac-bd') extra = mark('e-ac') + mark('e-bd');     // 4 + 4 = 8
+    if (val==='ad-bc') extra = mark('e-ad') + mark('e-bc');     // √37 + √13
+    document.getElementById('cpp-extra').textContent = extra.toFixed(3);
+    document.getElementById('cpp-total').textContent = (base + extra).toFixed(3);
   }
-  document.querySelectorAll('input[name="cpp-pair"]').forEach(el=>el.addEventListener('change',update));
+  document.querySelectorAll('input[name="cpp-pair"]').forEach(el=>el.addEventListener('change', update));
   update();
 })();
 </script>
-
 
 
 
