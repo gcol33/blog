@@ -43,10 +43,13 @@ $$
 Perfect matchings and added costs:
 
 $$
-(a,b)+(c,d):\ 3+3=6,\qquad
-(a,c)+(b,d):\ 4+4=8,\qquad
-(a,d)+(b,c):\ \sqrt{37}+\sqrt{13}\approx 9.689.
+\begin{aligned}
+(a,b)+(c,d) &: 3+3=6,\\
+(a,c)+(b,d) &: 4+4=8,\\
+(a,d)+(b,c) &: \sqrt{37}+\sqrt{13}\approx 9.689.
+\end{aligned}
 $$
+
 
 The minimum extra cost is \(6\). If the total length of all original streets is \(42\), then
 
@@ -56,36 +59,26 @@ $$
 
 So the postman covers every road, with only \(6\) units of extra distance beyond the raw street network.
 
-<!-- CPP Worked Example — wide parallelogram (sides 3 & 4 at 60°), diagonals √37 and √13 -->
+<!-- CPP Worked Example — wide parallelogram (scaled to fit) -->
 <div id="cpp-visual" style="margin:1rem 0;">
-  <!-- Controls -->
   <div class="cpp-controls" style="margin-bottom:0.5rem;">
     <strong style="display:block;margin-bottom:0.5rem;">Pair odd nodes:</strong>
-    <div style="margin-bottom:0.25rem;">
-      <label><input type="radio" name="cpp-pair" value="ab-cd" checked> (a,b) + (c,d)</label>
-    </div>
-    <div style="margin-bottom:0.25rem;">
-      <label><input type="radio" name="cpp-pair" value="ac-bd"> (a,c) + (b,d)</label>
-    </div>
-    <div>
-      <label><input type="radio" name="cpp-pair" value="ad-bc"> (a,d) + (b,c)</label>
-    </div>
+    <div><label><input type="radio" name="cpp-pair" value="ab-cd" checked> (a,b) + (c,d)</label></div>
+    <div><label><input type="radio" name="cpp-pair" value="ac-bd"> (a,c) + (b,d)</label></div>
+    <div><label><input type="radio" name="cpp-pair" value="ad-bc"> (a,d) + (b,c)</label></div>
   </div>
 
-  <!-- Summary -->
   <div class="cpp-summary" style="font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin-bottom:0.5rem;">
     Extra distance to add: <strong><span id="cpp-extra">6.000</span></strong>
     | Base street length: <strong>42</strong>
     | Chinese Postman total: <strong><span id="cpp-total">48.000</span></strong>
   </div>
 
-  <!-- Diagram (wide format) -->
-  <div class="cpp-svgwrap" style="max-width:920px;border:1px solid #ddd;border-radius:8px;overflow:hidden;">
-    <svg id="cpp-svg" viewBox="0 0 920 360" width="100%" height="auto" aria-labelledby="cpp-title cpp-desc" role="img">
+  <div class="cpp-svgwrap" style="max-width:700px;margin:auto;border:1px solid #ddd;border-radius:8px;overflow:hidden;">
+    <svg id="cpp-svg" viewBox="0 0 700 420" width="100%" height="auto" aria-labelledby="cpp-title cpp-desc" role="img">
       <title id="cpp-title">Parallelogram layout: sides 3 and 4 at 60°, diagonals √37 and √13</title>
-      <desc id="cpp-desc">a,b on top; c,d below and slanted. Distances computed from Euclidean coordinates. Select a pairing to highlight edges and update extra cost.</desc>
+      <desc id="cpp-desc">Nodes a,b on top; c,d below. Selecting a pairing highlights edges and updates extra cost.</desc>
 
-      <!-- Background grid -->
       <defs>
         <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
           <path d="M20 0 L0 0 0 20" fill="none" stroke="#eee" stroke-width="1"/>
@@ -93,110 +86,74 @@ So the postman covers every road, with only \(6\) units of extra distance beyond
       </defs>
       <rect x="0" y="0" width="100%" height="100%" fill="url(#grid)"></rect>
 
-      <!-- Nodes (positions set from world coords in JS) -->
-      <g id="nodes" fill="#111" font-family="system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="16">
+      <g id="nodes" fill="#111" font-family="system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="18">
         <circle id="n-a" r="8"></circle><text id="t-a" text-anchor="middle">a</text>
         <circle id="n-b" r="8"></circle><text id="t-b" text-anchor="middle">b</text>
         <circle id="n-c" r="8"></circle><text id="t-c" text-anchor="middle">c</text>
         <circle id="n-d" r="8"></circle><text id="t-d" text-anchor="middle">d</text>
       </g>
 
-      <!-- All six edges (light gray by default) -->
       <g id="edges" stroke="#bbb" stroke-width="3">
-        <line id="e-ab" />
-        <line id="e-ac" />
-        <line id="e-bd" />
-        <line id="e-cd" />
-        <line id="e-ad" />
-        <line id="e-bc" />
+        <line id="e-ab" /><line id="e-ac" /><line id="e-bd" />
+        <line id="e-cd" /><line id="e-ad" /><line id="e-bc" />
       </g>
 
-      <!-- Distance labels -->
-      <g id="labels" fill="#111" font-size="13"></g>
+      <g id="labels" fill="#111" font-size="18" font-weight="bold"></g>
     </svg>
   </div>
 </div>
 
 <script>
 (function(){
-  // World coordinates for a 3x4 parallelogram with 60° between sides:
-  // a=(0,0), b=(3,0), c=(2, 2*sqrt(3)), d=b+c-a=(5, 2*sqrt(3))
-  const SQRT3 = Math.sqrt(3);
-  const W = { a:{X:0, Y:0}, b:{X:3, Y:0}, c:{X:2, Y:2*SQRT3}, d:{X:5, Y:2*SQRT3} };
+  const SQRT3=Math.sqrt(3);
+  const W={a:{X:0,Y:0}, b:{X:3,Y:0}, c:{X:2,Y:2*SQRT3}, d:{X:5,Y:2*SQRT3}};
+  const s=90, x0=80, y0=360; // smaller scale, larger margin
+  function map(P){return {x:x0+s*P.X,y:y0-s*P.Y};}
+  function dist(P,Q){const dx=P.X-Q.X,dy=P.Y-Q.Y;return Math.hypot(dx,dy);}
 
-  // Wide mapping: keep y scale same as x so distances are true; center in a wide viewBox
-  const s = 120;                // px per unit
-  const x0 = 120, y0 = 300;     // origin offsets (tuned for the 920x360 viewBox)
-  function map(P){ return { x: x0 + s*P.X, y: y0 - s*P.Y }; }
-  function dist(P,Q){ const dx=P.X-Q.X, dy=P.Y-Q.Y; return Math.hypot(dx,dy); }
-
-  // Place nodes + labels (top labels above, bottom labels below)
-  [['a','n-a','t-a',-18],['b','n-b','t-b',-18],['c','n-c','t-c',22],['d','n-d','t-d',22]].forEach(([k,cid,tid,ty])=>{
-    const p = map(W[k]);
-    const cEl = document.getElementById(cid), tEl = document.getElementById(tid);
-    cEl.setAttribute('cx', p.x); cEl.setAttribute('cy', p.y);
-    tEl.setAttribute('x', p.x);  tEl.setAttribute('y', p.y + ty);
-  });
-
-  // Utility to set edges and keep exact weights from geometry
-  function setLine(id, u, v){
-    const U = map(W[u]), V = map(W[v]);
-    const e = document.getElementById(id);
-    e.setAttribute('x1', U.x); e.setAttribute('y1', U.y);
-    e.setAttribute('x2', V.x); e.setAttribute('y2', V.y);
-    e.dataset.weight = dist(W[u], W[v]); // exact numeric weight
-  }
-
-  // Build all six edges
-  setLine('e-ab','a','b'); // 3
-  setLine('e-ac','a','c'); // 4
-  setLine('e-bd','b','d'); // 4
-  setLine('e-cd','c','d'); // 3
-  setLine('e-ad','a','d'); // √37
-  setLine('e-bc','b','c'); // √13
-
-  // Labels at midpoints (integers shown as ints; diagonals shown with unicode √)
-  const L = document.getElementById('labels');
-  function addLabel(id, text){
-    const el = document.getElementById(id);
-    const mx = (parseFloat(el.getAttribute('x1')) + parseFloat(el.getAttribute('x2'))) / 2;
-    const my = (parseFloat(el.getAttribute('y1')) + parseFloat(el.getAttribute('y2'))) / 2;
-    const t = document.createElementNS('http://www.w3.org/2000/svg','text');
-    t.setAttribute('x', mx + 6);
-    t.setAttribute('y', my - 6);
-    t.textContent = text;
-    L.appendChild(t);
-  }
-  addLabel('e-ab','3'); addLabel('e-cd','3');
-  addLabel('e-ac','4'); addLabel('e-bd','4');
-  addLabel('e-ad','√37'); addLabel('e-bc','√13');
-
-  // Highlight logic
-  const accent = '#0a7', baseLen = 42;
-  function resetEdges(){
-    document.querySelectorAll('#edges line').forEach(e=>{
-      e.setAttribute('stroke','#bbb'); e.setAttribute('stroke-width',3); e.setAttribute('opacity',1);
+  [['a','n-a','t-a',-20],['b','n-b','t-b',-20],['c','n-c','t-c',25],['d','n-d','t-d',25]]
+    .forEach(([k,cid,tid,ty])=>{
+      const p=map(W[k]);
+      document.getElementById(cid).setAttribute('cx',p.x);
+      document.getElementById(cid).setAttribute('cy',p.y);
+      const t=document.getElementById(tid);
+      t.setAttribute('x',p.x);t.setAttribute('y',p.y+ty);
     });
-  }
-  function mark(id){
+
+  function setLine(id,u,v,label){
+    const U=map(W[u]),V=map(W[v]);
     const e=document.getElementById(id);
-    e.setAttribute('stroke',accent); e.setAttribute('stroke-width',5); e.setAttribute('opacity',0.95);
-    return Number(e.dataset.weight);
+    e.setAttribute('x1',U.x);e.setAttribute('y1',U.y);
+    e.setAttribute('x2',V.x);e.setAttribute('y2',V.y);
+    e.dataset.weight=dist(W[u],W[v]);
+    const mx=(U.x+V.x)/2,my=(U.y+V.y)/2;
+    const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',mx+6);t.setAttribute('y',my-6);
+    t.textContent=label;document.getElementById('labels').appendChild(t);
   }
+  setLine('e-ab','a','b','3');
+  setLine('e-cd','c','d','3');
+  setLine('e-ac','a','c','4');
+  setLine('e-bd','b','d','4');
+  setLine('e-ad','a','d','√37');
+  setLine('e-bc','b','c','√13');
+
+  const accent='#0a7',base=42;
+  function reset(){document.querySelectorAll('#edges line').forEach(e=>{e.setAttribute('stroke','#bbb');e.setAttribute('stroke-width',3);});}
+  function mark(id){const e=document.getElementById(id);e.setAttribute('stroke',accent);e.setAttribute('stroke-width',5);return +e.dataset.weight;}
   function update(){
-    resetEdges();
-    const val = document.querySelector('input[name="cpp-pair"]:checked').value;
-    let extra = 0;
-    if (val==='ab-cd') extra = mark('e-ab') + mark('e-cd');     // 3 + 3 = 6
-    if (val==='ac-bd') extra = mark('e-ac') + mark('e-bd');     // 4 + 4 = 8
-    if (val==='ad-bc') extra = mark('e-ad') + mark('e-bc');     // √37 + √13
-    document.getElementById('cpp-extra').textContent = extra.toFixed(3);
-    document.getElementById('cpp-total').textContent = (baseLen + extra).toFixed(3);
+    reset();let extra=0,val=document.querySelector('input[name="cpp-pair"]:checked').value;
+    if(val==='ab-cd')extra=mark('e-ab')+mark('e-cd');
+    if(val==='ac-bd')extra=mark('e-ac')+mark('e-bd');
+    if(val==='ad-bc')extra=mark('e-ad')+mark('e-bc');
+    document.getElementById('cpp-extra').textContent=extra.toFixed(3);
+    document.getElementById('cpp-total').textContent=(base+extra).toFixed(3);
   }
-  document.querySelectorAll('input[name="cpp-pair"]').forEach(el=>el.addEventListener('change', update));
+  document.querySelectorAll('input[name="cpp-pair"]').forEach(el=>el.addEventListener('change',update));
   update();
 })();
 </script>
+
 
 
 
