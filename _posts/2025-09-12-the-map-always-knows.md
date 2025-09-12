@@ -26,28 +26,28 @@ where $M$ is a perfect matching of the odd nodes, and $\operatorname{dist}(u,v)$
 
 ### Worked example
 
-Suppose the odd intersections are $a,b,c,d$ and the distances are  
+Suppose the odd intersections are $a,b,c,d$, and the shortest-path distances between them are  
 
 $$
-\operatorname{dist}(a,b)=3,\ \operatorname{dist}(a,c)=4,\ \operatorname{dist}(a,d)=6,\\
-\operatorname{dist}(b,c)=5,\ \operatorname{dist}(b,d)=2,\ \operatorname{dist}(c,d)=3.
+\operatorname{dist}(a,b)=3,\quad \operatorname{dist}(a,c)=4,\quad \operatorname{dist}(a,d)=6, \\
+\operatorname{dist}(b,c)=5,\quad \operatorname{dist}(b,d)=2,\quad \operatorname{dist}(c,d)=3.
 $$  
 
-The perfect matchings and their costs are  
+To fix the graph, we must pair up the odd nodes. The possible perfect matchings and their added costs are  
 
 $$
-(a,b)+(c,d):\ 3+3=6,\quad
-(a,c)+(b,d):\ 4+2=6,\quad
+(a,b)+(c,d):\ 3+3=6, \qquad
+(a,c)+(b,d):\ 4+2=6, \qquad
 (a,d)+(b,c):\ 6+5=11.
 $$  
 
-Choose cost $6$. If the sum of all street lengths is $42$, then  
+The minimum extra cost is $6$. If the total length of all original streets is $42$, then the Chinese Postman solution has  
 
 $$
-\text{CPP}=42+6=48.
+\text{CPP} = 42 + 6 = 48.
 $$  
 
-Same city, every road covered, computed in polynomial time.
+So the sweeper covers every road, with only $6$ units of extra distance beyond the raw street network.
 
 ## One Trip: Dijkstra and A*
 
