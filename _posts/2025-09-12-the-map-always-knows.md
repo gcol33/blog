@@ -7,90 +7,83 @@ categories: algorithms networks
 
 ## From Roads to Routes
 
-A navigation app feels solved. Enter two places and it returns the best way in seconds. The naive view is that computers just calculate the best path.
+Begin with the classic pen puzzle: can you trace a figure in one stroke without lifting the pen? City streets pose the same question. A street sweeper wants a walk that covers every road once, repeating as little as possible, which leads to the **Chinese Postman** problem.
 
-For a single trip this is mostly true. Model streets as a graph. Intersections are nodes. Roads are edges with weights for time or distance. Shortest path is efficient.
+The story starts with the bridges of Königsberg. Working in St Petersburg, Euler gave a crisp rule: a connected street graph has a trail that uses every edge exactly once if and only if the number of odd-degree intersections is in $\{0,2\}$. Degrees are easy to count, so this decision is fast.
 
-Change the task to visiting many stops once each and the difficulty jumps. The input is similar. The question is different.
+If there are more than two odd intersections, pair the odd nodes and add the cheapest extra links so that all degrees become even. In the augmented graph an Eulerian tour exists and it covers every street exactly once. The total cost is
+$$
+\text{CPP}=\sum_{e\in E} w(e)\;+\;\min_{M}\ \sum_{(u,v)\in M}\operatorname{dist}(u,v),
+$$
+where $M$ is a perfect matching on the odd nodes and $\operatorname{dist}$ is the shortest-path distance in the original network.
 
 ---
 
+### Worked example
+
+Suppose the odd intersections are $a,b,c,d$ and the distances are
+$$
+\operatorname{dist}(a,b)=3,\ \operatorname{dist}(a,c)=4,\ \operatorname{dist}(a,d)=6,\\
+\operatorname{dist}(b,c)=5,\ \operatorname{dist}(b,d)=2,\ \operatorname{dist}(c,d)=3.
+$$
+The perfect matchings and their costs are
+$$
+(a,b)+(c,d):\ 3+3=6,\quad
+(a,c)+(b,d):\ 4+2=6,\quad
+(a,d)+(b,c):\ 6+5=11.
+$$
+Choose cost $6$. If the sum of all street lengths is $42$, then
+$$
+\text{CPP}=42+6=48.
+$$
+Same city, every road covered, computed in polynomial time.
+
 ## One Trip: Dijkstra and A*
 
-Shortest path keeps a running cost and relaxes edges:
-
+A single journey fits the shortest-path model: intersections are nodes, roads are edges with weights for time or distance, and we maintain tentative costs that improve by relaxing edges,
 $$
-d[v] \leftarrow \min\{d[v],\ d[u] + w(u,v)\}.
+d[v]\leftarrow \min\{\,d[v],\ d[u]+w(u,v)\,\}.
 $$
-
-A* adds a heuristic $h(v)$ and expands nodes with minimal
-
+A* adds an admissible heuristic $h(v)$ and always expands the node with the smallest
 $$
-f(v) = g(v) + h(v).
+f(v)=g(v)+h(v),
 $$
+which keeps the search focused while preserving optimality when $h$ never overestimates.
 
-If $h$ never overestimates then A* still finds the optimal path and usually explores far fewer nodes.
+## Tours: Hamilton and Factorials
 
-## Many Stops: Hamilton and the Explosion
-
-Now require a route that visits every chosen stop exactly once. This is a Hamiltonian path or a Traveling Salesman tour.
-
-The number of orders for $n$ stops is
-
+When the goal is to visit each chosen stop exactly once, the problem is Hamiltonian. With $n$ stops and a fixed start, the number of possible orders is
 $$
 (n-1)!.
 $$
+For $n=10$ this is $9!=362{,}880$, and for $n=20$ it is $19!\approx 1.2\times 10^{17}$.
 
-For $n = 10$ this is $9! = 362{,}880$. For $n = 20$ it becomes $19! \approx 1.2\times 10^{17}$. No general fast method is known.
-
-## The Fun Link: One-Stroke Drawings
-
-People know the puzzle about drawing a figure without lifting the pen. That is not Hamiltonian. It is Eulerian.
-
-An Eulerian trail uses every edge exactly once. A Hamiltonian path visits every vertex exactly once. They sound close. They are not.
-
-Euler gave a crisp test. A connected graph has an Eulerian trail if and only if the number of odd-degree vertices is in $\{0,2\}$. Degrees are easy to count. The test is fast.
-
-So:
-
-- Street sweeping and snow plows want to use every road once with minimal repeats. This is the Chinese Postman problem. It reduces to pairing odd-degree intersections with a minimum-weight matching and is solvable in polynomial time.
-- Sales rounds and sightseeing tours want to visit each location once. This is Hamiltonian and is hard in general.
-
-Same streets. Different rules. Opposite difficulty.
-
-## Networks: Packets vs Tours
-
-The same split appears in computer networks.
-
-- Packet routing sends data from one node to another. Link-state protocols compute shortest paths with Dijkstra-like updates. This is efficient.
-- Multicast design and network tours connect many receivers with minimal total cost or visit a set of nodes once. Steiner trees and Hamiltonian variants appear. These are NP hard in general.
-
-## Worked Example
-
-Ten deliveries from one depot:
-
-- Orders to try:
-
+A quick timing thought experiment makes the growth concrete. If scoring one tour takes $1\,\mu s$, then
 $$
-9! = 362{,}880.
+9!\Rightarrow 3.6288\times 10^{5}\ \mu s \approx 0.36\ \text{s},
 $$
-
-At twenty stops the count jumps to
-
+while
 $$
-19! \approx 1.2\times 10^{17}.
+19!\Rightarrow 1.216\times 10^{17}\ \mu s \approx 3{,}860\ \text{years}.
 $$
+Heuristics help in practice on real maps, yet the worst-case remains enormous.
 
-Heuristics help in practice. The worst-case guarantee does not change.
+## One Stroke versus One Visit
 
-One-stroke street cleaning on a small grid:
+Using every **edge** once is an Eulerian question; visiting every **vertex** once is a Hamiltonian one. The statements sound similar but behave very differently.
 
-- Count odd-degree intersections. Suppose there are $2$. Then an Eulerian trail exists. Build the minimum matching on those odd nodes, duplicate those matched edges, and traverse all streets once. Each step runs in polynomial time.
+For edges the rule is sharp: a connected graph has an Eulerian trail exactly when the count of odd-degree nodes is in $\{0,2\}$. Street sweeping and snow routing follow this edge view, and the Chinese Postman fix—pairing odd nodes with a minimum-weight matching—runs in polynomial time.
 
-Same city. Two formulations. One is fast. One is not.
+Sales rounds and sightseeing tours follow the vertex view. Visiting each location once is Hamiltonian and is NP hard in general.
+
+## Networks: Packets and Tours
+
+Computer networks show the same split. Moving a packet from one machine to another is a shortest-path task, and link-state protocols compute routes with Dijkstra-style updates across the network graph.
+
+Designing structures that reach many receivers at once or forcing traffic to pass through a chosen set of machines mirrors the tour setting. Minimum Steiner trees and Hamiltonian variants appear, they are NP hard in general, and they encourage approximations rather than guaranteed fast solutions.
 
 ## The Scorecard
 
-- Shortest path: polynomial time. Dijkstra or A*.  
-- Eulerian trail and Postman: polynomial time. Degree parity and matching.  
-- Hamiltonian path and TSP: exponential search in general. Guarantees do not scale.
+- Shortest path: polynomial time — use Dijkstra or A*.  
+- Chinese Postman and Euler trails: polynomial time — degree parity and matching.  
+- Hamiltonian path and TSP: exponential families in general — heuristics help, guarantees do not.
