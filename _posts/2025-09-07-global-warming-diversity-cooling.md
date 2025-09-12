@@ -120,6 +120,4 @@ High turnover: each plot contributes new species, just as each subsystem adds di
 
 ## Global Warming and Diversity Heating  
 
-Most people think we live from the Sun’s heat. But the Earth is already close to thermal equilibrium with the Sun. What drives life is not raw heat, but the flow of **low entropy energy**—the difference between incoming sunlight and outgoing radiation.  
-
-That difference builds order. It allows complex structures to exist, from molecules to forests. When species are lost, that order fades. Communities collapse toward uniformity. Diversity heats as entropy rises.
+Most people think we live from the Sun’s heat. But the Earth is already close to thermal equilibrium with the Sun. What drives life is not raw heat, but the flow of **low entropy energy** (the difference between incoming sunlight and outgoing radiation). That difference builds order. It allows complex structures to exist, from molecules to forests. When species are lost, that order fades. Communities collapse toward uniformity. Diversity heats as entropy rises.
