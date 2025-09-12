@@ -24,6 +24,34 @@ $$
 where $M$ is a perfect matching of the odd nodes, and $\operatorname{dist}(u,v)$ is the shortest path distance between them in the original network.
 ---
 
+### Worked example
+
+Use a Euclidean placement with
+$$
+a=(0,0),\quad b=(3,0),\quad c=(0,4),\quad d=(1.8,1.6).
+$$
+
+This gives the pairwise distances
+$$
+\operatorname{dist}(a,b)=3,\quad \operatorname{dist}(a,c)=4,\quad \operatorname{dist}(a,d)=\sqrt{5.8}\approx 2.408, \\
+\operatorname{dist}(b,c)=5,\quad \operatorname{dist}(b,d)=2,\quad \operatorname{dist}(c,d)=3.
+$$
+
+The possible perfect matchings and their added costs are
+$$
+(a,b)+(c,d):\ 3+3=6, \qquad
+(a,c)+(b,d):\ 4+2=6, \qquad
+(a,d)+(b,c):\ \sqrt{5.8}+5\approx 7.408.
+$$
+
+The minimum extra cost is $6$. If the total length of all original streets is $42$, then
+$$
+\text{CPP} = 42 + 6 = 48.
+$$
+
+So the postman covers every road, with only $6$ units of extra distance beyond the raw street network.
+
+
 <!-- CPP Worked Example — Euclidean coordinates with exact distances and live pairing cost -->
 <div id="cpp-visual" style="margin:1rem 0;">
   <!-- Controls -->
