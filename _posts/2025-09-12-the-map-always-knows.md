@@ -29,14 +29,15 @@ where $M$ is a perfect matching of the odd nodes, and $\operatorname{dist}(u,v)$
 Place the four odd intersections at
 
 $$
-a=(0,0),\quad b=(3,0),\quad c=(0,4),\quad d=(3,4).
+a=(0,0),\quad b=(3,0),\quad c=\!\bigl(2,\,2\sqrt{3}\bigr),\quad d=\!\bigl(5,\,2\sqrt{3}\bigr).
 $$
 
-The pairwise distances are
+This is a parallelogram: \(|ab|=|cd|=3\) and \(|ac|=|bd|=4\).  
+The diagonals differ:
 
 $$
-\operatorname{dist}(a,b)=3,\quad \operatorname{dist}(a,c)=4,\quad \operatorname{dist}(b,d)=4,\\
-\operatorname{dist}(c,d)=3,\quad \operatorname{dist}(a,d)=5,\quad \operatorname{dist}(b,c)=5.
+|ad|=\sqrt{3^2+4^2+2\cdot 3\cdot 4\cos 60^\circ}=\sqrt{37},\qquad
+|bc|=\sqrt{3^2+4^2-2\cdot 3\cdot 4\cos 60^\circ}=\sqrt{13}.
 $$
 
 Perfect matchings and added costs:
@@ -44,18 +45,18 @@ Perfect matchings and added costs:
 $$
 (a,b)+(c,d):\ 3+3=6,\qquad
 (a,c)+(b,d):\ 4+4=8,\qquad
-(a,d)+(b,c):\ 5+5=10.
+(a,d)+(b,c):\ \sqrt{37}+\sqrt{13}\approx 9.689.
 $$
 
-The minimum extra cost is $6$. If the total length of all original streets is $42$, then
+The minimum extra cost is \(6\). If the total length of all original streets is \(42\), then
 
 $$
-\text{CPP} = 42 + 6 = 48.
+\text{CPP}=42+6=48.
 $$
 
-So the postman covers every road, with only $6$ units of extra distance beyond the raw street network.
+So the postman covers every road, with only \(6\) units of extra distance beyond the raw street network.
 
-<!-- CPP Worked Example — squarish rectangle (3x4), integer sides, diagonals = 5 -->
+<!-- CPP Worked Example — wide parallelogram (sides 3 & 4 at 60°), diagonals √37 and √13 -->
 <div id="cpp-visual" style="margin:1rem 0;">
   <!-- Controls -->
   <div class="cpp-controls" style="margin-bottom:0.5rem;">
@@ -73,16 +74,16 @@ So the postman covers every road, with only $6$ units of extra distance beyond t
 
   <!-- Summary -->
   <div class="cpp-summary" style="font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin-bottom:0.5rem;">
-    Extra distance to add: <strong><span id="cpp-extra">6</span></strong>
+    Extra distance to add: <strong><span id="cpp-extra">6.000</span></strong>
     | Base street length: <strong>42</strong>
-    | Chinese Postman total: <strong><span id="cpp-total">48</span></strong>
+    | Chinese Postman total: <strong><span id="cpp-total">48.000</span></strong>
   </div>
 
-  <!-- Diagram -->
-  <div class="cpp-svgwrap" style="max-width:560px;border:1px solid #ddd;border-radius:8px;overflow:hidden;">
-    <svg id="cpp-svg" viewBox="0 0 560 420" width="100%" height="auto" aria-labelledby="cpp-title cpp-desc" role="img">
-      <title id="cpp-title">Rectangle layout: sides 3 and 4; diagonals 5</title>
-      <desc id="cpp-desc">a,b on top; c,d below. Distances computed from world coordinates. Select a pairing to highlight edges and update extra cost.</desc>
+  <!-- Diagram (wide format) -->
+  <div class="cpp-svgwrap" style="max-width:920px;border:1px solid #ddd;border-radius:8px;overflow:hidden;">
+    <svg id="cpp-svg" viewBox="0 0 920 360" width="100%" height="auto" aria-labelledby="cpp-title cpp-desc" role="img">
+      <title id="cpp-title">Parallelogram layout: sides 3 and 4 at 60°, diagonals √37 and √13</title>
+      <desc id="cpp-desc">a,b on top; c,d below and slanted. Distances computed from Euclidean coordinates. Select a pairing to highlight edges and update extra cost.</desc>
 
       <!-- Background grid -->
       <defs>
@@ -92,7 +93,7 @@ So the postman covers every road, with only $6$ units of extra distance beyond t
       </defs>
       <rect x="0" y="0" width="100%" height="100%" fill="url(#grid)"></rect>
 
-      <!-- Nodes (positions are derived from world coords in JS) -->
+      <!-- Nodes (positions set from world coords in JS) -->
       <g id="nodes" fill="#111" font-family="system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="16">
         <circle id="n-a" r="8"></circle><text id="t-a" text-anchor="middle">a</text>
         <circle id="n-b" r="8"></circle><text id="t-b" text-anchor="middle">b</text>
@@ -100,7 +101,7 @@ So the postman covers every road, with only $6$ units of extra distance beyond t
         <circle id="n-d" r="8"></circle><text id="t-d" text-anchor="middle">d</text>
       </g>
 
-      <!-- All edges (light gray by default) -->
+      <!-- All six edges (light gray by default) -->
       <g id="edges" stroke="#bbb" stroke-width="3">
         <line id="e-ab" />
         <line id="e-ac" />
@@ -118,31 +119,32 @@ So the postman covers every road, with only $6$ units of extra distance beyond t
 
 <script>
 (function(){
-  // World coords (squarish rectangle): a(0,0), b(3,0), c(0,4), d(3,4)
-  const W = { a:{X:0,Y:0}, b:{X:3,Y:0}, c:{X:0,Y:4}, d:{X:3,Y:4} };
+  // World coordinates for a 3x4 parallelogram with 60° between sides:
+  // a=(0,0), b=(3,0), c=(2, 2*sqrt(3)), d=b+c-a=(5, 2*sqrt(3))
+  const SQRT3 = Math.sqrt(3);
+  const W = { a:{X:0, Y:0}, b:{X:3, Y:0}, c:{X:2, Y:2*SQRT3}, d:{X:5, Y:2*SQRT3} };
 
-  // Map world -> SVG (equal scale for x,y so distances are true)
-  const s = 100;                 // px per unit
-  const x0 = 120, y0 = 360;      // origin offsets
+  // Wide mapping: keep y scale same as x so distances are true; center in a wide viewBox
+  const s = 120;                // px per unit
+  const x0 = 120, y0 = 300;     // origin offsets (tuned for the 920x360 viewBox)
   function map(P){ return { x: x0 + s*P.X, y: y0 - s*P.Y }; }
   function dist(P,Q){ const dx=P.X-Q.X, dy=P.Y-Q.Y; return Math.hypot(dx,dy); }
 
-  // Place nodes + text
+  // Place nodes + labels (top labels above, bottom labels below)
   [['a','n-a','t-a',-18],['b','n-b','t-b',-18],['c','n-c','t-c',22],['d','n-d','t-d',22]].forEach(([k,cid,tid,ty])=>{
     const p = map(W[k]);
     const cEl = document.getElementById(cid), tEl = document.getElementById(tid);
     cEl.setAttribute('cx', p.x); cEl.setAttribute('cy', p.y);
     tEl.setAttribute('x', p.x);  tEl.setAttribute('y', p.y + ty);
-    tEl.setAttribute('text-anchor','middle');
   });
 
-  // Utility to create/position edges with weights
+  // Utility to set edges and keep exact weights from geometry
   function setLine(id, u, v){
     const U = map(W[u]), V = map(W[v]);
     const e = document.getElementById(id);
     e.setAttribute('x1', U.x); e.setAttribute('y1', U.y);
     e.setAttribute('x2', V.x); e.setAttribute('y2', V.y);
-    e.dataset.weight = dist(W[u], W[v]); // exact
+    e.dataset.weight = dist(W[u], W[v]); // exact numeric weight
   }
 
   // Build all six edges
@@ -150,10 +152,10 @@ So the postman covers every road, with only $6$ units of extra distance beyond t
   setLine('e-ac','a','c'); // 4
   setLine('e-bd','b','d'); // 4
   setLine('e-cd','c','d'); // 3
-  setLine('e-ad','a','d'); // 5
-  setLine('e-bc','b','c'); // 5
+  setLine('e-ad','a','d'); // √37
+  setLine('e-bc','b','c'); // √13
 
-  // Labels at midpoints (integers shown as ints)
+  // Labels at midpoints (integers shown as ints; diagonals shown with unicode √)
   const L = document.getElementById('labels');
   function addLabel(id, text){
     const el = document.getElementById(id);
@@ -165,8 +167,9 @@ So the postman covers every road, with only $6$ units of extra distance beyond t
     t.textContent = text;
     L.appendChild(t);
   }
-  addLabel('e-ab','3'); addLabel('e-ac','4'); addLabel('e-bd','4'); addLabel('e-cd','3');
-  addLabel('e-ad','5'); addLabel('e-bc','5');
+  addLabel('e-ab','3'); addLabel('e-cd','3');
+  addLabel('e-ac','4'); addLabel('e-bd','4');
+  addLabel('e-ad','√37'); addLabel('e-bc','√13');
 
   // Highlight logic
   const accent = '#0a7', baseLen = 42;
@@ -184,16 +187,17 @@ So the postman covers every road, with only $6$ units of extra distance beyond t
     resetEdges();
     const val = document.querySelector('input[name="cpp-pair"]:checked').value;
     let extra = 0;
-    if (val==='ab-cd') extra = mark('e-ab') + mark('e-cd'); // 3 + 3 = 6
-    if (val==='ac-bd') extra = mark('e-ac') + mark('e-bd'); // 4 + 4 = 8
-    if (val==='ad-bc') extra = mark('e-ad') + mark('e-bc'); // 5 + 5 = 10
-    document.getElementById('cpp-extra').textContent = (Math.round(extra*1000)/1000).toString();
-    document.getElementById('cpp-total').textContent = (Math.round((baseLen+extra)*1000)/1000).toString();
+    if (val==='ab-cd') extra = mark('e-ab') + mark('e-cd');     // 3 + 3 = 6
+    if (val==='ac-bd') extra = mark('e-ac') + mark('e-bd');     // 4 + 4 = 8
+    if (val==='ad-bc') extra = mark('e-ad') + mark('e-bc');     // √37 + √13
+    document.getElementById('cpp-extra').textContent = extra.toFixed(3);
+    document.getElementById('cpp-total').textContent = (baseLen + extra).toFixed(3);
   }
   document.querySelectorAll('input[name="cpp-pair"]').forEach(el=>el.addEventListener('change', update));
   update();
 })();
 </script>
+
 
 
 ## One Trip: Dijkstra and A*
