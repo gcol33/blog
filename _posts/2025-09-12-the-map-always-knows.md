@@ -52,29 +52,35 @@ So the postman covers every road, with only $6$ units of extra distance beyond t
 <!-- CPP Worked Example — inline SVG visual with toggleable pairings -->
 <div id="cpp-visual" style="margin:1rem 0;">
   <!-- Controls -->
-  <div class="cpp-controls" style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;margin-bottom:0.5rem;">
-    <strong style="margin-right:0.5rem;">Pair odd nodes:</strong>
+  <div class="cpp-controls" style="margin-bottom:0.5rem;">
+    <strong style="display:block;margin-bottom:0.5rem;">Pair odd nodes:</strong>
 
-    <label style="cursor:pointer;">
-      <input type="radio" name="cpp-pair" id="cpp-opt1" data-extra="6" checked>
-      (a,b) + (c,d) — cost 3 + 3
-    </label>
+    <div style="margin-bottom:0.25rem;">
+      <label style="cursor:pointer;">
+        <input type="radio" name="cpp-pair" value="ab-cd" data-extra="6" checked>
+        (a,b) + (c,d) — cost 3 + 3
+      </label>
+    </div>
 
-    <label style="cursor:pointer;">
-      <input type="radio" name="cpp-pair" id="cpp-opt2" data-extra="6">
-      (a,c) + (b,d) — cost 4 + 2
-    </label>
+    <div style="margin-bottom:0.25rem;">
+      <label style="cursor:pointer;">
+        <input type="radio" name="cpp-pair" value="ac-bd" data-extra="6">
+        (a,c) + (b,d) — cost 4 + 2
+      </label>
+    </div>
 
-    <label style="cursor:pointer;">
-      <input type="radio" name="cpp-pair" id="cpp-opt3" data-extra="11">
-      (a,d) + (b,c) — cost 6 + 5
-    </label>
+    <div>
+      <label style="cursor:pointer;">
+        <input type="radio" name="cpp-pair" value="ad-bc" data-extra="11">
+        (a,d) + (b,c) — cost 6 + 5
+      </label>
+    </div>
   </div>
 
-  <!-- Summary line (auto-updates) -->
+  <!-- Summary line -->
   <div class="cpp-summary" style="font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin-bottom:0.5rem;">
-    Extra distance to add: <strong><span id="cpp-extra">6</span></strong>  
-    | Base street length: <strong>42</strong>  
+    Extra distance to add: <strong><span id="cpp-extra">6</span></strong>
+    | Base street length: <strong>42</strong>
     | Chinese Postman total: <strong><span id="cpp-total">48</span></strong>
   </div>
 
@@ -84,7 +90,7 @@ So the postman covers every road, with only $6$ units of extra distance beyond t
       <title id="cpp-title">Pairings between odd intersections a, b, c, d</title>
       <desc id="cpp-desc">Toggle the radio buttons to highlight which odd nodes are paired. Labels show the pair costs.</desc>
 
-      <!-- Background grid (subtle) -->
+      <!-- Background grid -->
       <defs>
         <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
           <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#eee" stroke-width="1"/>
@@ -92,85 +98,71 @@ So the postman covers every road, with only $6$ units of extra distance beyond t
       </defs>
       <rect x="0" y="0" width="100%" height="100%" fill="url(#grid)"></rect>
 
-      <!-- Node positions -->
-      <!-- a(80,60)  b(440,60)  c(120,240)  d(400,240) -->
-      <!-- Base nodes & labels -->
-      <g fill="#111" font-family="system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="16">
-        <circle cx="80" cy="60" r="8" fill="#111"></circle>
-        <text x="80" y="45" text-anchor="middle">a</text>
-
-        <circle cx="440" cy="60" r="8" fill="#111"></circle>
-        <text x="440" y="45" text-anchor="middle">b</text>
-
-        <circle cx="120" cy="240" r="8" fill="#111"></circle>
-        <text x="120" y="265" text-anchor="middle">c</text>
-
-        <circle cx="400" cy="240" r="8" fill="#111"></circle>
-        <text x="400" y="265" text-anchor="middle">d</text>
+      <!-- Base nodes -->
+      <g fill="#111" font-size="16" font-family="system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+        <circle cx="80" cy="60" r="8"></circle><text x="80" y="45" text-anchor="middle">a</text>
+        <circle cx="440" cy="60" r="8"></circle><text x="440" y="45" text-anchor="middle">b</text>
+        <circle cx="120" cy="240" r="8"></circle><text x="120" y="265" text-anchor="middle">c</text>
+        <circle cx="400" cy="240" r="8"></circle><text x="400" y="265" text-anchor="middle">d</text>
       </g>
 
-      <!-- Pairings (only one group visible at a time via CSS) -->
-      <!-- (a,b) + (c,d) => costs 3 and 3 -->
-      <g class="pairing pairing-ab-cd">
-        <line x1="80" y1="60" x2="440" y2="60" stroke="currentColor" stroke-width="5" opacity="0.9"/>
-        <line x1="120" y1="240" x2="400" y2="240" stroke="currentColor" stroke-width="5" opacity="0.9"/>
-        <g fill="#111" font-family="system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14">
-          <text x="260" y="40" text-anchor="middle">3</text>
-          <text x="260" y="260" text-anchor="middle">3</text>
-        </g>
+      <!-- Pairings -->
+      <g id="pairing-ab-cd" class="pairing">
+        <line x1="80" y1="60" x2="440" y2="60" stroke="#0a7" stroke-width="5" opacity="0.9"/>
+        <line x1="120" y1="240" x2="400" y2="240" stroke="#0a7" stroke-width="5" opacity="0.9"/>
+        <text x="260" y="40" text-anchor="middle" font-size="14">3</text>
+        <text x="260" y="260" text-anchor="middle" font-size="14">3</text>
       </g>
 
-      <!-- (a,c) + (b,d) => costs 4 and 2 -->
-      <g class="pairing pairing-ac-bd">
-        <line x1="80" y1="60" x2="120" y2="240" stroke="currentColor" stroke-width="5" opacity="0.9"/>
-        <line x1="440" y1="60" x2="400" y2="240" stroke="currentColor" stroke-width="5" opacity="0.9"/>
-        <g fill="#111" font-family="system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14">
-          <text x="100" y="150" text-anchor="middle">4</text>
-          <text x="420" y="150" text-anchor="middle">2</text>
-        </g>
+      <g id="pairing-ac-bd" class="pairing" style="display:none;">
+        <line x1="80" y1="60" x2="120" y2="240" stroke="#0a7" stroke-width="5" opacity="0.9"/>
+        <line x1="440" y1="60" x2="400" y2="240" stroke="#0a7" stroke-width="5" opacity="0.9"/>
+        <text x="100" y="150" text-anchor="middle" font-size="14">4</text>
+        <text x="420" y="150" text-anchor="middle" font-size="14">2</text>
       </g>
 
-      <!-- (a,d) + (b,c) => costs 6 and 5 -->
-      <g class="pairing pairing-ad-bc">
-        <line x1="80" y1="60" x2="400" y2="240" stroke="currentColor" stroke-width="5" opacity="0.9"/>
-        <line x1="440" y1="60" x2="120" y2="240" stroke="currentColor" stroke-width="5" opacity="0.9"/>
-        <g fill="#111" font-family="system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14">
-          <text x="240" y="150" text-anchor="middle">6</text>
-          <text x="280" y="150" text-anchor="middle">5</text>
-        </g>
+      <g id="pairing-ad-bc" class="pairing" style="display:none;">
+        <line x1="80" y1="60" x2="400" y2="240" stroke="#0a7" stroke-width="5" opacity="0.9"/>
+        <line x1="440" y1="60" x2="120" y2="240" stroke="#0a7" stroke-width="5" opacity="0.9"/>
+        <text x="240" y="150" text-anchor="middle" font-size="14">6</text>
+        <text x="280" y="150" text-anchor="middle" font-size="14">5</text>
       </g>
     </svg>
   </div>
 </div>
 
-<style>
-  /* Only show the selected pairing */
-  #cpp-visual .pairing { display: none; }
-  #cpp-opt1:checked ~ .cpp-summary ~ .cpp-svgwrap .pairing-ab-cd { display: block; }
-  #cpp-opt2:checked ~ .cpp-summary ~ .cpp-svgwrap .pairing-ac-bd { display: block; }
-  #cpp-opt3:checked ~ .cpp-summary ~ .cpp-svgwrap .pairing-ad-bc { display: block; }
-
-  /* Color the active pairing line using the current text color; tweak here if you want a brand color */
-  #cpp-visual .pairing line { color: #0a7; } /* change to your accent color */
-</style>
-
 <script>
   (function () {
-    var base = 42; // total length of all original streets
+    var base = 42;
     var extraSpan = document.getElementById('cpp-extra');
     var totalSpan = document.getElementById('cpp-total');
+
     function update() {
       var checked = document.querySelector('input[name="cpp-pair"]:checked');
-      var extra = Number(checked.getAttribute('data-extra') || 0);
-      extraSpan.textContent = String(extra);
-      totalSpan.textContent = String(base + extra);
+      var val = checked.value;
+      var extra = Number(checked.dataset.extra || 0);
+
+      // hide all pairings
+      document.querySelectorAll('#cpp-visual .pairing').forEach(function (g) {
+        g.style.display = 'none';
+      });
+
+      // show chosen pairing
+      var active = document.getElementById('pairing-' + val);
+      if (active) active.style.display = 'block';
+
+      // update summary
+      extraSpan.textContent = extra;
+      totalSpan.textContent = base + extra;
     }
+
     document.querySelectorAll('input[name="cpp-pair"]').forEach(function (el) {
       el.addEventListener('change', update);
     });
     update();
   })();
 </script>
+
 
 
 ## One Trip: Dijkstra and A*
