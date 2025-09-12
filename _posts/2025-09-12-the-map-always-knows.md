@@ -7,15 +7,21 @@ categories: algorithms networks
 
 ## From Roads to Routes
 
-Begin with the classic pen puzzle: can you trace a figure in one stroke without lifting the pen? City streets pose the same question. A street sweeper wants a walk that covers every road once, repeating as little as possible, which leads to the **Chinese Postman** problem.
+It begins with a puzzle you may have tried as a child: can you draw a figure in one continuous stroke without lifting your pen, and without retracing any line unless you have to? What looks like a doodle challenge is in fact one of the oldest problems in graph theory.
 
-The story starts with the bridges of Königsberg. Working in St Petersburg, Euler gave a crisp rule: a connected street graph has a trail that uses every edge exactly once if and only if the number of odd-degree intersections is in $\{0,2\}$. Degrees are easy to count, so this decision is fast.
+The same question shows up in real life on city streets. Imagine a street sweeper, snowplow, or postman. Their job is to cover every road at least once, but every repeated stretch wastes fuel and time. How do you design the most efficient walk? This is the **Chinese Postman** problem.
 
-If there are more than two odd intersections, pair the odd nodes and add the cheapest extra links so that all degrees become even. In the augmented graph an Eulerian tour exists and it covers every street exactly once. The total cost is
+The story stretches back to 1736, when Leonhard Euler, working in St. Petersburg, tackled the famous bridges of Königsberg. The city was built across two islands connected by seven bridges, and the residents wondered: could you stroll across each bridge exactly once and return home? Euler’s answer was simple but groundbreaking: the possibility depends only on the number of “odd” intersections — nodes with an odd degree. A connected graph has a trail that uses every edge once if and only if the number of odd-degree intersections is either $0$ or $2$. Counting degrees takes only seconds, and suddenly a centuries-old riddle had a crisp mathematical rule.
+
+More than two centuries later, in 1962, Chinese mathematician Mei-Ko Kwan extended Euler’s idea to practical routing. He asked: what if a network has many odd intersections? Instead of giving up, you can “fix” the graph by pairing odd nodes and adding the cheapest extra links until every degree becomes even. The result is an Eulerian tour in the augmented graph — a walk that covers every street exactly once, with the repeats chosen as efficiently as possible. Kwan’s formulation became known as the **Chinese Postman Problem**, in honor of the everyday urban scenario that inspired it.
+
+Formally, the cost is
 $$
 \text{CPP}=\sum_{e\in E} w(e)\;+\;\min_{M}\ \sum_{(u,v)\in M}\operatorname{dist}(u,v),
 $$
-where $M$ is a perfect matching on the odd nodes and $\operatorname{dist}$ is the shortest-path distance in the original network.
+where $M$ is a perfect matching of the odd nodes, and $\operatorname{dist}(u,v)$ is the shortest path distance between them in the original network.
+
+A child’s pen puzzle, a city’s bridges, and a Beijing postman — three different origins that all converge on the same mathematical principle.
 
 ---
 
