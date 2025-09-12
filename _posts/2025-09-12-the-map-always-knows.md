@@ -11,7 +11,7 @@ It begins with a puzzle you may have tried as a child: can you draw a figure in 
 
 The same question shows up in real life on city streets. Imagine a street sweeper, snowplow, or postman. Their job is to cover every road at least once, but every repeated stretch wastes fuel and time. How do you design the most efficient walk? This is the **Chinese Postman** problem.
 
-The story stretches back to 1736, when Leonhard Euler, working in St. Petersburg, tackled the famous bridges of Königsberg. The city was built across two islands connected by seven bridges, and the residents wondered: could you stroll across each bridge exactly once and return home? Euler’s answer was simple but groundbreaking: the possibility depends only on the number of “odd” intersections — nodes with an odd degree. A connected graph has a trail that uses every edge once if and only if the number of odd-degree intersections is either $0$ or $2$. Counting degrees takes only seconds, and suddenly a centuries-old riddle had a crisp mathematical rule.
+The story stretches back to 1736, when Leonhard Euler, working in St. Petersburg, tackled the famous bridges of Königsberg. The city was built across two islands connected by seven bridges, and the residents wondered: could you stroll across each bridge exactly once and return home? Euler’s answer was simple but groundbreaking: the possibility depends only on the number of “odd” intersections (nodes with an odd degree). A connected graph has a trail that uses every edge once if and only if the number of odd-degree intersections is either $0$ or $2$. Counting degrees takes only seconds, and suddenly a centuries-old riddle had a crisp mathematical rule.
 
 More than two centuries later, in 1962, Chinese mathematician Mei-Ko Kwan extended Euler’s idea to practical routing. He asked: what if a network has many odd intersections? Instead of giving up, you can “fix” the graph by pairing odd nodes and adding the cheapest extra links until every degree becomes even. The result is an Eulerian tour in the augmented graph, a walk that covers every street exactly once, with the repeats chosen as efficiently as possible. Kwan’s formulation became known as the **Chinese Postman Problem**, in honor of the everyday urban scenario that inspired it.
 
@@ -23,7 +23,7 @@ $$
 
 where $M$ is a perfect matching of the odd nodes, and $\operatorname{dist}(u,v)$ is the shortest path distance between them in the original network.
 
-A child’s pen puzzle, a city’s bridges, and a Beijing postman — three different origins that all converge on the same mathematical principle.
+A child’s pen puzzle, a city’s bridges, and a Beijing postman are three different origins that all converge on the same mathematical principle.
 
 ---
 
@@ -96,7 +96,7 @@ Heuristics help in practice on real maps, yet the worst-case remains enormous.
 
 Using every **edge** once is an Eulerian question; visiting every **vertex** once is a Hamiltonian one. The statements sound similar but behave very differently.
 
-For edges the rule is sharp: a connected graph has an Eulerian trail exactly when the count of odd-degree nodes is in $\{0,2\}$. Street sweeping and snow routing follow this edge view, and the Chinese Postman fix — pairing odd nodes with a minimum-weight matching — runs in polynomial time.
+For edges the rule is sharp: a connected graph has an Eulerian trail exactly when the count of odd-degree nodes is in $\{0,2\}$. Street sweeping and snow routing follow this edge view, and the Chinese Postman fix (pairing odd nodes with a minimum-weight matching) runs in polynomial time.
 
 Sales rounds and sightseeing tours follow the vertex view. Visiting each location once is Hamiltonian and is NP hard in general.
 
