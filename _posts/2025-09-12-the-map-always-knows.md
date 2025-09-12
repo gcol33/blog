@@ -35,9 +35,8 @@ $$
 The pairwise distances are
 
 $$
-\operatorname{dist}(a,b)=3,\quad \operatorname{dist}(a,c)=4,\\
-\operatorname{dist}(b,d)=4,\quad \operatorname{dist}(c,d)=3,\\
-\operatorname{dist}(a,d)=5,\quad \operatorname{dist}(b,c)=5.
+\operatorname{dist}(a,b)=3,\quad \operatorname{dist}(a,c)=4,\quad \operatorname{dist}(b,d)=4,\\
+\operatorname{dist}(c,d)=3,\quad \operatorname{dist}(a,d)=5,\quad \operatorname{dist}(b,c)=5.
 $$
 
 Perfect matchings and added costs:
