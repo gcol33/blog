@@ -6,14 +6,32 @@
     <title>{{ page.title }} | {{ site.title }}</title>
 
     <link href="https://fonts.googleapis.com/css?family=Cousine:400,700,400italic,700italic" rel="stylesheet">
-    <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
-    <!-- Favicon -->
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <!-- Favicon (works with baseurl) -->
+    <link rel="icon" href="{{ '/favicon.ico' | relative_url }}" type="image/x-icon">
 
-    <!-- KaTeX CSS (no SRI to avoid hash mismatch issues) -->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+    <!-- Prevent math line breaks; allow horizontal scroll for wide display equations -->
+    <style>
+      .katex, .katex * {
+        white-space: nowrap !important;
+        word-break: normal !important;
+        overflow-wrap: normal !important;
+        hyphens: none !important;
+      }
+      .katex-display {
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+      }
+      .katex-display > .katex {
+        display: inline-block;
+        white-space: nowrap !important;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -23,22 +41,22 @@
           {% if site.tagline %}
             <div class="brand-tagline">
               {{ site.tagline }} ·
-              <a href="https://gillescolling.com/" target="_blank">gillescolling.com</a>
+              <a href="https://gillescolling.com/" target="_blank" rel="noopener">gillescolling.com</a>
             </div>
           {% endif %}
         </div>
 
         <nav class="nav">
-          <a href="{{ "/" | relative_url }}">Home</a>
-          <a href="{{ "/archives/" | relative_url }}">Archives</a>
-          <a href="{{ "/search/" | relative_url }}">Search</a>
+          <a href="{{ '/' | relative_url }}">Home</a>
+          <a href="{{ '/archives/' | relative_url }}">Archives</a>
+          <a href="{{ '/search/' | relative_url }}">Search</a>
         </nav>
       </header>
 
       {{ content }}
     </div>
 
-    <!-- KaTeX core + auto-render (no SRI; robust init) -->
+    <!-- KaTeX core + auto-render -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <script>

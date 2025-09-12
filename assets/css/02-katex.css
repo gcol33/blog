@@ -1170,3 +1170,23 @@
 body {
 	counter-reset: katexEqnNo mmlEqnNo;
 }
+/* === Prevent line breaks inside KaTeX math === */
+.katex,
+.katex * {
+  white-space: nowrap !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  hyphens: none !important;
+}
+
+/* Display equations: keep them intact, scroll if too wide */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.katex-display > .katex {
+  display: inline-block;   /* keep the whole formula together */
+  white-space: nowrap !important;
+}
