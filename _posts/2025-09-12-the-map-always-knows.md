@@ -22,9 +22,6 @@ $$
 $$  
 
 where $M$ is a perfect matching of the odd nodes, and $\operatorname{dist}(u,v)$ is the shortest path distance between them in the original network.
-
-A child’s pen puzzle, a city’s bridges, and a Beijing postman are three different origins that all converge on the same mathematical principle.
-
 ---
 
 ### Worked example
