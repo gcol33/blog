@@ -19,6 +19,7 @@ Why π?
 Why does averaging fail, even with mountains of data?
 
 Try it yourself: collect the slopes, count how many land in a narrow strip around horizontal, then scale by the strip’s width. A circle’s number quietly emerges.
+
 <div id="pi-demo" style="max-width: 720px; margin: 0 auto;">
   <canvas id="hist" style="width:100%; height:300px; background:#fff; border:1px solid #000;"></canvas>
 
@@ -38,10 +39,10 @@ Try it yourself: collect the slopes, count how many land in a narrow strip aroun
     </label>
   </div>
 
-  <!-- Stats: tidy on mobile -->
+  <!-- Stats -->
   <div id="stats" class="pi-stats">
-    <div class="pi-stat-row"><span>Total samples n</span><strong id="nOut">0</strong></div>
-    <div class="pi-stat-row"><span>Fraction inside band</span><strong id="fracOut">0</strong></div>
+    <div class="pi-stat-row"><span>Total samples n:</span><strong id="nOut">0</strong></div>
+    <div class="pi-stat-row"><span>Fraction inside band:</span><strong id="fracOut">0</strong></div>
     <div class="pi-stat-row"><span>π-ish =</span><strong id="piOut">—</strong></div>
   </div>
 
@@ -105,33 +106,23 @@ Try it yourself: collect the slopes, count how many land in a narrow strip aroun
   border-radius: 50%; background: #000; cursor: pointer;
 }
 
-/* Stats: each row is a flex pair that wraps nicely on phones */
+/* Stats: aligned left */
 #pi-demo .pi-stats{
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  grid-template-columns: 1fr;
+  gap: 4px;
   margin-top: 6px;
-}
-@media (max-width: 560px){
-  #pi-demo .pi-stats{ grid-template-columns: 1fr; }
 }
 #pi-demo .pi-stat-row{
   border-top: 1px solid #000;
   padding: 6px 0;
+  font-size: 0.95em;
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  min-width: 0;
+  gap: 6px;
 }
-#pi-demo .pi-stat-row span{
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+#pi-demo .pi-stat-row span,
 #pi-demo .pi-stat-row strong{
-  margin-left: 8px;
-  flex-shrink: 0;
+  text-align: left;
 }
 
 /* Explanatory note */
@@ -216,7 +207,6 @@ function recomputeStats(){
     if(Math.abs(Z[i]) <= hCount) count++;
   }
   const pHat = n ? (count/n) : 0;
-  // Exact estimator using arctan
   const piHat = pHat > 0 ? (2*Math.atan(hCount)) / pHat : NaN;
 
   nOut.textContent    = n.toLocaleString();
@@ -309,6 +299,7 @@ recomputeStats();
 redrawOnly();
 </script>
 {% endraw %}
+
 
 
 
