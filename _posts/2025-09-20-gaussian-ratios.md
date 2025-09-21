@@ -33,9 +33,10 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
       <input type="range" id="rangeSlider" min="2" max="8" step="0.5" value="4" />
     </label>
     <label>Bins
-      <input type="range" id="binsSlider" min="21" max="1001" step="1" value="201" />
+      <input type="range" id="binsSlider" min="21" max="201" step="1" value="81" />
     </label>
   </div>
+
 
   <div id="stats" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px;">
     <div style="border-top:1px solid #000; padding:6px 0; display:flex; justify-content:space-between;">
