@@ -5,7 +5,7 @@ date: 2025-09-20
 categories: probability statistics
 ---
 
-## Where more data doesn’t mean more certainty
+### Where more data doesn’t mean more certainty
 
 Take two random numbers, both drawn from the bell curve.  
 Divide one by the other, and something strange happens.  
@@ -295,19 +295,21 @@ $$
 f(z) = \frac{1}{\pi(1+z^2)},
 $$  
 
-is the **Cauchy distribution**. The factor of π here is the same one that appeared in the slope experiment at the very beginning.  
-
-Take the probability of landing near horizontal. For a small band of width $\varepsilon$ around zero,  
+is the **Cauchy distribution**. Its height at zero is  
 
 $$
-\Pr(|Z|\le \tfrac{\varepsilon}{2}) \approx f(0)\,\varepsilon = \frac{\varepsilon}{\pi}.
+f(0) = \frac{1}{\pi}.
 $$  
 
-So when you count ratios in a narrow strip and rescale by the strip’s width, the number that emerges is $1/\pi$. That is the constant hiding in the data.  
+That is exactly the fraction of slopes you expect to land inside a narrow band, once rescaled by the band’s width. Rearranging gives the formula from the opening experiment:  
 
-Why π? Because the angle $\theta=\arctan(Y/X)$ is uniform on an interval of length $\pi$. Each slice of angle of width $\varepsilon$ always occupies exactly $\varepsilon/\pi$ of that range. Push that uniform angle through the tangent map, and the same fraction shows up in the density of slopes.  
+$$
+\pi = \frac{2h}{\Pr(|Z|\le h)} \quad \text{for small } h.
+$$  
 
-The surprise is that this law does not behave like Gauss’s bell curve.  
+So the number your slider converges to is **π**. The constant comes not from circles but from the length of the angle interval: $\theta=\arctan(Y/X)$ is uniform on $(-\tfrac{\pi}{2},\tfrac{\pi}{2})$, an interval of length π. Each slice of angle of width $\varepsilon$ always carries probability $\varepsilon/\pi$. Push that uniform angle through the tangent, and π controls the entire distribution of slopes.  
+
+The surprise is how different this law is from Gauss’s bell curve.  
 
 - **No mean.** Averages swing and never settle.  
 - **No variance.** The tails are too heavy for second moments to exist.  
