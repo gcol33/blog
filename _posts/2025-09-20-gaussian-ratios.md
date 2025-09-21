@@ -57,16 +57,128 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
   </div>
 
   <p style="font-size:0.95em; color:#111; margin-top:6px;">
-    Formula used here:  
+    Formula used here:<br/>
     \[
       \pi_{\text{ish}} \;=\; \frac{\text{total width of the band}}{\text{fraction of slopes inside it}}
-    \]  
-
+    \]<br/>
     where total width = \(2h\) (from \(-h\) to \(+h\)).  
     Narrow the band. Increase the samples. The number drifts toward 3.14…  
     Why should slopes of random points conspire to reveal π?
   </p>
 </div>
+
+{% raw %}
+<style>
+#pi-demo input[type="range"]{ width:100%; appearance:none; height:6px; background:#eee; outline:none; }
+#pi-demo input[type="range"]::-webkit-slider-thumb{ appearance:none; width:14px; height:14px; border-radius:50%; background:#000; cursor:pointer; }
+</style>
+
+<script>
+// --- seedable RNG ---
+function mkRNG(seedStr){
+  let h=2166136261>>>0;
+  for(let i=0;i<seedStr.length;i++){ h^=seedStr.charCodeAt(i); h=Math.imul(h,16777619); }
+  let x=h>>>0;
+  return ()=>{ x=(1664525*x+1013904223)>>>0; return (x>>>0)/4294967296; };
+}
+// --- standard normal ---
+function mkRandn(rand){
+  let spare=null;
+  return function(){
+    if(spare!==null){ const t=spare; spare=null; return t; }
+    let u=0,v=0,s=0;
+    do{ u=rand()*2-1; v=rand()*2-1; s=u*u+v*v; }while(s===0||s>=1);
+    const m=Math.sqrt(-2*Math.log(s)/s); spare=v*m; return u*m;
+  };
+}
+
+// --- elements ---
+const canvas=document.getElementById('hist'), ctx=canvas.getContext('2d');
+const nSlider=document.getElementById('nSlider'), hSlider=document.getElementById('hSlider');
+const rangeSlider=document.getElementById('rangeSlider'), binsSlider=document.getElementById('binsSlider');
+const seedInput=document.getElementById('seedInput'), reshuffleBtn=document.getElementById('reshuffleBtn');
+const nOut=document.getElementById('nOut'), fracOut=document.getElementById('fracOut'), piOut=document.getElementById('piOut');
+
+// DPR-aware canvas
+function resizeCanvas(){ const dpr=Math.min(window.devicePixelRatio||1,2);
+  const rect=canvas.getBoundingClientRect(); canvas.width=Math.round(rect.width*dpr);
+  canvas.height=Math.round(rect.height*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); }
+window.addEventListener('resize',()=>{ resizeCanvas(); if(last) drawHist(last.hist,last.R,last.h); });
+resizeCanvas();
+
+let last=null;
+function simulateAndDraw(){
+  const n=parseInt(nSlider.value,10);
+  const R=parseFloat(rangeSlider.value);
+  const B=parseInt(binsSlider.value,10);
+  const binWidth = (2*R)/B;
+  let h=parseFloat(hSlider.value);
+  if(h<binWidth) h=binWidth; // band at least one bin wide
+
+  const rand=mkRNG(seedInput.value||'demo'), randn=mkRandn(rand);
+  const hist=new Array(B).fill(0), mid=(B-1)/2; let count=0;
+
+  for(let i=0;i<n;i++){
+    const x=randn(), y=randn(), z=y/x; // slope
+    if(!Number.isFinite(z)) continue;
+    if(Math.abs(z)<=h) count++;
+    if(Math.abs(z)<=R){
+      const bin=Math.round(mid + (z/R)*mid);
+      if(bin>=0&&bin<B) hist[bin]++;
+    }
+  }
+
+  const fraction = n>0 ? (count/n) : 0;
+  const piish = fraction>0 ? (2*h)/fraction : NaN;
+
+  nOut.textContent = n.toLocaleString();
+  fracOut.textContent = fraction ? fraction.toFixed(5) : '0';
+  piOut.textContent = Number.isFinite(piish) ? piish.toFixed(5) : '—';
+
+  drawHist(hist,R,h); last={hist,R,h};
+}
+
+function drawHist(hist,R,h){
+  const w=canvas.clientWidth,H=canvas.clientHeight;
+  const pad=14, innerW=w-pad*2, innerH=H-pad*2;
+
+  // clear + frame
+  ctx.clearRect(0,0,w,H);
+  ctx.strokeStyle='#000'; ctx.lineWidth=1;
+  ctx.strokeRect(pad,pad,innerW,innerH);
+
+  // gray band (darker)
+  const pixPerZ=innerW/(2*R), midX=pad+innerW/2;
+  ctx.fillStyle='#ddd';
+  ctx.fillRect(midX-h*pixPerZ,pad,2*h*pixPerZ,innerH);
+
+  // bars: unfilled black outlines
+  const maxCount=Math.max(1,...hist), binW=innerW/hist.length;
+  ctx.strokeStyle='#000';
+  for(let i=0;i<hist.length;i++){
+    const x=pad+i*binW;
+    const barH=(hist[i]/maxCount)*innerH;
+    ctx.strokeRect(x,pad+innerH-barH,binW,barH);
+  }
+
+  // dotted vertical lines at ±h (no axis at x=0)
+  ctx.setLineDash([4,4]); ctx.strokeStyle='#000';
+  ctx.beginPath();
+  ctx.moveTo(midX-h*pixPerZ,pad); ctx.lineTo(midX-h*pixPerZ,pad+innerH);
+  ctx.moveTo(midX+h*pixPerZ,pad); ctx.lineTo(midX+h*pixPerZ,pad+innerH);
+  ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+// wire up
+[nSlider,hSlider,rangeSlider,binsSlider].forEach(el=>el.addEventListener('input',simulateAndDraw));
+seedInput.addEventListener('change',simulateAndDraw);
+reshuffleBtn.addEventListener('click',simulateAndDraw);
+
+// first render
+simulateAndDraw();
+</script>
+{% endraw %}
 
 ---
 
