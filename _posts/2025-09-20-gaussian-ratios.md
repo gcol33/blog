@@ -462,13 +462,11 @@ $$
 
 So the number your slider converges to is **π**. The constant comes not from circles but from the length of the angle interval: $\theta=\arctan(Y/X)$ is uniform on $(-\tfrac{\pi}{2},\tfrac{\pi}{2})$, an interval of length π. Each slice of angle of width $\varepsilon$ always carries probability $\varepsilon/\pi$. Push that uniform angle through the tangent, and π controls the entire distribution of slopes.  
 
-The surprise is how different this law is from Gauss’s bell curve.  
+The Cauchy law breaks every Gaussian intuition:
 
-- **No mean.** Averages swing and never settle.  
-- **No variance.** The tails are too heavy for second moments to exist.  
-- **Stability.** The sum of Cauchy variables is again Cauchy — echoing the Gaussian’s stability but without the comfort of convergence.  
-- **Failure of the central limit theorem.** Gauss believed that averages always approach the truth. Cauchy’s law proves otherwise: more data does not guarantee certainty.  
+- **No mean**: averages drift endlessly, never converging.  
+- **No variance**: tails are too heavy for second moments.  
+- **Stable**: sums of Cauchy variables stay Cauchy, but without narrowing.  
+- **CLT fails**: with infinite variance, the central limit theorem gives no refuge; more samples bring no certainty.  
 
-Later developments linked the Cauchy to the wider family of $t$-distributions. In 1908 William Sealy Gosset introduced the $t$ law while working at Guinness. With one degree of freedom, the $t$ reduces exactly to the Cauchy. Among all $t$ distributions, it is the simplest — and the only one without an average.  
-
-So the appearance of π in a random ratio is not a curiosity. It marks the boundary between two worlds: the Gaussian world where errors are tame and averages converge, and the Cauchy world where symmetry and geometry reign but certainty never arrives.  
+Later developments linked the Cauchy to the wider family of $t$-distributions. In 1908 William Sealy Gosset introduced the $t$ law while working at Guinness. With one degree of freedom, the $t$ reduces exactly to the Cauchy. Among all $t$ distributions, it is the simplest and the only one without an average.
