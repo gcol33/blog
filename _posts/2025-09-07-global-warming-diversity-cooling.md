@@ -5,119 +5,109 @@ date: 2025-09-07
 categories: ecology thermodynamics
 ---
 
-## From Temperature to Shannon’s Index  
+---
+layout: post
+title: "Global Warming and Diversity Heating"
+date: 2025-09-07
+categories: physics ecology entropy
+---
 
-Before instruments, people gauged heat by sensation. Galileo’s thermoscope in the 1600s showed relative changes, and later scales by Fahrenheit and Celsius made them reproducible. Kelvin gave an absolute zero, tying temperature to physical law.  
+## From Temperature to Shannon’s Index
 
-A naive view is that temperature measures molecular motion. Faster molecules mean hotter matter. This is true for gases, where translational motion dominates, but too simple elsewhere. Ice at 0 °C still has vibrating molecules but stays solid. Metals with similar average motion conduct heat differently. Something deeper was hidden.  
+Most people think life on Earth runs on the Sun’s heat. The Earth is already close to balance with the Sun. What drives life is the *flow of low-entropy energy*, the difference between sunlight arriving and radiation leaving. That difference builds forests and oceans, molecules and societies. It also connects directly to how we measure biodiversity.
 
 ---
 
-## Carnot, Clausius, and Kelvin  
+## Galileo’s Thermoscope
 
-In 1824, Sadi Carnot showed that the *maximum* efficiency of a steam engine depends only on the *difference* between two temperatures. Rudolf Clausius later defined entropy:  
+In the early seventeenth century, Galileo used a glass bulb with a long thin neck, the end dipped into water. As the air inside expanded or contracted, the water column rose or fell. It was one of the first instruments to register heat, showing changes through movement in the liquid.  
+
+Instrument makers refined the idea during the following century. Daniel Fahrenheit introduced mercury thermometers in 1714, choosing his freezing and boiling points from experiments with ice, salt, and brine. Anders Celsius proposed his centigrade scale in 1742, based on the freezing and boiling of water, later reversed by his colleagues. William Thomson, later Lord Kelvin, described absolute zero in 1848, anchoring temperature in physical law rather than in the properties of any particular material.
+
+---
+
+## Engines and Entropy
+
+As steam engines spread across Europe in the early nineteenth century, a young French engineer, Sadi Carnot, tried to understand what limited their efficiency. In 1824 he published *Reflections on the Motive Power of Fire*, showing that performance depended only on the temperature difference between the hot and cold reservoirs.  
+
+A generation later, Rudolf Clausius reformulated this idea and introduced the concept of entropy:
 
 $$
 dS = \frac{\delta Q}{T}
-$$  
+$$
 
-Entropy was a state function, and temperature a universal quantity. Kelvin then set an absolute scale, defining temperature beyond any chosen substance.  
+In 1865 he coined the word from the Greek for “transformation.” William Thomson, or Lord Kelvin, extended the concept by formalizing an absolute temperature scale that placed zero at the limit of no thermal motion.
 
-## Boltzmann and Gibbs: Microstates and Macrostates  
+---
 
-Ludwig Boltzmann provided the missing bridge. A **macrostate** is the bulk description of a system—pressure, volume, energy. A **microstate** is a single detailed arrangement of all particles consistent with that macrostate.  
+## Boltzmann and Gibbs
 
-Entropy counts the multiplicity of microstates:  
+Toward the end of the nineteenth century, Ludwig Boltzmann in Vienna developed statistical mechanics, explaining entropy as the number of microscopic arrangements consistent with a given macrostate. His equation,  
 
 $$
 S = k \log W
 $$  
 
-where \(W\) is the number of microstates.  
-
-Temperature then emerges from:  
+was later carved on his tombstone in Vienna’s Zentralfriedhof. Temperature could be expressed as  
 
 $$
-\frac{1}{T} = \frac{\partial S}{\partial E}
+\frac{1}{T} = \frac{\partial S}{\partial E},
 $$  
 
-So temperature is not motion itself. It is about how quickly the number of microstates grows when energy increases.  
+linking it to how the number of microstates grows with energy.  
 
-Josiah Willard Gibbs expanded this with ensembles: probability distributions over many possible microstates, providing the modern foundation of statistical mechanics.  
+Meanwhile, at Yale in New Haven, Josiah Willard Gibbs expanded the framework with the concept of ensembles — probability distributions describing all possible microstates of a system. His work, published quietly in the United States, became the mathematical backbone of statistical mechanics.
 
-## Shannon: Information as Microstates  
+---
 
-Claude Shannon, in 1948, looked at messages. The **macrostate** is the overall distribution of symbols, the **microstates** are individual sequences of letters. His entropy was:  
+## Shannon’s Entropy
 
-$$
-H = -\sum_i p_i \log p_i
-$$  
-
-This counts the number of possible messages consistent with the observed frequencies. It is the same structure as Boltzmann’s formula.  
-
-## Diversity: Species as Microstates  
-
-Ecologists faced the same challenge. Richness (number of species) is a macrostate. But what matters is also how individuals are distributed among species. Each different way of assigning individuals to species is a microstate.  
-
-Shannon’s index became the natural measure:  
+In the late 1940s, engineers at Bell Labs were dealing with the challenges of telegraphy and telephony. Claude Shannon, working there, published *A Mathematical Theory of Communication* in 1948. He defined information using the same logarithmic form found in statistical mechanics:
 
 $$
 H = -\sum_i p_i \log p_i
-$$  
+$$
 
-where $p_i$ is the relative abundance of each species.  
+In this framework, the macrostate was the distribution of symbols in a message, and the microstates were the possible sequences consistent with it. The mathematics connected information, probability, and entropy. Shannon also became known for his unusual hobbies, from juggling and unicycling to building mechanical mice that solved mazes.
 
-## Worked Example: Communities  
+---
 
-- **Community A:** 4 species, each with 25 individuals.  
-- **Community B:** 4 species; one with 85 individuals, the rest with 5 each.  
+## Diversity as Entropy
 
-Both macrostates have richness = 4. Their microstate variety differs:  
+Ecologists faced a similar problem. Species richness — the simple count of species — did not capture how individuals were distributed among them. Shannon’s index became the natural measure.  
 
-For A:  
+Consider two communities, each with four species:
+
+- **Community A**: every species has 25 individuals.  
+- **Community B**: one species has 85, the other three just 5 each.  
+
+Both had richness = 4, but their entropies differed:
+
+- $H_A = 1.386$  
+- $H_B = 0.543$
+
+Community A supported many possible configurations. Community B collapsed into dominance.
+
+---
+
+## Whittaker’s Scaling
+
+In the 1960s, American ecologist Robert Whittaker proposed a way to describe diversity across scales.  
+
+- **Alpha (α)**: diversity within a single plot.  
+- **Gamma (γ)**: diversity across a region.  
+- **Beta (β)**: turnover between them, defined as
 
 $$
-H_A = -\sum_{i=1}^4 0.25 \log 0.25 = 1.386
-$$  
-
-For B:  
-
+\beta = \frac{\gamma}{\alpha}.
 $$
-H_B = -[0.85\log 0.85 + 3 \times 0.05 \log 0.05] = 0.543
-$$  
 
-Same richness, very different entropy.  
+Imagine three plots: one with species A and B, one with B and C, one with C and D. Each had $\alpha = 2$. Across the region, $\gamma = 4$. The turnover was $\beta = 2$. Each plot contributed something new, just as each subsystem added distinct microstates in statistical mechanics.
 
-## Whittaker’s α, β, and γ Diversity  
+---
 
-Robert H. Whittaker, in the 1960s, formalized how diversity scales:  
+## Global Warming and Diversity Heating
 
-- **Alpha (α):** diversity within a single community.  
-- **Gamma (γ):** total diversity across a whole region.  
-- **Beta (β):** turnover, linking them as  
+Life is sustained by the flow of *low-entropy energy*. Sunlight arrives, infrared radiation leaves. That gap builds order. It powers forests, oceans, and societies.  
 
-$$
-\beta = \frac{\gamma}{\alpha}
-$$  
-
-This mirrors physics. A single community’s diversity (α) is like entropy within one subsystem. Regional diversity (γ) is like entropy of the whole ensemble. Beta diversity is the difference between them (the diversity of macrostates across space).  
-
-### Worked Example: Scaling  
-
-Three plots:  
-
-- Plot 1: species A, B  
-- Plot 2: species B, C  
-- Plot 3: species C, D  
-
-Each plot has α = 2. Regionally, γ = 4. Then:  
-
-$$
-\beta = \frac{\gamma}{\alpha} = \frac{4}{2} = 2
-$$  
-
-High turnover: each plot contributes new species, just as each subsystem adds distinct microstates in statistical mechanics.  
-
-## Global Warming and Diversity Heating  
-
-Most people think we live from the Sun’s heat. But the Earth is already close to thermal equilibrium with the Sun. What drives life is not raw heat, but the flow of **low entropy energy** (the difference between incoming sunlight and outgoing radiation). That difference builds order. It allows complex structures to exist, from molecules to forests. When species are lost, that order fades. Communities collapse toward uniformity. Diversity heats as entropy rises.
+When diversity collapses, entropy rises. Communities flatten. Complexity fades into uniformity. Global warming is about rising temperatures, and also about the loss of differences that make life possible.
