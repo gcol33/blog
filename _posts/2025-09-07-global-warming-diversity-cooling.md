@@ -5,13 +5,6 @@ date: 2025-09-07
 categories: ecology thermodynamics
 ---
 
----
-layout: post
-title: "Global Warming and Diversity Heating"
-date: 2025-09-07
-categories: physics ecology entropy
----
-
 ## From Temperature to Shannon’s Index
 
 Most people think life on Earth runs on the Sun’s heat. The Earth is already close to balance with the Sun. What drives life is the *flow of low-entropy energy*, the difference between sunlight arriving and radiation leaving. That difference builds forests and oceans, molecules and societies. It also connects directly to how we measure biodiversity.
