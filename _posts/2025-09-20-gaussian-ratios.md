@@ -24,10 +24,10 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
 
   <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-top:10px;">
     <label>Samples n
-      <input type="range" id="nSlider" min="1000" max="100000" step="1000" value="40000" />
+      <input type="range" id="nSlider" min="10000" max="1000000" step="10000" value="50000" />
     </label>
     <label>Band half-width h (slopes with |Z| ≤ h)
-      <input type="range" id="hSlider" min="0.02" max="0.30" step="0.005" value="0.10" />
+      <input type="range" id="hSlider" min="0.02" max="0.30" step="0.001" value="0.10" />
     </label>
     <label>Plot range |Z| ≤ R
       <input type="range" id="rangeSlider" min="2" max="8" step="0.5" value="4" />
@@ -36,7 +36,7 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
 
   <div style="display:flex; gap:10px; align-items:center; margin:8px 0;">
     <label>Bins
-      <input type="range" id="binsSlider" min="21" max="281" step="20" value="81" />
+      <input type="range" id="binsSlider" min="21" max="1001" step="1" value="201" />
     </label>
   </div>
 
@@ -114,8 +114,8 @@ function simulateAndDraw(){
   const piish = fraction>0 ? (2*h)/fraction : NaN;
 
   nOut.textContent = n.toLocaleString();
-  fracOut.textContent = fraction ? fraction.toFixed(5) : '0';
-  piOut.textContent = Number.isFinite(piish) ? piish.toFixed(5) : '—';
+  fracOut.textContent = fraction ? fraction.toFixed(7) : '0';
+  piOut.textContent = Number.isFinite(piish) ? piish.toFixed(7) : '—';
 
   drawHist(hist,R,h);
 }
