@@ -234,3 +234,21 @@ $$
 \int_{\Omega} f^{*}g \, dP
 \;=\; \tfrac{1}{2}.
 $$  
+
+## Beyond Probability
+
+The pattern of pushforwards and pullbacks is older and broader than probability.  
+In the nineteenth century, Gauss and Riemann studied how curvature and forms behaved under maps between surfaces.  
+Pullbacks carried functions or differential forms from one manifold to another, while pushforwards carried tangent vectors along smooth maps.  
+The same duality reappeared in analysis as the change-of-variables formula, where Jacobian determinants mark the trace of a pushforward.  
+
+In the twentieth century, probability and computation revived the theme.  
+Monte Carlo methods, developed by Stanislaw Ulam and John von Neumann in the 1940s, transported randomness from simple spaces into complex systems.  
+Today, generative models push forward latent distributions into images or text, normalizing flows make Jacobians explicit, and variational inference relies on pullbacks to estimate expectations.  
+What began as geometry became the machinery of modern statistics and machine learning.  
+
+The unifying view is straightforward. A single map gives rise to two operations.  
+One moves mass forward, the other moves observables back, and integration holds them in balance.  
+Across centuries and fields, from Gauss’s surfaces to Kolmogorov’s probability, from Shannon’s information to deep learning models, the same structure appears.  
+Pushforwards and pullbacks are not just technical devices.  
+They are the grammar by which mathematics moves structure from one space to another.
