@@ -7,6 +7,8 @@ categories: probability statistics
 
 ## Where more data doesn’t mean more certainty
 
+## 0. Slopes that whisper π
+
 Take two random numbers, both drawn from the bell curve.  
 Divide one by the other, and something strange happens.  
 
@@ -24,7 +26,7 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
 
   <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-top:10px;">
     <label>Samples n
-      <input type="range" id="nSlider" min="1000" max="300000" step="1000" value="80000" />
+      <input type="range" id="nSlider" min="1000" max="200000" step="1000" value="40000" />
     </label>
     <label>Band half-width h (slopes with |Z| ≤ h)
       <input type="range" id="hSlider" min="0.02" max="0.30" step="0.005" value="0.10" />
@@ -38,10 +40,6 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
     <label>Bins
       <input type="range" id="binsSlider" min="41" max="181" step="20" value="101" />
     </label>
-    <label style="margin-left:auto;">Seed
-      <input id="seedInput" type="text" value="demo" style="width:100px; padding:4px 6px; border:1px solid #000; background:#fff;">
-    </label>
-    <button id="reshuffleBtn" style="padding:6px 10px; border:1px solid #000; background:#fff;">Resample</button>
   </div>
 
   <div id="stats" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px;">
@@ -74,39 +72,26 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
 </style>
 
 <script>
-// --- seedable RNG ---
-function mkRNG(seedStr){
-  let h=2166136261>>>0;
-  for(let i=0;i<seedStr.length;i++){ h^=seedStr.charCodeAt(i); h=Math.imul(h,16777619); }
-  let x=h>>>0;
-  return ()=>{ x=(1664525*x+1013904223)>>>0; return (x>>>0)/4294967296; };
-}
-// --- standard normal ---
-function mkRandn(rand){
-  let spare=null;
-  return function(){
-    if(spare!==null){ const t=spare; spare=null; return t; }
-    let u=0,v=0,s=0;
-    do{ u=rand()*2-1; v=rand()*2-1; s=u*u+v*v; }while(s===0||s>=1);
-    const m=Math.sqrt(-2*Math.log(s)/s); spare=v*m; return u*m;
-  };
+// --- standard normal via Box-Muller ---
+function randn(){
+  let u=0,v=0,s=0;
+  do{ u=Math.random()*2-1; v=Math.random()*2-1; s=u*u+v*v; }while(s===0||s>=1);
+  return u*Math.sqrt(-2*Math.log(s)/s);
 }
 
-// --- elements ---
+// elements
 const canvas=document.getElementById('hist'), ctx=canvas.getContext('2d');
 const nSlider=document.getElementById('nSlider'), hSlider=document.getElementById('hSlider');
 const rangeSlider=document.getElementById('rangeSlider'), binsSlider=document.getElementById('binsSlider');
-const seedInput=document.getElementById('seedInput'), reshuffleBtn=document.getElementById('reshuffleBtn');
 const nOut=document.getElementById('nOut'), fracOut=document.getElementById('fracOut'), piOut=document.getElementById('piOut');
 
 // DPR-aware canvas
 function resizeCanvas(){ const dpr=Math.min(window.devicePixelRatio||1,2);
   const rect=canvas.getBoundingClientRect(); canvas.width=Math.round(rect.width*dpr);
   canvas.height=Math.round(rect.height*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); }
-window.addEventListener('resize',()=>{ resizeCanvas(); if(last) drawHist(last.hist,last.R,last.h); });
+window.addEventListener('resize',()=>{ resizeCanvas(); simulateAndDraw(); });
 resizeCanvas();
 
-let last=null;
 function simulateAndDraw(){
   const n=parseInt(nSlider.value,10);
   const R=parseFloat(rangeSlider.value);
@@ -115,7 +100,6 @@ function simulateAndDraw(){
   let h=parseFloat(hSlider.value);
   if(h<binWidth) h=binWidth; // band at least one bin wide
 
-  const rand=mkRNG(seedInput.value||'demo'), randn=mkRandn(rand);
   const hist=new Array(B).fill(0), mid=(B-1)/2; let count=0;
 
   for(let i=0;i<n;i++){
@@ -135,24 +119,21 @@ function simulateAndDraw(){
   fracOut.textContent = fraction ? fraction.toFixed(5) : '0';
   piOut.textContent = Number.isFinite(piish) ? piish.toFixed(5) : '—';
 
-  drawHist(hist,R,h); last={hist,R,h};
+  drawHist(hist,R,h);
 }
 
 function drawHist(hist,R,h){
   const w=canvas.clientWidth,H=canvas.clientHeight;
   const pad=14, innerW=w-pad*2, innerH=H-pad*2;
 
-  // clear + frame
   ctx.clearRect(0,0,w,H);
   ctx.strokeStyle='#000'; ctx.lineWidth=1;
   ctx.strokeRect(pad,pad,innerW,innerH);
 
-  // gray band (darker)
   const pixPerZ=innerW/(2*R), midX=pad+innerW/2;
   ctx.fillStyle='#ddd';
   ctx.fillRect(midX-h*pixPerZ,pad,2*h*pixPerZ,innerH);
 
-  // bars: unfilled black outlines
   const maxCount=Math.max(1,...hist), binW=innerW/hist.length;
   ctx.strokeStyle='#000';
   for(let i=0;i<hist.length;i++){
@@ -161,7 +142,6 @@ function drawHist(hist,R,h){
     ctx.strokeRect(x,pad+innerH-barH,binW,barH);
   }
 
-  // dotted vertical lines at ±h (no axis at x=0)
   ctx.setLineDash([4,4]); ctx.strokeStyle='#000';
   ctx.beginPath();
   ctx.moveTo(midX-h*pixPerZ,pad); ctx.lineTo(midX-h*pixPerZ,pad+innerH);
@@ -170,15 +150,13 @@ function drawHist(hist,R,h){
   ctx.setLineDash([]);
 }
 
-// wire up
 [nSlider,hSlider,rangeSlider,binsSlider].forEach(el=>el.addEventListener('input',simulateAndDraw));
-seedInput.addEventListener('change',simulateAndDraw);
-reshuffleBtn.addEventListener('click',simulateAndDraw);
-
-// first render
 simulateAndDraw();
 </script>
 {% endraw %}
+
+To find out we need to go back — to Gauss, to Cauchy, and to a curve first drawn in 1748 by Maria Gaetana Agnesi.
+
 
 ---
 
