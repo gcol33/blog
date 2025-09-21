@@ -22,157 +22,291 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
 <div id="pi-demo" style="max-width: 720px; margin: 0 auto;">
   <canvas id="hist" style="width:100%; height:300px; background:#fff; border:1px solid #000;"></canvas>
 
-  <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; margin-top:10px;">
+  <!-- Controls: responsive (4 → 2 → 1 columns) -->
+  <div class="pi-controls">
     <label>Samples n
       <input type="range" id="nSlider" min="10000" max="1000000" step="10000" value="50000" />
     </label>
     <label>Band half-width h
-      <input type="range" id="hSlider" min="0.05" max="1.00" step="0.001" value="0.10" />
+      <input type="range" id="hSlider" min="0.001" max="0.30" step="0.0005" value="0.10" />
     </label>
     <label>Plot range |Z| ≤ R
       <input type="range" id="rangeSlider" min="2" max="8" step="0.5" value="4" />
     </label>
     <label>Bins
-      <input type="range" id="binsSlider" min="41" max="201" step="2" value="81" />
+      <input type="range" id="binsSlider" min="21" max="121" step="1" value="81" />
     </label>
   </div>
 
-  <div id="stats" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-top:6px;">
-    <div style="border-top:1px solid #000; padding:6px 0; display:flex; justify-content:space-between;">
-      <span>Total samples n</span><strong id="nOut">0</strong>
-    </div>
-    <div style="border-top:1px solid #000; padding:6px 0; display:flex; justify-content:space-between;">
-      <span>Fraction inside band</span><strong id="fracOut">0</strong>
-    </div>
-    <div style="border-top:1px solid #000; padding:6px 0; display:flex; justify-content:space-between;">
-      <span>π-ish =</span><strong id="piOut">—</strong>
-    </div>
+  <!-- Stats: tidy on mobile -->
+  <div id="stats" class="pi-stats">
+    <div class="pi-stat-row"><span>Total samples n</span><strong id="nOut">0</strong></div>
+    <div class="pi-stat-row"><span>Fraction inside band</span><strong id="fracOut">0</strong></div>
+    <div class="pi-stat-row"><span>π-ish =</span><strong id="piOut">—</strong></div>
   </div>
 
-  <p style="font-size:0.95em; color:#111; margin-top:6px;">
+  <p class="pi-note">
     Formula used here:<br/>
     \[
       \pi_{\text{ish}} \;=\; \frac{\text{total width of the band}}{\text{fraction of slopes inside it}}
     \]<br/>
     where total width = \(2h\) (from \(-h\) to \(+h\)).  
-    Narrow the band. Increase the samples. The number drifts toward 3.14…  
-    Why should slopes of random points conspire to reveal π?
+    Narrow the band. Increase the samples. The number drifts toward 3.14…
   </p>
 </div>
 
 {% raw %}
 <style>
-#pi-demo input[type="range"] {
+#pi-demo { font-variant-numeric: tabular-nums; }
+#pi-demo * { box-sizing: border-box; }
+
+/* Canvas tweaks for small screens */
+@media (max-width: 560px){
+  #pi-demo canvas#hist{ height: 240px !important; }
+}
+
+/* Controls: responsive grid */
+#pi-demo .pi-controls{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+@media (max-width: 820px){
+  #pi-demo .pi-controls{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px){
+  #pi-demo .pi-controls{ grid-template-columns: 1fr; }
+}
+
+/* Slider labels */
+#pi-demo label{
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95em;
+  gap: 4px;
+}
+
+/* Sliders */
+#pi-demo input[type="range"]{
   width: 100%;
   appearance: none;
   height: 6px;
   background: #eee;
   outline: none;
+  touch-action: manipulation;
 }
-#pi-demo input[type="range"]::-webkit-slider-thumb {
-  appearance: none;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #000;
-  cursor: pointer;
+#pi-demo input[type="range"]::-webkit-slider-thumb{
+  appearance: none; width: 14px; height: 14px;
+  border-radius: 50%; background: #000; cursor: pointer;
+}
+#pi-demo input[type="range"]::-moz-range-thumb{
+  width: 14px; height: 14px; border: none;
+  border-radius: 50%; background: #000; cursor: pointer;
+}
+
+/* Stats: each row is a flex pair that wraps nicely on phones */
+#pi-demo .pi-stats{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 6px;
+}
+@media (max-width: 560px){
+  #pi-demo .pi-stats{ grid-template-columns: 1fr; }
+}
+#pi-demo .pi-stat-row{
+  border-top: 1px solid #000;
+  padding: 6px 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+#pi-demo .pi-stat-row span{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#pi-demo .pi-stat-row strong{
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+/* Explanatory note */
+#pi-demo .pi-note{
+  font-size: 0.95em;
+  color: #111;
+  margin-top: 6px;
+  line-height: 1.4;
 }
 </style>
 
 <script>
-// standard normal via Box-Muller
+// -------- RNG (Box–Muller, polar form) ----------
 function randn(){
   let u=0,v=0,s=0;
   do{ u=Math.random()*2-1; v=Math.random()*2-1; s=u*u+v*v; }while(s===0||s>=1);
   return u*Math.sqrt(-2*Math.log(s)/s);
 }
 
-// elements
-const canvas=document.getElementById('hist'), ctx=canvas.getContext('2d');
-const nSlider=document.getElementById('nSlider'), hSlider=document.getElementById('hSlider');
-const rangeSlider=document.getElementById('rangeSlider'), binsSlider=document.getElementById('binsSlider');
-const nOut=document.getElementById('nOut'), fracOut=document.getElementById('fracOut'), piOut=document.getElementById('piOut');
+// -------- Elements ----------
+const canvas = document.getElementById('hist'), ctx = canvas.getContext('2d');
+const nSlider = document.getElementById('nSlider');
+const hSlider = document.getElementById('hSlider');
+const rangeSel = document.getElementById('rangeSlider');
+const binsSel  = document.getElementById('binsSlider');
 
-let samples=[]; // resample once per n
+const nOut   = document.getElementById('nOut');
+const fracOut= document.getElementById('fracOut');
+const piOut  = document.getElementById('piOut');
 
-// DPR-aware canvas
-function resizeCanvas(){ const dpr=Math.min(window.devicePixelRatio||1,2);
-  const rect=canvas.getBoundingClientRect(); canvas.width=Math.round(rect.width*dpr);
-  canvas.height=Math.round(rect.height*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); }
-window.addEventListener('resize',()=>{ resizeCanvas(); redraw(); });
+// -------- Sample cache ----------
+let Z = new Float64Array(0);
+function regenerateSamples(n){
+  Z = new Float64Array(n);
+  let j = 0;
+  while(j < n){
+    const x = randn(), y = randn();
+    const z = y / x;
+    if(Number.isFinite(z)){ Z[j++] = z; }
+  }
+}
+
+// -------- DPI-aware canvas ----------
+function resizeCanvas(){
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const rect = canvas.getBoundingClientRect();
+  canvas.width  = Math.round(rect.width  * dpr);
+  canvas.height = Math.round(rect.height * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+window.addEventListener('resize', () => { resizeCanvas(); redrawOnly(); });
 resizeCanvas();
 
-function resample(){
-  const n=parseInt(nSlider.value,10);
-  samples=new Array(n);
-  for(let i=0;i<n;i++){ const x=randn(), y=randn(); samples[i]=y/x; }
+// -------- Helpers ----------
+function displayStep(){
+  const R = parseFloat(rangeSel.value);
+  const B = parseInt(binsSel.value, 10);
+  return (2*R)/B;
+}
+function clamp(val, lo, hi){ return Math.min(hi, Math.max(lo, val)); }
+function quantizeToStep(val, step){
+  if(step <= 0 || !Number.isFinite(step)) return val;
+  const k = Math.max(1, Math.round(val / step));
+  return k * step;
+}
+function updateHSliderBounds(){
+  const step = displayStep();
+  const R = parseFloat(rangeSel.value);
+  hSlider.min = step.toFixed(6);
+  hSlider.max = R.toFixed(6);
+  hSlider.step = (step/10).toFixed(6);
 }
 
-function redraw(){
-  const R=parseFloat(rangeSlider.value);
-  const B=parseInt(binsSlider.value,10);
-  const binWidth=(2*R)/B;
-  let h=parseFloat(hSlider.value);
-  // snap h to nearest multiple of bin width (at least 1 bin wide)
-  h=Math.max(binWidth,Math.round(h/binWidth)*binWidth);
+// -------- State for band width ----------
+let hCount = parseFloat(hSlider.value);
 
-  const hist=new Array(B).fill(0), mid=(B-1)/2;
-  let count=0;
+// -------- Stats ----------
+function recomputeStats(){
+  const n = Z.length;
+  let count = 0;
+  for(let i=0;i<n;i++){
+    if(Math.abs(Z[i]) <= hCount) count++;
+  }
+  const pHat = n ? (count/n) : 0;
+  // Exact estimator using arctan
+  const piHat = pHat > 0 ? (2*Math.atan(hCount)) / pHat : NaN;
 
-  for(const z of samples){
-    if(!Number.isFinite(z)) continue;
-    if(Math.abs(z)<=h) count++;
-    if(Math.abs(z)<=R){
-      const bin=Math.round(mid + (z/R)*mid);
-      if(bin>=0&&bin<B) hist[bin]++;
+  nOut.textContent    = n.toLocaleString();
+  fracOut.textContent = pHat ? pHat.toFixed(7) : '0';
+  piOut.textContent   = Number.isFinite(piHat) ? piHat.toFixed(7) : '—';
+}
+
+// -------- Histogram redraw ----------
+function redrawOnly(){
+  const R = parseFloat(rangeSel.value);
+  const B = parseInt(binsSel.value, 10);
+  const hist = new Uint32Array(B);
+  const mid = (B-1)/2;
+  for(let i=0;i<Z.length;i++){
+    const z = Z[i];
+    if(Math.abs(z) <= R){
+      const bin = Math.round(mid + (z/R)*mid);
+      if(bin >= 0 && bin < B) hist[bin]++;
     }
   }
-
-  const n=samples.length;
-  const fraction = n>0 ? (count/n) : 0;
-  const piish = fraction>0 ? (2*h)/fraction : NaN;
-
-  nOut.textContent=n.toLocaleString();
-  fracOut.textContent=fraction ? fraction.toFixed(7) : '0';
-  piOut.textContent=Number.isFinite(piish) ? piish.toFixed(7) : '—';
-
-  drawHist(hist,R,h);
+  const step = displayStep();
+  const hDraw = clamp(quantizeToStep(hCount, step), step, R);
+  drawHist(hist, R, hDraw);
 }
 
-function drawHist(hist,R,h){
-  const w=canvas.clientWidth,H=canvas.clientHeight;
-  const pad=14, innerW=w-pad*2, innerH=H-pad*2;
+function drawHist(hist, R, hDraw){
+  const w = canvas.clientWidth, H = canvas.clientHeight;
+  const pad = 14, innerW = w - pad*2, innerH = H - pad*2;
 
   ctx.clearRect(0,0,w,H);
-  ctx.strokeStyle='#000'; ctx.lineWidth=1;
-  ctx.strokeRect(pad,pad,innerW,innerH);
+  ctx.strokeStyle = '#000'; ctx.lineWidth = 1;
+  ctx.strokeRect(pad, pad, innerW, innerH);
 
-  const pixPerZ=innerW/(2*R), midX=pad+innerW/2;
-  ctx.fillStyle='#ddd';
-  ctx.fillRect(midX-h*pixPerZ,pad,2*h*pixPerZ,innerH);
+  const pixPerZ = innerW / (2*R), midX = pad + innerW/2;
+  ctx.fillStyle = '#ddd';
+  ctx.fillRect(midX - hDraw*pixPerZ, pad, 2*hDraw*pixPerZ, innerH);
 
-  const maxCount=Math.max(1,...hist), binW=innerW/hist.length;
-  ctx.strokeStyle='#000';
-  for(let i=0;i<hist.length;i++){
-    const x=pad+i*binW;
-    const barH=(hist[i]/maxCount)*innerH;
-    ctx.strokeRect(x,pad+innerH-barH,binW,barH);
+  const B = hist.length;
+  const maxCount = Math.max(1, ...hist), binW = innerW / B;
+  ctx.strokeStyle = '#000';
+  for(let i=0;i<B;i++){
+    const x = pad + i*binW;
+    const barH = (hist[i]/maxCount) * innerH;
+    ctx.strokeRect(x, pad + innerH - barH, binW, barH);
   }
 
-  ctx.setLineDash([4,4]); ctx.strokeStyle='#000';
+  ctx.setLineDash([4,4]); ctx.strokeStyle = '#000';
   ctx.beginPath();
-  ctx.moveTo(midX-h*pixPerZ,pad); ctx.lineTo(midX-h*pixPerZ,pad+innerH);
-  ctx.moveTo(midX+h*pixPerZ,pad); ctx.lineTo(midX+h*pixPerZ,pad+innerH);
+  ctx.moveTo(midX - hDraw*pixPerZ, pad); ctx.lineTo(midX - hDraw*pixPerZ, pad + innerH);
+  ctx.moveTo(midX + hDraw*pixPerZ, pad); ctx.lineTo(midX + hDraw*pixPerZ, pad + innerH);
   ctx.stroke();
   ctx.setLineDash([]);
 }
 
-// event listeners
-nSlider.addEventListener('input',()=>{resample(); redraw();});
-[hSlider,rangeSlider,binsSlider].forEach(el=>el.addEventListener('input',redraw));
+// -------- Wiring --------
+nSlider.addEventListener('input', () => {
+  regenerateSamples(parseInt(nSlider.value,10));
+  recomputeStats();
+  redrawOnly();
+});
+hSlider.addEventListener('input', () => {
+  const step = displayStep();
+  const R = parseFloat(rangeSel.value);
+  const hRaw = parseFloat(hSlider.value);
+  const hSnap = clamp(quantizeToStep(hRaw, step), step, R);
+  hCount = hSnap;
+  hSlider.value = hSnap.toFixed(6);
+  recomputeStats();
+  redrawOnly();
+});
+function onRangeOrBins(){
+  updateHSliderBounds();
+  const step = displayStep();
+  const R = parseFloat(rangeSel.value);
+  const hSnap = clamp(quantizeToStep(hCount, step), step, R);
+  if (Math.abs(hSnap - hCount) > 1e-12){
+    hCount = hSnap;
+    hSlider.value = hSnap.toFixed(6);
+    recomputeStats();
+  }
+  redrawOnly();
+}
+rangeSel.addEventListener('input', onRangeOrBins);
+binsSel .addEventListener('input', onRangeOrBins);
 
-// initial
-resample(); redraw();
+// init
+updateHSliderBounds();
+regenerateSamples(parseInt(nSlider.value,10));
+recomputeStats();
+redrawOnly();
 </script>
 {% endraw %}
 
