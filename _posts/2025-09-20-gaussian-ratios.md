@@ -7,7 +7,7 @@ categories: probability statistics
 
 ### Where more data doesn’t mean more certainty
 
-Divide two random numbers from the bell curve.
+Take two random numbers and divide them.
 Do it again. And again.
 
 Now average the results.
