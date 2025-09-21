@@ -7,18 +7,18 @@ categories: probability statistics
 
 ### Where more data doesn’t mean more certainty
 
-Take two random numbers, both drawn from the bell curve.  
-Divide one by the other, and something strange happens.  
+Divide two random numbers from the bell curve.
+Do it again. And again.
 
-The result does not behave like an average.  
-No matter how much data you collect, the numbers swing wildly.  
-And hiding inside the pattern is a constant that seems to have nothing to do with probability at all: π.  
+Now average the results.
+Does the number settle down?
 
-Why π?  
-And why does more data fail to bring certainty?  
+No matter how many times you repeat the experiment, the mean refuses to converge. And hidden inside that chaos is something even stranger: π, the circle’s constant, surfacing in a place that seems to have nothing to do with circles at all.
 
-You can try it yourself. Watch what happens when you collect slopes, check how many fall inside a thin band around horizontal, and then rescale by the band’s width:
+Why π?
+Why does averaging fail, even with mountains of data?
 
+Try it yourself: collect the slopes, count how many land in a narrow strip around horizontal, then scale by the strip’s width. A circle’s number quietly emerges.
 <div id="pi-demo" style="max-width: 720px; margin: 0 auto;">
   <canvas id="hist" style="width:100%; height:300px; background:#fff; border:1px solid #000;"></canvas>
 
