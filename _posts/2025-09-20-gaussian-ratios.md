@@ -40,15 +40,16 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
 
   <div id="stats" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px;">
     <div style="border-top:1px solid #000; padding:6px 0; display:flex; justify-content:space-between;">
-      <span>Total samples n</span><strong id="nOut">0</strong>
+      <span>n =</span><strong id="nOut">0</strong>
     </div>
     <div style="border-top:1px solid #000; padding:6px 0; display:flex; justify-content:space-between;">
-      <span>Fraction inside band</span><strong id="fracOut">0</strong>
+      <span>Fraction inside band =</span><strong id="fracOut">0</strong>
     </div>
     <div style="border-top:1px solid #000; padding:6px 0; display:flex; justify-content:space-between;">
-      <span>π-ish (width ÷ fraction)</span><strong id="piOut">—</strong>
+      <span>π ≈</span><strong id="piOut">—</strong>
     </div>
   </div>
+
 
   <p style="font-size:0.95em; color:#111; margin-top:6px;">
     Formula used here:<br/>
