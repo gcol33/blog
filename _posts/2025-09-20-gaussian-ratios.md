@@ -64,93 +64,167 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
 
 {% raw %}
 <style>
-#pi-demo input[type="range"]{ width:100%; appearance:none; height:6px; background:#eee; outline:none; }
-#pi-demo input[type="range"]::-webkit-slider-thumb{ appearance:none; width:14px; height:14px; border-radius:50%; background:#000; cursor:pointer; }
+/* Global alignment + tidy numerals */
+#pi-demo { font-variant-numeric: tabular-nums; }
+#pi-demo * { box-sizing: border-box; }
+
+/* Sliders: put label text and the range input on a single aligned row */
+#pi-demo label{
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  font-size: 0.95em;
+}
+
+/* Range inputs (same visuals as before) */
+#pi-demo input[type="range"]{
+  width: 100%;
+  appearance: none;
+  height: 6px;
+  background: #eee;
+  outline: none;
+}
+#pi-demo input[type="range"]::-webkit-slider-thumb{
+  appearance: none;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #000; cursor: pointer;
+}
+#pi-demo input[type="range"]::-moz-range-thumb{
+  width: 14px; height: 14px;
+  border: none; border-radius: 50%;
+  background: #000; cursor: pointer;
+}
+
+/* Stats grid: each row is its own 2-col grid; equals line up */
+#stats{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+#stats > div{
+  border-top: 1px solid #000;
+  padding: 6px 0;
+  display: grid;
+  grid-template-columns: max-content 1fr; /* label | value */
+  align-items: center;
+  column-gap: 8px;
+}
+#stats span{
+  justify-self: end;            /* right-align the left column */
+  min-width: 14ch;              /* fix label width so '=' lines up across cards */
+  white-space: nowrap;
+}
+#stats strong{
+  justify-self: start;
+}
 </style>
 
 <script>
-// standard normal via Box-Muller
+// standard normal via Box-Muller (polar form)
 function randn(){
-  let u=0,v=0,s=0;
+  let u=0, v=0, s=0;
   do{ u=Math.random()*2-1; v=Math.random()*2-1; s=u*u+v*v; }while(s===0||s>=1);
   return u*Math.sqrt(-2*Math.log(s)/s);
 }
 
 // elements
-const canvas=document.getElementById('hist'), ctx=canvas.getContext('2d');
-const nSlider=document.getElementById('nSlider'), hSlider=document.getElementById('hSlider');
-const rangeSlider=document.getElementById('rangeSlider'), binsSlider=document.getElementById('binsSlider');
-const nOut=document.getElementById('nOut'), fracOut=document.getElementById('fracOut'), piOut=document.getElementById('piOut');
+const canvas = document.getElementById('hist'), ctx = canvas.getContext('2d');
+const nSlider = document.getElementById('nSlider'),
+      hSlider = document.getElementById('hSlider'),
+      rangeSlider = document.getElementById('rangeSlider'),
+      binsSlider = document.getElementById('binsSlider');
+const nOut = document.getElementById('nOut'),
+      fracOut = document.getElementById('fracOut'),
+      piOut = document.getElementById('piOut');
 
 // DPR-aware canvas
-function resizeCanvas(){ const dpr=Math.min(window.devicePixelRatio||1,2);
-  const rect=canvas.getBoundingClientRect(); canvas.width=Math.round(rect.width*dpr);
-  canvas.height=Math.round(rect.height*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); }
-window.addEventListener('resize',()=>{ resizeCanvas(); simulateAndDraw(); });
+function resizeCanvas(){
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const rect = canvas.getBoundingClientRect();
+  canvas.width  = Math.round(rect.width  * dpr);
+  canvas.height = Math.round(rect.height * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+window.addEventListener('resize', () => { resizeCanvas(); simulateAndDraw(); });
 resizeCanvas();
 
 function simulateAndDraw(){
-  const n=parseInt(nSlider.value,10);
-  const R=parseFloat(rangeSlider.value);
-  const B=parseInt(binsSlider.value,10);
-  const binWidth = (2*R)/B;
-  let h=parseFloat(hSlider.value);
-  if(h<binWidth) h=binWidth;
+  const n = parseInt(nSlider.value, 10);
+  const R = parseFloat(rangeSlider.value);
+  const B = parseInt(binsSlider.value, 10);
 
-  const hist=new Array(B).fill(0), mid=(B-1)/2; let count=0;
+  // keep band at least one bin wide for visibility
+  const binWidth = (2*R)/B;
+  let h = parseFloat(hSlider.value);
+  if(h < binWidth) h = binWidth;
+
+  const hist = new Array(B).fill(0);
+  const mid = (B-1)/2;
+  let count = 0;
 
   for(let i=0;i<n;i++){
-    const x=randn(), y=randn(), z=y/x;
+    const x = randn(), y = randn();
+    const z = y / x;
     if(!Number.isFinite(z)) continue;
-    if(Math.abs(z)<=h) count++;
-    if(Math.abs(z)<=R){
-      const bin=Math.round(mid + (z/R)*mid);
-      if(bin>=0&&bin<B) hist[bin]++;
+
+    if(Math.abs(z) <= h) count++;
+    if(Math.abs(z) <= R){
+      const bin = Math.round(mid + (z/R)*mid);
+      if(bin >= 0 && bin < B) hist[bin]++;
     }
   }
 
-  const fraction = n>0 ? (count/n) : 0;
-  const piish = fraction>0 ? (2*h)/fraction : NaN;
+  const fraction = n > 0 ? (count / n) : 0;
+  const piish = fraction > 0 ? (2*h) / fraction : NaN;
 
-  nOut.textContent = n.toLocaleString();
+  nOut.textContent   = n.toLocaleString();
   fracOut.textContent = fraction ? fraction.toFixed(7) : '0';
-  piOut.textContent = Number.isFinite(piish) ? piish.toFixed(7) : '—';
+  piOut.textContent   = Number.isFinite(piish) ? piish.toFixed(7) : '—';
 
-  drawHist(hist,R,h);
+  drawHist(hist, R, h);
 }
 
-function drawHist(hist,R,h){
-  const w=canvas.clientWidth,H=canvas.clientHeight;
-  const pad=14, innerW=w-pad*2, innerH=H-pad*2;
+function drawHist(hist, R, h){
+  const w = canvas.clientWidth, H = canvas.clientHeight;
+  const pad = 14, innerW = w - pad*2, innerH = H - pad*2;
 
   ctx.clearRect(0,0,w,H);
-  ctx.strokeStyle='#000'; ctx.lineWidth=1;
-  ctx.strokeRect(pad,pad,innerW,innerH);
 
-  const pixPerZ=innerW/(2*R), midX=pad+innerW/2;
-  ctx.fillStyle='#ddd';
-  ctx.fillRect(midX-h*pixPerZ,pad,2*h*pixPerZ,innerH);
+  // frame
+  ctx.strokeStyle = '#000'; ctx.lineWidth = 1;
+  ctx.strokeRect(pad, pad, innerW, innerH);
 
-  const maxCount=Math.max(1,...hist), binW=innerW/hist.length;
-  ctx.strokeStyle='#000';
+  // band highlight
+  const pixPerZ = innerW / (2*R), midX = pad + innerW/2;
+  ctx.fillStyle = '#ddd';
+  ctx.fillRect(midX - h*pixPerZ, pad, 2*h*pixPerZ, innerH);
+
+  // histogram (outlined bars)
+  const maxCount = Math.max(1, ...hist), binW = innerW / hist.length;
+  ctx.strokeStyle = '#000';
   for(let i=0;i<hist.length;i++){
-    const x=pad+i*binW;
-    const barH=(hist[i]/maxCount)*innerH;
-    ctx.strokeRect(x,pad+innerH-barH,binW,barH);
+    const x = pad + i*binW;
+    const barH = (hist[i]/maxCount) * innerH;
+    ctx.strokeRect(x, pad + innerH - barH, binW, barH);
   }
 
-  ctx.setLineDash([4,4]); ctx.strokeStyle='#000';
+  // band edges (dashed)
+  ctx.setLineDash([4,4]); ctx.strokeStyle = '#000';
   ctx.beginPath();
-  ctx.moveTo(midX-h*pixPerZ,pad); ctx.lineTo(midX-h*pixPerZ,pad+innerH);
-  ctx.moveTo(midX+h*pixPerZ,pad); ctx.lineTo(midX+h*pixPerZ,pad+innerH);
+  ctx.moveTo(midX - h*pixPerZ, pad); ctx.lineTo(midX - h*pixPerZ, pad + innerH);
+  ctx.moveTo(midX + h*pixPerZ, pad); ctx.lineTo(midX + h*pixPerZ, pad + innerH);
   ctx.stroke();
   ctx.setLineDash([]);
 }
 
-[nSlider,hSlider,rangeSlider,binsSlider].forEach(el=>el.addEventListener('input',simulateAndDraw));
+[nSlider, hSlider, rangeSlider, binsSlider].forEach(el => el.addEventListener('input', simulateAndDraw));
 simulateAndDraw();
 </script>
 {% endraw %}
+
 
 To find out we need to go back to Gauss, to Cauchy, and to a curve first drawn in 1748 by Maria Gaetana Agnesi.
 
