@@ -36,7 +36,7 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
 
   <div style="display:flex; gap:10px; align-items:center; margin:8px 0;">
     <label>Bins
-      <input type="range" id="binsSlider" min="21" max="181" step="20" value="81" />
+      <input type="range" id="binsSlider" min="21" max="281" step="20" value="81" />
     </label>
   </div>
 
@@ -156,13 +156,13 @@ simulateAndDraw();
 To find out we need to go back to Gauss, to Cauchy, and to a curve first drawn in 1748 by Maria Gaetana Agnesi.
 
 
-## How a Simple Curve Defied Gauss  
+### How a Simple Curve Defied Gauss  
 
-Gauss believed in certainty through numbers. His law of errors — the Gaussian bell curve — promised that mistakes in measurement were well-behaved. The assumptions were clear: errors came from many small independent causes, variance was finite, and averages converged to the truth. The law of large numbers guaranteed stability of the mean, the central limit theorem explained the bell shape, and the method of least squares rested securely on these foundations. With more data, you always approached certainty.  
+Gauss believed in certainty through numbers. His law of errors, the Gaussian bell curve, promised that mistakes in measurement were well-behaved. The assumptions were clear: errors came from many small independent causes, variance was finite, and averages converged to the truth. The law of large numbers guaranteed stability of the mean, the central limit theorem explained the bell shape, and the method of least squares rested securely on these foundations. With more data, you always approached certainty.  
 
 Cauchy broke that faith. In 1853, before the Académie des Sciences in Paris, he presented a rival law of errors in which variance was infinite and averages refused to settle. Joseph Bienaymé rose to defend Gauss, warning that least squares collapsed without finite variance. But Cauchy insisted that mathematics itself admitted such laws, and that in their presence the Gaussian guarantees failed. With more data, you did not get closer to the truth. You only deepened the confusion.  
 
-The curve he used was not obscure. It had been introduced a century earlier, in 1748, by Maria Gaetana Agnesi in her *Instituzioni Analitiche*. Agnesi was not thinking about probability at all. She worked in the **geometric–analytic tradition** of the 18th century, when curves were defined by geometric constructions and then explored with the new tools of calculus. This tradition served three purposes: it bridged the visual world of geometry with the symbolic power of analysis, it contributed to the encyclopedic catalog of named curves — cycloid, cissoid, lemniscate — and it gave students concrete, visual examples in an age when calculus was still new.  
+The curve he used was not obscure. It had been introduced a century earlier, in 1748, by Maria Gaetana Agnesi in her *Instituzioni Analitiche*. Agnesi was not thinking about probability at all. She worked in the **geometric analytic tradition** of the 18th century, when curves were defined by geometric constructions and then explored with the new tools of calculus. This tradition served three purposes: it bridged the visual world of geometry with the symbolic power of analysis, it contributed to the encyclopedic catalog of named curves such as the cycloid, cissoid, and lemniscate, and it gave students concrete, visual examples in an age when calculus was still new.  
 
 Agnesi’s *Instituzioni* was written not in Latin but in Italian, aimed at students rather than savants, and designed to systematize analysis in a clear, accessible way. Within this project the *versiera* fit perfectly. It came from a simple construction: a circle, a fixed point on its diameter, a line rotating around it, and a point tracing where it cut an axis. The resulting curve was bounded, symmetric, and easy to draw. Its equation was  
 
@@ -176,7 +176,7 @@ $$
 y=\frac{1}{1+x^2}.
 $$  
 
-Its analytic elegance was undeniable: a rational function whose integral was the arctangent, tying it directly back to circle geometry. For Agnesi, it was an ideal teaching curve — geometry, algebra, and calculus all in one example. Later, through mistranslation, it would acquire the odd name “Witch of Agnesi.”  
+Its analytic elegance was undeniable: a rational function whose integral was the arctangent, tying it directly back to circle geometry. For Agnesi, it was an ideal teaching curve. Later, through mistranslation, it would acquire the odd name “Witch of Agnesi.”  
 
 Cauchy saw something different. He turned Agnesi’s curve into a probability law of errors, a direct challenge to Gauss’s assumptions. Normalized, it becomes  
 
@@ -214,36 +214,108 @@ $$
 
 which grows without bound as $R\to\infty$.  
 
-Cauchy’s conclusion was devastating. Here was a legitimate law of errors with no mean and no variance. Averages wandered instead of converging. The method of least squares lost its justification. The central limit theorem did not apply. The Gaussian promise of certainty was not universal — it was only a special case.  
+Cauchy’s conclusion was devastating. Here was a legitimate law of errors with no mean and no variance. Averages wandered instead of converging. The method of least squares lost its justification. The central limit theorem did not apply. The Gaussian promise of certainty was not universal. 
 
 Only later did mathematicians discover a simpler route to the same law: take two independent Gaussians, divide one by the other, and Cauchy’s distribution reappears. That modern shortcut is where we turn next.  
 
 ---
 
-### Geometry of the slope
+### Geometry of the slope  
 
-The pair $(X,Y)$ is rotationally symmetric in the plane. There is no privileged direction: spin the cloud, and it looks the same. That symmetry forces the angle
-
-$$
-\theta = \arctan\!\left(\frac{Y}{X}\right)
-$$
-
-to be uniform on $(-\tfrac{\pi}{2}, \tfrac{\pi}{2})$. Every angle is equally likely.  
-
-The ratio $Z=Y/X$ is the slope of the line from the origin to the point $(X,Y)$. The problem is nothing more than asking: what happens when a uniform angle is pushed through the tangent function?  
-
-The answer is
+The strange behavior of the ratio becomes clear once you look at the geometry. Start with the pair $(X,Y)$ of independent standard Gaussians. Their joint density  
 
 $$
-f(z) = \frac{1}{\pi(1+z^2)}.
+g(x,y) = \frac{1}{2\pi} e^{-\tfrac{1}{2}(x^2+y^2)}
+$$  
+
+depends only on the radius $r=\sqrt{x^2+y^2}$. Spin the plane and nothing changes. The Gaussian cloud is rotationally symmetric: no direction is special.  
+
+That symmetry has a consequence. In polar coordinates $(r,\theta)$ with $x=r\cos\theta$ and $y=r\sin\theta$, the density becomes  
+
 $$
+g(r,\theta)\,r\,dr\,d\theta = \frac{1}{2\pi} e^{-r^2/2}\, r\,dr\,d\theta,
+$$  
 
-The $1+z^2$ comes from the geometry of tangent. The factor of $\pi$ comes from the length of the interval.  
+which shows that $\theta$ is uniform on $(-\pi,\pi)$. Slopes $y/x$ correspond to angles in $(-\tfrac{\pi}{2},\tfrac{\pi}{2})$, so  
 
-That is why π appears in the density of the Cauchy distribution. Not from circles, but from uniformity of angle.
+$$
+\theta \sim \text{Uniform}\!\left(-\tfrac{\pi}{2}, \tfrac{\pi}{2}\right).
+$$  
+
+Now  
+
+$$
+Z = \frac{Y}{X} = \tan\theta,
+$$  
+
+the slope of the line through the origin and the random point $(X,Y)$. Picking a Gaussian ratio is the same as picking a random direction and asking how steep it is. Because $\theta$ is uniform, the density of $Z$ comes from the change of variables formula:  
+
+$$
+f_Z(z) = \frac{1}{\pi}\cdot \frac{1}{1+z^2}.
+$$  
+
+The heavy tails now have a simple explanation. As $\theta$ approaches $\pm\tfrac{\pi}{2}$, the slope shoots to infinity. Vertical directions are not rare — they have the same chance as any other angle — so extreme ratios appear often. This is why averages fail to settle: steep slopes keep intruding.  
 
 ---
 
-### A law without an average
+### Algebraic Proof  
 
-This is the Cauchy distribution. It has no mean and no variance. Adding Cauchy variables produces another Cauchy. The central limit theorem does not apply.
+Cauchy himself never used this geometric shortcut; probability theory in 1853 did not yet have the modern language of random variables and transformations. His argument stayed analytic, tied to Agnesi’s curve. The ratio-of-Gaussians view came later, in the early 20th century, as statisticians such as R. A. Fisher formalized distribution theory. It was then recognized that the Cauchy distribution is the law of a Gaussian ratio, in the same way that the $t$-distribution is built from a Gaussian divided by a chi-square.  
+
+Formally, let $X$ and $Y$ be independent standard Gaussians and set $Z=Y/X$. The density is obtained by integrating out $X$:  
+
+$$
+f_Z(z) = \int_{-\infty}^\infty f_{X,Y}(x,zx)\,|x|\,dx,
+$$  
+
+with $f_{X,Y}(x,y) = \tfrac{1}{2\pi}\exp[-\tfrac{1}{2}(x^2+y^2)]$. Substituting $y=zx$ gives  
+
+$$
+f_Z(z) = \int_{-\infty}^\infty \frac{1}{2\pi} \exp\!\left(-\tfrac{1}{2}(1+z^2)x^2\right) |x|\,dx.
+$$  
+
+Since the integrand is even,  
+
+$$
+f_Z(z) = \frac{1}{\pi}\int_{0}^\infty x \exp\!\left(-\tfrac{1}{2}(1+z^2)x^2\right) dx.
+$$  
+
+Let $u=\tfrac{1}{2}(1+z^2)x^2$, so $du=(1+z^2)x\,dx/2$. Then  
+
+$$
+f_Z(z) = \frac{1}{\pi}\int_{0}^\infty e^{-u}\,\frac{du}{1+z^2}
+       = \frac{1}{\pi(1+z^2)}.
+$$  
+
+The density that Cauchy introduced by analytic argument is exactly the one that falls out of this modern calculation.  
+
+### A law without an average  
+
+The density we derived,  
+
+$$
+f(z) = \frac{1}{\pi(1+z^2)},
+$$  
+
+is the **Cauchy distribution**. The factor of π here is the same one that appeared in the slope experiment at the very beginning.  
+
+Take the probability of landing near horizontal. For a small band of width $\varepsilon$ around zero,  
+
+$$
+\Pr(|Z|\le \tfrac{\varepsilon}{2}) \approx f(0)\,\varepsilon = \frac{\varepsilon}{\pi}.
+$$  
+
+So when you count ratios in a narrow strip and rescale by the strip’s width, the number that emerges is $1/\pi$. That is the constant hiding in the data.  
+
+Why π? Because the angle $\theta=\arctan(Y/X)$ is uniform on an interval of length $\pi$. Each slice of angle of width $\varepsilon$ always occupies exactly $\varepsilon/\pi$ of that range. Push that uniform angle through the tangent map, and the same fraction shows up in the density of slopes.  
+
+The surprise is that this law does not behave like Gauss’s bell curve.  
+
+- **No mean.** Averages swing and never settle.  
+- **No variance.** The tails are too heavy for second moments to exist.  
+- **Stability.** The sum of Cauchy variables is again Cauchy — echoing the Gaussian’s stability but without the comfort of convergence.  
+- **Failure of the central limit theorem.** Gauss believed that averages always approach the truth. Cauchy’s law proves otherwise: more data does not guarantee certainty.  
+
+Later developments linked the Cauchy to the wider family of $t$-distributions. In 1908 William Sealy Gosset introduced the $t$ law while working at Guinness. With one degree of freedom, the $t$ reduces exactly to the Cauchy. Among all $t$ distributions, it is the simplest — and the only one without an average.  
+
+So the appearance of π in a random ratio is not a curiosity. It marks the boundary between two worlds: the Gaussian world where errors are tame and averages converge, and the Cauchy world where symmetry and geometry reign but certainty never arrives.  
