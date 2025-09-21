@@ -22,6 +22,7 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
 <div id="pi-demo" style="max-width: 720px; margin: 0 auto;">
   <canvas id="hist" style="width:100%; height:300px; background:#fff; border:1px solid #000;"></canvas>
 
+  <!-- Controls: 4 sliders in one row -->
   <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; margin-top:10px;">
     <label>Samples n
       <input type="range" id="nSlider" min="10000" max="1000000" step="10000" value="50000" />
@@ -37,19 +38,18 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
     </label>
   </div>
 
-
-  <div id="stats" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px;">
-    <div style="border-top:1px solid #000; padding:6px 0; display:flex; justify-content:space-between;">
+  <!-- Stats: compact, aligned with '=' -->
+  <div id="stats" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-top:8px;">
+    <div>
       <span>n =</span><strong id="nOut">0</strong>
     </div>
-    <div style="border-top:1px solid #000; padding:6px 0; display:flex; justify-content:space-between;">
-      <span>Fraction inside band =</span><strong id="fracOut">0</strong>
+    <div>
+      <span>fraction in band =</span><strong id="fracOut">0</strong>
     </div>
-    <div style="border-top:1px solid #000; padding:6px 0; display:flex; justify-content:space-between;">
+    <div>
       <span>π ≈</span><strong id="piOut">—</strong>
     </div>
   </div>
-
 
   <p style="font-size:0.95em; color:#111; margin-top:6px;">
     Formula used here:<br/>
@@ -57,18 +57,17 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
       \pi_{\text{ish}} \;=\; \frac{\text{total width of the band}}{\text{fraction of slopes inside it}}
     \]<br/>
     where total width = \(2h\) (from \(-h\) to \(+h\)).  
-    Narrow the band. Increase the samples. The number drifts toward 3.14…  
-    Why should slopes of random points conspire to reveal π?
+    Narrow the band. Increase the samples. The number drifts toward 3.14…
   </p>
 </div>
 
 {% raw %}
 <style>
-/* Global alignment + tidy numerals */
+/* Tidy numerals + consistent sizing */
 #pi-demo { font-variant-numeric: tabular-nums; }
 #pi-demo * { box-sizing: border-box; }
 
-/* Sliders: put label text and the range input on a single aligned row */
+/* Slider labels: text and input on one aligned row */
 #pi-demo label{
   display: grid;
   grid-template-columns: max-content 1fr;
@@ -78,7 +77,7 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
   font-size: 0.95em;
 }
 
-/* Range inputs (same visuals as before) */
+/* Range inputs */
 #pi-demo input[type="range"]{
   width: 100%;
   appearance: none;
@@ -98,12 +97,7 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
   background: #000; cursor: pointer;
 }
 
-/* Stats grid: each row is its own 2-col grid; equals line up */
-#stats{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
+/* Stats rows: 2-col grid inside each cell for aligned '=' */
 #stats > div{
   border-top: 1px solid #000;
   padding: 6px 0;
@@ -113,8 +107,8 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
   column-gap: 8px;
 }
 #stats span{
-  justify-self: end;            /* right-align the left column */
-  min-width: 14ch;              /* fix label width so '=' lines up across cards */
+  justify-self: end;     /* right-align labels so '=' lines up */
+  min-width: 18ch;       /* ensure same label width across all three */
   white-space: nowrap;
 }
 #stats strong{
@@ -156,7 +150,7 @@ function simulateAndDraw(){
   const R = parseFloat(rangeSlider.value);
   const B = parseInt(binsSlider.value, 10);
 
-  // keep band at least one bin wide for visibility
+  // keep band at least one bin wide (visible & stable)
   const binWidth = (2*R)/B;
   let h = parseFloat(hSlider.value);
   if(h < binWidth) h = binWidth;
@@ -180,7 +174,7 @@ function simulateAndDraw(){
   const fraction = n > 0 ? (count / n) : 0;
   const piish = fraction > 0 ? (2*h) / fraction : NaN;
 
-  nOut.textContent   = n.toLocaleString();
+  nOut.textContent    = n.toLocaleString();
   fracOut.textContent = fraction ? fraction.toFixed(7) : '0';
   piOut.textContent   = Number.isFinite(piish) ? piish.toFixed(7) : '—';
 
