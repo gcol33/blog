@@ -7,8 +7,6 @@ categories: probability statistics
 
 ## Where more data doesn’t mean more certainty
 
-## 0. Slopes that whisper π
-
 Take two random numbers, both drawn from the bell curve.  
 Divide one by the other, and something strange happens.  
 
@@ -26,7 +24,7 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
 
   <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-top:10px;">
     <label>Samples n
-      <input type="range" id="nSlider" min="1000" max="200000" step="1000" value="40000" />
+      <input type="range" id="nSlider" min="1000" max="100000" step="1000" value="40000" />
     </label>
     <label>Band half-width h (slopes with |Z| ≤ h)
       <input type="range" id="hSlider" min="0.02" max="0.30" step="0.005" value="0.10" />
@@ -38,7 +36,7 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
 
   <div style="display:flex; gap:10px; align-items:center; margin:8px 0;">
     <label>Bins
-      <input type="range" id="binsSlider" min="41" max="181" step="20" value="101" />
+      <input type="range" id="binsSlider" min="21" max="181" step="20" value="81" />
     </label>
   </div>
 
@@ -72,7 +70,7 @@ You can try it yourself. Watch what happens when you collect slopes, check how m
 </style>
 
 <script>
-// --- standard normal via Box-Muller ---
+// standard normal via Box-Muller
 function randn(){
   let u=0,v=0,s=0;
   do{ u=Math.random()*2-1; v=Math.random()*2-1; s=u*u+v*v; }while(s===0||s>=1);
@@ -98,12 +96,12 @@ function simulateAndDraw(){
   const B=parseInt(binsSlider.value,10);
   const binWidth = (2*R)/B;
   let h=parseFloat(hSlider.value);
-  if(h<binWidth) h=binWidth; // band at least one bin wide
+  if(h<binWidth) h=binWidth;
 
   const hist=new Array(B).fill(0), mid=(B-1)/2; let count=0;
 
   for(let i=0;i<n;i++){
-    const x=randn(), y=randn(), z=y/x; // slope
+    const x=randn(), y=randn(), z=y/x;
     if(!Number.isFinite(z)) continue;
     if(Math.abs(z)<=h) count++;
     if(Math.abs(z)<=R){
@@ -155,10 +153,8 @@ simulateAndDraw();
 </script>
 {% endraw %}
 
-To find out we need to go back — to Gauss, to Cauchy, and to a curve first drawn in 1748 by Maria Gaetana Agnesi.
+To find out we need to go back to Gauss, to Cauchy, and to a curve first drawn in 1748 by Maria Gaetana Agnesi.
 
-
----
 
 ## How a Simple Curve Defied Gauss  
 
