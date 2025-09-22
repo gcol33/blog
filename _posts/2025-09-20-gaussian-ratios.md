@@ -13,10 +13,7 @@ Do it again. And again.
 Now average the results.
 Does the number settle down?
 
-No matter how many times you repeat the experiment, the mean refuses to converge. And hidden inside that chaos is something even stranger: π, the circle’s constant, surfacing in a place that seems to have nothing to do with circles at all.
-
-Why π?
-Why does averaging fail, even with mountains of data?
+No matter how many times you repeat the experiment, the mean refuses to converge. And hidden inside that chaos is something even stranger, surfacing in a place that seems to have nothing to do with circles...
 
 Try it yourself: collect the slopes, count how many land in a narrow strip around horizontal, then scale by the strip’s width. A circle’s number quietly emerges.
 
@@ -301,10 +298,9 @@ redrawOnly();
 {% endraw %}
 
 
-
-
-
-To find out we need to go back to Gauss, to Cauchy, and to a curve first drawn in 1748 by Maria Gaetana Agnesi.
+Why π?
+Why does averaging fail, even with mountains of data?
+To find out we need to go back to Gauss, to Cauchy, and to a curve first drawn in 1748.
 
 
 ### How a Simple Curve Defied Gauss  
