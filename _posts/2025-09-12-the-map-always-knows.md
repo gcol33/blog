@@ -60,7 +60,7 @@ $$
 So the postman covers every road, with only \(6\) units of extra distance beyond the raw street network.
 
 <div id="cpp-visual" style="margin:1rem 0;">
-  <!-- Controls (unchanged) -->
+  <!-- Controls -->
   <div class="cpp-controls" style="margin-bottom:0.5rem;">
     <strong style="display:block;margin-bottom:0.5rem;">Pair odd nodes:</strong>
     <div><label><input type="radio" name="cpp-pair" value="ab-cd" checked> (a,b) + (c,d)</label></div>
@@ -68,14 +68,14 @@ So the postman covers every road, with only \(6\) units of extra distance beyond
     <div><label><input type="radio" name="cpp-pair" value="ad-bc"> (a,d) + (b,c)</label></div>
   </div>
 
-  <!-- Summary (unchanged) -->
+  <!-- Summary -->
   <div class="cpp-summary" style="font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin-bottom:0.5rem;">
     Extra distance to add: <strong><span id="cpp-extra">6.000</span></strong>
     | Base street length: <strong>42</strong>
     | Chinese Postman total: <strong><span id="cpp-total">48.000</span></strong>
   </div>
 
-  <!-- SVG wrapper: sharp-corner outer border -->
+  <!-- SVG wrapper -->
   <div class="cpp-svgwrap" style="max-width:720px; margin:0 auto; border:1px solid #000; overflow:hidden;">
     <svg id="cpp-svg" viewBox="0 0 700 420" width="100%" height="auto" aria-labelledby="cpp-title cpp-desc" role="img">
       <title id="cpp-title">Parallelogram layout: sides 3 and 4 at 60°, diagonals √37 and √13</title>
@@ -90,11 +90,13 @@ So the postman covers every road, with only \(6\) units of extra distance beyond
         </filter>
       </defs>
 
-      <!-- Background grid + inner frame -->
-      <rect x="0" y="0" width="100%" height="100%" fill="url(#grid)"></rect>
+      <!-- Background grid clipped to the inner frame -->
+      <rect x="14" y="14" width="672" height="392" fill="url(#grid)"></rect>
+
+      <!-- INNER BORDER -->
       <rect id="inner-frame" x="14" y="14" width="672" height="392" fill="none" stroke="#000" stroke-width="1"></rect>
 
-      <!-- Edges -->
+      <!-- Visible edges -->
       <g id="edges" stroke="#bbb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <line id="e-ab" />
         <line id="e-ac" />
@@ -104,7 +106,7 @@ So the postman covers every road, with only \(6\) units of extra distance beyond
         <line id="e-bc" />
       </g>
 
-      <!-- Hit targets for easier clicking -->
+      <!-- Thick invisible hit targets -->
       <g id="edge-hits" stroke="rgba(0,0,0,0)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"
          style="pointer-events: stroke;">
         <line data-for="e-ab" />
@@ -135,6 +137,7 @@ So the postman covers every road, with only \(6\) units of extra distance beyond
 </div>
 
 <style>
+/* Subtle hover hint on edges */
 #cpp-visual #edges line{
   transition: stroke 120ms ease, stroke-width 120ms ease, opacity 120ms ease;
 }
@@ -142,52 +145,67 @@ So the postman covers every road, with only \(6\) units of extra distance beyond
   stroke: #0a7;
   opacity: 0.9;
 }
+
+/* Labels unselectable */
 #cpp-visual text{ user-select: none; }
 </style>
 
 <script>
 (function(){
   const SQRT3 = Math.sqrt(3);
-  const W = { a:{X:0,Y:0}, b:{X:3,Y:0}, c:{X:2,Y:2*SQRT3}, d:{X:5,Y:2*SQRT3} };
-  const s=90,x0=80,y0=360;
-  function map(P){ return { x:x0+s*P.X, y:y0-s*P.Y }; }
+  const W = {
+    a:{X:0, Y:0},
+    b:{X:3, Y:0},
+    c:{X:2, Y:2*SQRT3},
+    d:{X:5, Y:2*SQRT3}
+  };
+
+  const s = 90, x0 = 80, y0 = 360;
+  function map(P){ return { x: x0 + s*P.X, y: y0 - s*P.Y }; }
   function dist(P,Q){ const dx=P.X-Q.X, dy=P.Y-Q.Y; return Math.hypot(dx,dy); }
 
   // Place nodes
   ['a','b','c','d'].forEach(k=>{
-    const p=map(W[k]); const el=document.getElementById('n-'+k);
-    el.setAttribute('cx',p.x); el.setAttribute('cy',p.y);
+    const p = map(W[k]);
+    const el = document.getElementById('n-'+k);
+    el.setAttribute('cx', p.x);
+    el.setAttribute('cy', p.y);
   });
 
-  function addText(parent,x,y,text,fontSize=18){
-    const t=document.createElementNS('http://www.w3.org/2000/svg','text');
-    t.setAttribute('x',x); t.setAttribute('y',y);
-    t.setAttribute('font-size',fontSize);
-    t.setAttribute('text-anchor','middle');
-    t.setAttribute('dominant-baseline','middle');
-    t.textContent=text; parent.appendChild(t);
+  function addText(parent, x, y, text, fontSize=18){
+    const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x', x); t.setAttribute('y', y);
+    t.setAttribute('font-size', fontSize);
+    t.setAttribute('text-anchor', 'middle');
+    t.setAttribute('dominant-baseline', 'middle');
+    t.textContent = text;
+    parent.appendChild(t);
   }
 
-  function setEdge(id,u,v,label,opts={}){
-    const U=map(W[u]),V=map(W[v]);
-    const e=document.getElementById(id);
-    e.setAttribute('x1',U.x); e.setAttribute('y1',U.y);
-    e.setAttribute('x2',V.x); e.setAttribute('y2',V.y);
-    e.dataset.weight=dist(W[u],W[v]);
+  function setEdge(id, u, v, label, opts={}){
+    const U = map(W[u]), V = map(W[v]);
+    const e  = document.getElementById(id);
+    e.setAttribute('x1', U.x); e.setAttribute('y1', U.y);
+    e.setAttribute('x2', V.x); e.setAttribute('y2', V.y);
+    e.dataset.weight = dist(W[u], W[v]);
 
-    const hit=document.querySelector(`#edge-hits line[data-for="${id}"]`);
-    hit.setAttribute('x1',U.x); hit.setAttribute('y1',U.y);
-    hit.setAttribute('x2',V.x); hit.setAttribute('y2',V.y);
+    const hit = document.querySelector(`#edge-hits line[data-for="${id}"]`);
+    hit.setAttribute('x1', U.x); hit.setAttribute('y1', U.y);
+    hit.setAttribute('x2', V.x); hit.setAttribute('y2', V.y);
 
-    const dx=V.x-U.x,dy=V.y-U.y,len=Math.hypot(dx,dy)||1;
-    const tx=dx/len,ty=dy/len,nx=-ty,ny=tx;
-    const k=(opts.k??20),t=(opts.t??0),side=(opts.side??1);
-    const mx=(U.x+V.x)/2,my=(U.y+V.y)/2;
-    const lx=mx+side*k*nx+t*tx,ly=my+side*k*ny+t*ty;
-    addText(document.getElementById('labels'),lx,ly,label,20);
+    const dx = V.x - U.x, dy = V.y - U.y;
+    const len = Math.hypot(dx, dy) || 1;
+    const tx = dx/len, ty = dy/len;
+    const nx = -ty, ny = tx;
+
+    const k = (opts.k ?? 20), t = (opts.t ?? 0), side = (opts.side ?? 1);
+    const mx = (U.x+V.x)/2, my = (U.y+V.y)/2;
+    const lx = mx + side*k*nx + t*tx;
+    const ly = my + side*k*ny + t*ty;
+
+    addText(document.getElementById('labels'), lx, ly, label, 20);
   }
 
-  // Edges
   setEdge('e-ab','a','b','3',{k:16});
   setEdge('e-cd','c','d','3',{k:16});
   setEdge('e-ac','a','c','4',{k:16});
@@ -195,30 +213,26 @@ So the postman covers every road, with only \(6\) units of extra distance beyond
   setEdge('e-ad','a','d','√37',{k:22,t:24,side:1});
   setEdge('e-bc','b','c','√13',{k:22,t:-24,side:-1});
 
-  // Node labels
-  const NL=document.getElementById('node-labels');
-  const cfg={a:{dx:0,dy:-28},b:{dx:0,dy:-28},c:{dx:0,dy:32},d:{dx:0,dy:32}};
-  ['a','b','c','d'].forEach(k=>{
-    const nEl=document.getElementById('n-'+k);
-    const x=+nEl.getAttribute('cx')+cfg[k].dx;
-    const y=+nEl.getAttribute('cy')+cfg[k].dy;
-    addText(NL,x,y,k,22);
-  });
+  (function(){
+    const NL=document.getElementById('node-labels');
+    const cfg = { a:{dx:0,dy:-28}, b:{dx:0,dy:-28}, c:{dx:0,dy:32}, d:{dx:0,dy:32} };
+    ['a','b','c','d'].forEach(k=>{
+      const nEl=document.getElementById('n-'+k);
+      const x=+nEl.getAttribute('cx')+cfg[k].dx;
+      const y=+nEl.getAttribute('cy')+cfg[k].dy;
+      addText(NL,x,y,k,22);
+    });
+  })();
 
-  // Highlight + totals
-  const accent='#0a7',base=42;
+  const accent='#0a7', base=42;
   function resetEdges(){
     document.querySelectorAll('#edges line').forEach(e=>{
-      e.setAttribute('stroke','#bbb');
-      e.setAttribute('stroke-width',3);
-      e.setAttribute('opacity',1);
+      e.setAttribute('stroke','#bbb'); e.setAttribute('stroke-width',3); e.setAttribute('opacity',1);
     });
   }
   function mark(id){
     const e=document.getElementById(id);
-    e.setAttribute('stroke',accent);
-    e.setAttribute('stroke-width',5);
-    e.setAttribute('opacity',0.95);
+    e.setAttribute('stroke',accent); e.setAttribute('stroke-width',5); e.setAttribute('opacity',0.95);
     return +e.dataset.weight;
   }
   function update(){
@@ -232,14 +246,19 @@ So the postman covers every road, with only \(6\) units of extra distance beyond
     document.getElementById('cpp-total').textContent=(base+extra).toFixed(3);
   }
 
-  // Clickable edges
-  const edgeToPair={ 'e-ab':'ab-cd','e-cd':'ab-cd','e-ac':'ac-bd','e-bd':'ac-bd','e-ad':'ad-bc','e-bc':'ad-bc' };
+  const edgeToPair = {
+    'e-ab': 'ab-cd', 'e-cd': 'ab-cd',
+    'e-ac': 'ac-bd', 'e-bd': 'ac-bd',
+    'e-ad': 'ad-bc', 'e-bc': 'ad-bc'
+  };
+
   document.querySelectorAll('#edge-hits line').forEach(hit=>{
-    hit.addEventListener('click',()=>{
-      const pair=edgeToPair[hit.getAttribute('data-for')];
-      const radio=document.querySelector(`input[name="cpp-pair"][value="${pair}"]`);
-      if(radio){ radio.checked=true; update(); }
-    });
+    hit.addEventListener('click', ()=>{
+      const targetId = hit.getAttribute('data-for');
+      const pair = edgeToPair[targetId];
+      const radio = document.querySelector(`input[name="cpp-pair"][value="${pair}"]`);
+      if(radio){ radio.checked = true; update(); }
+    }, {passive:true});
   });
 
   document.querySelectorAll('input[name="cpp-pair"]').forEach(el=>el.addEventListener('change',update));
