@@ -8,8 +8,7 @@ categories: probability perception history
 ### From ancient oracles to email scams, how chance creates certainty
 
 For a long time, randomness was treated as a sign of hidden intent.  
-A pattern in smoke or the flight of birds was read as a message rather than noise.  
-Uncertainty was not something to measure but something to interpret.  
+A pattern in smoke or the flight of birds was read as a message. Uncertainty was not something to measure but something to interpret.  
 
 That changed when people began to count.  
 Games of chance offered a simple way to test belief against arithmetic.  
