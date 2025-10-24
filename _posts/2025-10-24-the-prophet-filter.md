@@ -108,9 +108,3 @@ Coincidences are not exceptions to probability but its direct consequence.
 The same principle explains why clusters appear in random data.  
 If outcomes are independent, the gaps between them follow an exponential law, making runs and coincidences unavoidable.  
 What feels patterned is only the natural texture of randomness under scale.
-
-### Perception and survival
-
-What survives becomes the story.  
-A perfect prediction, a dream that matched reality, a theory that kept working.  
-Each stands alone, though thousands like it failed unseen.
