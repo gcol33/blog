@@ -10,27 +10,26 @@ categories: probability perception history
 For a long time, randomness was treated as a sign of hidden intent.  
 A pattern in smoke or the flight of birds was read as a message. Uncertainty was not something to measure but something to interpret.  
 
-That changed when people began to count.  
-Games of chance offered a simple way to test belief against arithmetic.  
-The more outcomes were listed and compared, the less room was left for fate.  
-Luck began to look like proportion.  
+Everything changed when people began to count.  
+Games of chance turned into experiments, little battles between belief and arithmetic.  
+Each roll of the dice chipped away at fate.  
+Luck started to look like proportion, and fortune lost some of its mystery.  
 
-From there, probability grew into a language for incomplete knowledge.  
-Repeated trials revealed that frequencies settle into stable ratios, even when single events remain unpredictable.  
-The regularity behind noise turned uncertainty into something structural rather than mystical.  
+Soon, probability became the language of the uncertain.  
+Run an experiment enough times, and chaos starts to show a pattern.  
+Frequencies settle, ratios hold, and randomness begins to obey its own quiet rules.  
 
-Once that logic reached measurement, it spread quickly.  
-Errors in astronomy, variations in population data, and differences in heredity all followed the same mathematical symmetry.  
-Chance was no longer confined to dice or fortune—it described the limits of observation itself.  
+Once that idea reached science, it spread like wildfire.  
+Astronomers found order in their errors, statisticians saw symmetry in populations, biologists traced heredity through chance.  
+What began with dice ended up describing the limits of observation itself.  
 
-But the pieces did not yet fit together.  
-Probability was used everywhere and defined nowhere.  
-Its meaning shifted with context, depending on who applied it and why.  
+But the meaning of probability kept shifting.  
+Everyone used it, no one could pin it down.  
+It was a tool, a philosophy, a hunch, depending on who asked the question.  
 
-Then came a new step: an attempt to make uncertainty self-contained.  
-Andrei Kolmogorov gave probability a foundation that no longer depended on what it described.  
-Instead of interpreting randomness, he formalized it.  
-Uncertainty became a structure of its own, complete without reference to the world it measured.
+Then came Kolmogorov, with a radical idea: make uncertainty stand on its own.  
+He gave probability a foundation so pure it no longer needed a story to justify it.  
+Randomness didn’t need interpretation anymore. 
 
 ### Selective success
 
