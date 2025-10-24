@@ -114,15 +114,3 @@ What feels patterned is only the natural texture of randomness under scale.
 What survives becomes the story.  
 A perfect prediction, a dream that matched reality, a theory that kept working.  
 Each stands alone, though thousands like it failed unseen.
-
-The losses are harder to trace.  
-The wrong forecasts were deleted, the forgotten dreams unrecorded, the disproved results buried in notebooks.  
-What remains looks sharper than it is, trimmed by time and attention.
-
-The pattern that survives begins to look deliberate.  
-A few correct guesses spread through conversation, through citation, through memory, until the trail of error disappears.  
-Skill becomes indistinguishable from luck once the evidence of failure is gone.
-
-This is how precision accumulates in appearance only.  
-The data that endures has already passed through selection, and the filter itself becomes invisible.  
-From inside that narrowed view, chance looks like intention.
