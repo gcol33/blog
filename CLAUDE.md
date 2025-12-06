@@ -54,25 +54,69 @@ Graphics are **inline JavaScript/HTML/CSS** embedded directly in posts using `{%
 - Responsive: adapt for mobile (smaller canvas, stacked controls)
 - Hover effects for interactive elements
 
-### Example Pattern
-```markdown
-<div id="demo-container" style="max-width: 720px; margin: 0 auto;">
-  <canvas id="chart" style="width:100%; height:300px; background:#fff; border:1px solid #000;"></canvas>
+### Standard Layout Pattern
 
-  <div class="controls">
-    <label>Parameter
-      <input type="range" id="slider" min="0" max="100" value="50" />
-    </label>
+Always use this exact structure for interactive demos:
+
+```html
+<div id="demo-name" style="max-width: 720px; margin: 0 auto;">
+  <canvas id="demo-canvas" style="width: 100%; height: 200px; background: #fff; border: 1px solid #000;"></canvas>
+
+  <div class="demo-controls">
+    <button id="demo-btn">Run</button>
+    <button id="demo-reset">Reset</button>
   </div>
 
-  <div id="stats">
-    <span>Result: <strong id="result">—</strong></span>
+  <div class="demo-stats">
+    <div class="demo-stat-row"><span>Label:</span><strong id="demo-value">0</strong></div>
+    <div class="demo-stat-row"><span>Another:</span><strong id="demo-value2">—</strong></div>
   </div>
+
+  <div id="demo-narrative" class="demo-narrative">Initial text...</div>
 </div>
 
 {% raw %}
 <style>
-/* Scoped styles */
+#demo-name { font-variant-numeric: tabular-nums; }
+#demo-name * { box-sizing: border-box; }
+
+#demo-name .demo-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+#demo-name button {
+  padding: 0.5em 1em;
+  font-size: 0.95em;
+  cursor: pointer;
+  border: 1px solid #000;
+  background: #fff;
+}
+#demo-name button:hover {
+  background: #eee;
+}
+
+#demo-name .demo-stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  margin-top: 10px;
+}
+#demo-name .demo-stat-row {
+  border-top: 1px solid #000;
+  padding: 6px 0;
+  font-size: 0.95em;
+  display: flex;
+  gap: 6px;
+}
+
+#demo-name .demo-narrative {
+  border-top: 1px solid #000;
+  padding: 10px 0;
+  font-size: 0.95em;
+}
 </style>
 
 <script>
@@ -84,6 +128,13 @@ Graphics are **inline JavaScript/HTML/CSS** embedded directly in posts using `{%
 </script>
 {% endraw %}
 ```
+
+Key points:
+- Outer container: `max-width: 720px; margin: 0 auto;` with **NO border**
+- Canvas/SVG: `border: 1px solid #000; background: #fff;`
+- Stats rows: `border-top: 1px solid #000` (separator lines, not boxes)
+- Always include `font-variant-numeric: tabular-nums` on container
+- Always include `box-sizing: border-box` on all children
 
 ## Common Patterns
 
