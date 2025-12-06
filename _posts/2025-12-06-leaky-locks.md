@@ -260,13 +260,9 @@ The safe's beep reduces uncertainty about which digit is correct. The computatio
 
 None of these channels were designed. All of them communicate.
 
-The lesson is uncomfortable: information is not a property of what you *intend* to reveal. It's a property of what can be *inferred* from what you do.
-
 ---
 
 ## The Shape of Everything
-
-The deepest consequences go beyond cryptography.
 
 **Netflix and traffic analysis.** Your video stream is encrypted. An eavesdropper sees only noise. But the *pattern* of the traffic (packet sizes, timing, bitrate changes) correlates with what you're watching. Researchers have identified specific movies from encrypted Netflix streams with over 99% accuracy.
 
@@ -413,15 +409,11 @@ Each generation discovers that the last generation's definition of "the secret" 
 
 ## Privacy, Anonymity, AI
 
-The expanding boundary of information has implications beyond locks and codes.
-
 **Privacy.** Every digital action has a shape: timing, size, frequency. Encryption hides content but not shape. Metadata is data.
 
 **Anonymity.** Behavioral patterns are signatures. How you type, how you move your mouse, how you browse. These patterns persist across contexts. True anonymity requires suppressing not just identity but behavior, and behavior is hard to fake.
 
 **AI.** Machine learning excels at finding patterns humans miss. The leaks that were too subtle to exploit manually become tractable with enough data and compute. The attacker's threshold keeps dropping.
-
-The lesson of side channels generalizes: any system that processes information leaves traces of that processing. Those traces are themselves information. And that information can be extracted by anyone with sufficient motivation and technology.
 
 ---
 
