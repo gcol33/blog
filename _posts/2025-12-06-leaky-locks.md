@@ -10,9 +10,9 @@ toc: true
 
 In 1943, the telephone in Winston Churchill's war room was a problem.
 
-The transatlantic calls to Roosevelt were encrypted by a system called SIGSALY - fifty tons of equipment that digitized speech, scrambled it with one-time pads, and reassembled it on the other end. The voice channel was mathematically unbreakable. The Germans couldn't decode a single word.
+The transatlantic calls to Roosevelt were encrypted by a system called SIGSALY, fifty tons of equipment that digitized speech, scrambled it with one-time pads, and reassembled it on the other end. The voice channel was mathematically unbreakable. The Germans couldn't decode a single word.
 
-But Bell Labs engineer A.B. Clark noticed something troubling. The encryption scrambled the *content* of Churchill's speech. It didn't scramble the *rhythm*. The timing of syllables, the cadence of sentences, the patterns of pauses - all of it passed through intact.
+But Bell Labs engineer A.B. Clark noticed something troubling. The encryption scrambled the *content* of Churchill's speech. It didn't scramble the *rhythm*. The timing of syllables, the cadence of sentences, the patterns of pauses: all of it passed through intact.
 
 Clark realized that rhythm alone might be enough to reconstruct words. He was right. The phenomenon would later be called "residual intelligibility." The secret wasn't in the message. It was in the *shape* of the message.
 
@@ -32,7 +32,7 @@ Thieves figured it out immediately. Start with 0000. If the safe beeps once, the
 
 A four-digit safe has 10,000 combinations. These safes fell in 40 tries.
 
-The safe protected the code. It didn't protect *information about* the code - specifically, how many digits were correct. That distinction cost everything.
+The safe protected the code. It didn't protect *information about* the code: how many digits were correct. That distinction cost everything.
 
 ---
 
@@ -236,11 +236,11 @@ Kocher's work opened a floodgate.
 
 If timing is information, what else might be?
 
-**1998: Power analysis.** Kocher again. The power consumed by a chip varies with the operations it performs. Different instructions draw different current. By measuring power consumption during cryptographic operations, attackers could extract keys from smart cards. Banking, pay TV, secure ID - all vulnerable.
+**1998: Power analysis.** Kocher again. The power consumed by a chip varies with the operations it performs. Different instructions draw different current. By measuring power consumption during cryptographic operations, attackers could extract keys from smart cards.
 
 **1985 (published much later): Van Eck radiation.** Every wire is an antenna. CRT monitors emit electromagnetic radiation proportional to what they display. Wim van Eck showed you could reconstruct screen contents from across the street. Later researchers demonstrated the same for LCD screens, keyboards, and network cables.
 
-**2003: Cache timing.** Modern CPUs have memory caches. Accessing cached data is fast; uncached data is slow. If an attacker shares your CPU, they can deduce what memory addresses you're touching - including cryptographic key material.
+**2003: Cache timing.** Modern CPUs have memory caches. Accessing cached data is fast; uncached data is slow. An attacker who shares your CPU can deduce what memory addresses you're touching, including cryptographic key material.
 
 **2018: Spectre and Meltdown.** CPUs speculate about which instructions to execute next. Sometimes they guess wrong and roll back. But the speculative execution leaves traces in the cache. These traces leak secrets across process boundaries, across virtual machines, across the boundary between user code and the operating system kernel.
 
@@ -254,7 +254,7 @@ The boundary is still moving.
 
 The history of side channels is a history of expanding the concept of information itself.
 
-Shannon defined information as reduction in uncertainty. A message conveys information because it tells you something you didn't know. By this definition, *anything* that reduces uncertainty is information - whether or not it was intended to communicate.
+Shannon defined information as reduction in uncertainty. A message conveys information because it tells you something you didn't know. By this definition, *anything* that reduces uncertainty is information, whether or not it was intended to communicate.
 
 The safe's beep reduces uncertainty about which digit is correct. The computation's timing reduces uncertainty about which branch was taken. The chip's power draw reduces uncertainty about which operations occurred. The radiation from a cable reduces uncertainty about what it's carrying.
 
@@ -268,9 +268,9 @@ The lesson is uncomfortable: information is not a property of what you *intend* 
 
 The deepest consequences go beyond cryptography.
 
-**Netflix and traffic analysis.** Your video stream is encrypted. An eavesdropper sees only noise. But the *pattern* of the traffic - packet sizes, timing, bitrate changes - correlates with what you're watching. Researchers have identified specific movies from encrypted Netflix streams with over 99% accuracy.
+**Netflix and traffic analysis.** Your video stream is encrypted. An eavesdropper sees only noise. But the *pattern* of the traffic (packet sizes, timing, bitrate changes) correlates with what you're watching. Researchers have identified specific movies from encrypted Netflix streams with over 99% accuracy.
 
-**Keystroke dynamics.** The rhythm of your typing - how long you hold each key, the gaps between keystrokes - identifies you as reliably as a fingerprint. This works through encryption, through Tor, through any anonymizing layer.
+**Keystroke dynamics.** The rhythm of your typing (how long you hold each key, the gaps between keystrokes) identifies you as reliably as a fingerprint. This works through encryption, through Tor, through any anonymizing layer.
 
 **Website fingerprinting.** HTTPS hides which page you're viewing but not the pattern of requests: how many resources, what sizes, what timing. The pattern is enough to identify the site with high accuracy.
 
@@ -281,7 +281,7 @@ These are not attacks in the traditional sense. No lock is picked. No cipher is 
 ## Your Rhythm
 
 <div id="rhythm-demo" style="max-width: 720px; margin: 0 auto;">
-  <p style="margin-top: 0;">Type anything below. The content doesn't matter - your rhythm is the signal.</p>
+  <p style="margin-top: 0;">Type anything below. The content doesn't matter. Your rhythm is the signal.</p>
 
   <input type="text" id="rhythm-input" placeholder="Type here..." style="width: 100%; padding: 0.5em; font-size: 1em; border: 1px solid #000; box-sizing: border-box;">
 
@@ -415,9 +415,9 @@ Each generation discovers that the last generation's definition of "the secret" 
 
 The expanding boundary of information has implications beyond locks and codes.
 
-**Privacy.** Every digital action has a shape - timing, size, frequency. Encryption hides content but not shape. Metadata is data.
+**Privacy.** Every digital action has a shape: timing, size, frequency. Encryption hides content but not shape. Metadata is data.
 
-**Anonymity.** Behavioral patterns are signatures. How you type, how you move your mouse, how you browse. These patterns persist across contexts. True anonymity requires suppressing not just identity but behavior - and behavior is hard to fake.
+**Anonymity.** Behavioral patterns are signatures. How you type, how you move your mouse, how you browse. These patterns persist across contexts. True anonymity requires suppressing not just identity but behavior, and behavior is hard to fake.
 
 **AI.** Machine learning excels at finding patterns humans miss. The leaks that were too subtle to exploit manually become tractable with enough data and compute. The attacker's threshold keeps dropping.
 
@@ -435,7 +435,7 @@ Make the electronics silent and the timing still differs. Equalize the timing an
 
 Every physical process is a broadcast. Security is not about stopping the broadcast. It is about ensuring the broadcast conveys nothing useful.
 
-This is hard. It requires understanding what information is - not what you intend to transmit, but what can be received.
+This is hard. It requires understanding what information is: not what you intend to transmit, but what can be received.
 
 The safe's designers protected the code. They didn't think to protect the rhythm of the mechanism, the heat of the electronics, the sound of the buttons.
 
