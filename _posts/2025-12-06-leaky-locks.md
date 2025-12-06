@@ -66,29 +66,78 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
 
 ## See It
 
-<div id="collapse-viz" style="max-width: 720px; margin: 1.5em auto;">
-  <div style="margin-bottom: 1em;">
-    <label>Alphabet size (k):
-      <input type="range" id="k-slider" min="2" max="26" value="10" style="width: 100px;">
-      <span id="k-value">10</span>
+<div id="collapse-demo" style="max-width: 720px; margin: 0 auto;">
+  <svg id="collapse-svg" style="width:100%; height:280px; background:#fff; border:1px solid #000;"></svg>
+
+  <div class="collapse-controls">
+    <label>Alphabet size (k)
+      <input type="range" id="k-slider" min="2" max="26" value="10" />
     </label>
-    &nbsp;&nbsp;
-    <label>Length (n):
-      <input type="range" id="n-slider" min="2" max="12" value="4" style="width: 100px;">
-      <span id="n-value">4</span>
+    <label>Length (n)
+      <input type="range" id="n-slider" min="2" max="12" value="4" />
     </label>
   </div>
 
-  <svg id="collapse-svg" viewBox="0 0 700 280" style="width: 100%; height: auto; border: 1px solid #000; background: #fff;"></svg>
-
-  <div style="display: flex; justify-content: space-between; margin-top: 0.5em; padding: 0.5em; background: #fafafa; border: 1px solid #000; font-size: 0.95em;">
-    <div><span class="lightText">Without leak:</span> <strong id="exp-value">10,000</strong></div>
-    <div><span class="lightText">With leak:</span> <strong id="lin-value">40</strong></div>
-    <div><span class="lightText">Collapse:</span> <strong id="ratio-value">250×</strong></div>
+  <div id="collapse-stats" class="collapse-stats">
+    <div class="collapse-stat-row"><span>Without leak:</span><strong id="exp-value">10,000</strong></div>
+    <div class="collapse-stat-row"><span>With leak:</span><strong id="lin-value">40</strong></div>
+    <div class="collapse-stat-row"><span>Collapse factor:</span><strong id="ratio-value">250×</strong></div>
   </div>
 </div>
 
 {% raw %}
+<style>
+#collapse-demo { font-variant-numeric: tabular-nums; }
+#collapse-demo * { box-sizing: border-box; }
+
+#collapse-demo .collapse-controls {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+@media (max-width: 560px) {
+  #collapse-demo .collapse-controls { grid-template-columns: 1fr; }
+}
+
+#collapse-demo label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95em;
+  gap: 4px;
+}
+
+#collapse-demo input[type="range"] {
+  width: 100%;
+  appearance: none;
+  height: 6px;
+  background: #eee;
+  outline: none;
+}
+#collapse-demo input[type="range"]::-webkit-slider-thumb {
+  appearance: none; width: 14px; height: 14px;
+  border-radius: 50%; background: #000; cursor: pointer;
+}
+#collapse-demo input[type="range"]::-moz-range-thumb {
+  width: 14px; height: 14px; border: none;
+  border-radius: 50%; background: #000; cursor: pointer;
+}
+
+#collapse-demo .collapse-stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  margin-top: 6px;
+}
+#collapse-demo .collapse-stat-row {
+  border-top: 1px solid #000;
+  padding: 6px 0;
+  font-size: 0.95em;
+  display: flex;
+  gap: 6px;
+}
+</style>
+
 <script>
 (function(){
   const svg = document.getElementById('collapse-svg');
@@ -108,8 +157,6 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
   function draw() {
     const k = parseInt(kSlider.value);
     const n = parseInt(nSlider.value);
-    document.getElementById('k-value').textContent = k;
-    document.getElementById('n-value').textContent = n;
 
     const exp = Math.pow(k, n);
     const lin = k * n;
@@ -142,6 +189,7 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
       html += `<text x="${x}" y="${H-15}" text-anchor="middle" font-size="11">10^${i}</text>`;
     }
 
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     svg.innerHTML = html;
   }
 
@@ -232,23 +280,40 @@ These are not attacks in the traditional sense. No lock is picked. No cipher is 
 
 ## Your Rhythm
 
-<div id="rhythm-demo" style="max-width: 720px; margin: 1.5em auto;">
+<div id="rhythm-demo" style="max-width: 720px; margin: 0 auto;">
   <p style="margin-top: 0;">Type anything below. The content doesn't matter - your rhythm is the signal.</p>
 
   <input type="text" id="rhythm-input" placeholder="Type here..." style="width: 100%; padding: 0.5em; font-size: 1em; border: 1px solid #000; box-sizing: border-box;">
 
-  <canvas id="rhythm-canvas" style="width: 100%; height: 100px; margin-top: 1em; border: 1px solid #000; background: #fafafa;"></canvas>
+  <canvas id="rhythm-canvas" style="width: 100%; height: 100px; margin-top: 10px; border: 1px solid #000; background: #fff;"></canvas>
 
-  <div style="margin-top: 0.5em; font-size: 0.9em;">
-    <span class="lightText">Mean interval:</span> <strong id="r-mean">—</strong> ms
-    &nbsp;&nbsp;
-    <span class="lightText">Std dev:</span> <strong id="r-std">—</strong> ms
-    &nbsp;&nbsp;
-    <span class="lightText">Signature:</span> <span id="r-sig" style="font-family: monospace; letter-spacing: 1px;">—</span>
+  <div class="rhythm-stats">
+    <div class="rhythm-stat-row"><span>Mean interval:</span><strong id="r-mean">—</strong> ms</div>
+    <div class="rhythm-stat-row"><span>Std dev:</span><strong id="r-std">—</strong> ms</div>
+    <div class="rhythm-stat-row"><span>Signature:</span><strong id="r-sig" style="font-family: monospace; letter-spacing: 1px;">—</strong></div>
   </div>
 </div>
 
 {% raw %}
+<style>
+#rhythm-demo { font-variant-numeric: tabular-nums; }
+#rhythm-demo * { box-sizing: border-box; }
+
+#rhythm-demo .rhythm-stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  margin-top: 6px;
+}
+#rhythm-demo .rhythm-stat-row {
+  border-top: 1px solid #000;
+  padding: 6px 0;
+  font-size: 0.95em;
+  display: flex;
+  gap: 6px;
+}
+</style>
+
 <script>
 (function(){
   const input = document.getElementById('rhythm-input');
