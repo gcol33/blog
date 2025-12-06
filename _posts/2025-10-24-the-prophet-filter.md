@@ -3,114 +3,330 @@ layout: post
 title: "The Prophet Filter"
 date: 2025-10-24
 categories: probability perception history
+toc: true
 ---
 
-## From Omens to Equations
+## The Email That Knew Tomorrow
 
-For most of history, randomness was not random.  
-The flight of birds, the pattern of smoke, the turn of dice, all were seen as signs of intent.  
-Uncertainty was interpreted, not measured.
+You receive an email from someone you've never heard of. The subject line: "The market will close up tomorrow."
 
-This began to change in the seventeenth century.  
-Games of chance turned belief into arithmetic.  
-Jacob Bernoulli showed that repeating a random experiment brings its outcomes closer to fixed proportions, a principle later known as the *law of large numbers*.  
-Laplace extended these ideas to astronomy and population data, showing that chance could describe both error and prediction.  
-In the twentieth century, Andrey Kolmogorov gave probability its modern form: a mathematical measure on a space of events.  
-Randomness no longer needed divine explanation.  
+You ignore it. But the next day, you check—and it did close up.
 
----
+A week later, another email: "Tech stocks will drop on Friday." You're skeptical. Friday comes. Tech stocks drop.
 
-## The Prophet Experiment
+This keeps happening. Five predictions. Six. Seven. All correct. By now you're paying attention. The eighth email offers you access to a "premium service" for just $500. After all, this person has never been wrong.
 
-Consider a modern oracle who sends predictions by email.  
-Each message claims perfect accuracy.  
-At first, thousands receive it. After every event, half of the recipients are removed, those who saw the wrong prediction.  
-The next message goes only to those who received the correct one.  
+Would you pay?
 
-After several rounds, a small group remains who have *never* seen the oracle fail.  
-To them, the sender appears infallible.  
-The illusion requires no foresight, only scale and elimination.  
+Before you answer, try the simulation below. You are one of a million people receiving these emails. Watch what happens.
 
 ---
 
-## The Mathematics of the Filter
+## See It Happen
 
-Let each prediction be a Bernoulli trial with success probability $p = 1/2$.  
-After $N$ independent rounds, the number of perfect streaks follows a binomial law:
+<div id="prophet-sim" style="max-width: 720px; margin: 1.5em auto;">
+  <div class="prophet-viz" style="display: flex; flex-direction: column; gap: 1em;">
 
-$$
-P(X = k) = \binom{N}{k} p^k (1 - p)^{N - k}.
-$$
+    <div style="display: flex; gap: 1em; align-items: center; flex-wrap: wrap;">
+      <button id="prophet-next">Send Next Prediction</button>
+      <button id="prophet-auto">Auto-run to Round 10</button>
+      <button id="prophet-reset">Reset</button>
+    </div>
 
-The expected number of people with an unbroken streak of $N$ correct predictions is  
+    <div class="prophet-stage" style="border: 1px solid #000; padding: 1em; background: #fafafa; min-height: 120px;">
+      <div id="prophet-round" style="font-size: 1.1em; margin-bottom: 0.5em;"><strong>Round 0</strong> — Before any predictions</div>
+      <div id="prophet-narrative" style="margin-bottom: 1em;">One million people receive the first email...</div>
 
-$$
-E[X] = M p^N,
-$$
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1em; margin-top: 1em;">
+        <div>
+          <div class="lightText">Recipients remaining</div>
+          <div id="prophet-remaining" style="font-size: 1.8em; font-weight: bold;">1,000,000</div>
+        </div>
+        <div>
+          <div class="lightText">Correct predictions seen</div>
+          <div id="prophet-streak" style="font-size: 1.8em; font-weight: bold;">0</div>
+        </div>
+      </div>
+    </div>
 
-where $M$ is the initial number of recipients.  
-If $M = 10^6$ and $N = 10$, then  
+    <div style="border: 1px solid #000; background: #fff;">
+      <canvas id="prophet-canvas" style="width: 100%; height: 200px;"></canvas>
+    </div>
+    <div class="lightText" style="text-align: center;">Recipients remaining (log scale)</div>
 
-$$
-E[X] = 10^6 \times \left(\frac{1}{2}\right)^{10} \approx 976.
-$$
+    <div id="prophet-reveal" style="display: none; border: 2px solid #000; padding: 1em; background: #ffe;">
+      <strong>The trick revealed:</strong> The "prophet" sent <em>both</em> predictions each round—"up" to half, "down" to the other half. No matter what happened, half the recipients saw a correct prediction. The wrong half was simply never contacted again.
+      <div style="margin-top: 0.5em;">
+        After 10 rounds, <span id="prophet-final">~976</span> people have seen 10 perfect predictions. To them, the prophet seems infallible. To everyone else, the prophet doesn't exist—they stopped receiving emails long ago.
+      </div>
+    </div>
+  </div>
+</div>
 
-Almost a thousand people will see ten perfect predictions, not because of prophecy, but because of simple arithmetic.  
+{% raw %}
+<script>
+(function(){
+  let round = 0;
+  let remaining = 1000000;
+  const history = [1000000];
+  const startPop = 1000000;
 
-Each round halves the population and doubles their certainty.  
-The “prophet” survives statistical pruning.  
+  const canvas = document.getElementById('prophet-canvas');
+  const ctx = canvas.getContext('2d');
+
+  const narratives = [
+    "One million people receive the first email...",
+    "The prediction was correct! But half received the opposite prediction. They got it wrong and won't hear from the 'prophet' again.",
+    "Another correct prediction for you. Another 250,000 people just saw their first miss.",
+    "Three in a row. You're starting to pay attention. 125,000 others just lost faith.",
+    "Four correct. This is getting hard to ignore. The prophet's track record is perfect—for you.",
+    "Five. You've told a friend about this. Meanwhile, 31,000 people just learned the prophet is fallible.",
+    "Six consecutive hits. You're seriously considering the premium service.",
+    "Seven. The probability of this by chance is less than 1%. Or is it?",
+    "Eight correct predictions. You're now in an exclusive group of about 3,900 believers.",
+    "Nine. Fewer than 2,000 people remain. Each one is utterly convinced.",
+    "Ten perfect predictions. You are one of ~976 people who witnessed an 'impossible' streak. The premium offer arrives tomorrow."
+  ];
+
+  function resizeCanvas(){
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = Math.round(rect.width * dpr);
+    canvas.height = Math.round(rect.height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  window.addEventListener('resize', () => { resizeCanvas(); draw(); });
+  resizeCanvas();
+
+  function draw(){
+    const W = canvas.clientWidth, H = canvas.clientHeight;
+    const pad = 40, innerW = W - pad * 2, innerH = H - pad * 2;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Axes
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(pad, pad);
+    ctx.lineTo(pad, pad + innerH);
+    ctx.lineTo(pad + innerW, pad + innerH);
+    ctx.stroke();
+
+    // Y-axis labels (log scale)
+    ctx.fillStyle = '#000';
+    ctx.font = '11px system-ui, sans-serif';
+    ctx.textAlign = 'right';
+    const yLabels = [1000000, 100000, 10000, 1000, 100];
+    yLabels.forEach(v => {
+      const y = pad + innerH * (1 - (Math.log10(v) - 2) / 4);
+      ctx.fillText(v.toLocaleString(), pad - 5, y + 4);
+      ctx.strokeStyle = '#eee';
+      ctx.beginPath();
+      ctx.moveTo(pad, y);
+      ctx.lineTo(pad + innerW, y);
+      ctx.stroke();
+    });
+
+    // X-axis labels
+    ctx.textAlign = 'center';
+    ctx.strokeStyle = '#000';
+    for(let i = 0; i <= 10; i++){
+      const x = pad + (i / 10) * innerW;
+      ctx.fillText(i.toString(), x, pad + innerH + 15);
+    }
+
+    if(history.length < 2) return;
+
+    // Draw line
+    ctx.strokeStyle = '#2266cc';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for(let i = 0; i < history.length; i++){
+      const x = pad + (i / 10) * innerW;
+      const logVal = Math.log10(Math.max(history[i], 100));
+      const y = pad + innerH * (1 - (logVal - 2) / 4);
+      if(i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Draw points
+    ctx.fillStyle = '#2266cc';
+    for(let i = 0; i < history.length; i++){
+      const x = pad + (i / 10) * innerW;
+      const logVal = Math.log10(Math.max(history[i], 100));
+      const y = pad + innerH * (1 - (logVal - 2) / 4);
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function update(){
+    document.getElementById('prophet-round').innerHTML = `<strong>Round ${round}</strong> — ${round === 0 ? 'Before any predictions' : `After ${round} prediction${round > 1 ? 's' : ''}`}`;
+    document.getElementById('prophet-narrative').textContent = narratives[Math.min(round, narratives.length - 1)];
+    document.getElementById('prophet-remaining').textContent = Math.round(remaining).toLocaleString();
+    document.getElementById('prophet-streak').textContent = round.toString();
+
+    if(round >= 10){
+      document.getElementById('prophet-reveal').style.display = 'block';
+      document.getElementById('prophet-final').textContent = '~' + Math.round(remaining).toLocaleString();
+    } else {
+      document.getElementById('prophet-reveal').style.display = 'none';
+    }
+
+    draw();
+  }
+
+  function nextRound(){
+    if(round >= 10) return;
+    round++;
+    remaining = remaining / 2;
+    history.push(remaining);
+    update();
+  }
+
+  function autoRun(){
+    if(round >= 10) return;
+    const interval = setInterval(() => {
+      nextRound();
+      if(round >= 10) clearInterval(interval);
+    }, 400);
+  }
+
+  function reset(){
+    round = 0;
+    remaining = 1000000;
+    history.length = 0;
+    history.push(1000000);
+    update();
+  }
+
+  document.getElementById('prophet-next').addEventListener('click', nextRound);
+  document.getElementById('prophet-auto').addEventListener('click', autoRun);
+  document.getElementById('prophet-reset').addEventListener('click', reset);
+
+  update();
+})();
+</script>
+
+<style>
+#prophet-sim button {
+  padding: 0.5em 1em;
+  font-size: 0.95em;
+  cursor: pointer;
+  border: 1px solid #000;
+  background: #fff;
+}
+#prophet-sim button:hover {
+  background: #eee;
+}
+</style>
+{% endraw %}
 
 ---
 
-## Forgetting the Failures
+## The Arithmetic of Prophecy
 
-The same effect governs memory.  
-Aristotle noted that people who dream of a shipwreck and later hear of one think they foresaw it, forgetting countless dreams that never matched reality.  
-This is a failure of counting: remembered hits are few, forgotten misses are many.
+The trick requires nothing but scale and selection.
 
-If the probability of a match is $p$ and there are $N$ independent dreams, the chance of at least one match is
+Start with $M$ recipients. Send half a prediction that the market will rise, half that it will fall. Whatever happens, half are correct. Discard the rest.
+
+After $N$ rounds, the expected number of survivors is
 
 $$
-P(X \ge 1) = 1 - (1 - p)^N.
+M \times \left(\frac{1}{2}\right)^N.
 $$
 
-For small $p$, this approximates to $Np$.  
-Even when $p$ is tiny, large $N$ makes coincidences inevitable.
+With one million initial targets and ten rounds:
+
+$$
+10^6 \times \left(\frac{1}{2}\right)^{10} = 976.
+$$
+
+Nearly a thousand people witness a perfect streak. Not because the prophet knows anything, but because selection guarantees survivors.
 
 ---
 
-## Rare Events at Scale
+## The Scam in the Wild
 
-When $p$ is small and $N$ large, the binomial distribution approaches a Poisson law with rate $\lambda = Np$.  
-In this case,
+This is not hypothetical. In the 1990s and 2000s, "stock-picking" newsletters ran exactly this con. Some were prosecuted; many were not. The scheme works because the victims never see the full picture—they only see their own experience of ten correct predictions.
+
+Variations appear everywhere:
+
+**Psychics and mediums.** A cold reader throws out dozens of guesses. The hits are remembered; the misses are rationalized or forgotten. After an hour, the client recalls only the "impossible" accuracies.
+
+**Sports tipsters.** Betting services send different picks to different subscribers. After a few weeks, a subset has received only winners. Those are the ones who pay for the premium tier.
+
+**Hedge fund incubation.** A firm launches twenty funds with different strategies. After five years, most have failed. The survivors are marketed based on their "track record," even though selection, not skill, explains the performance.
+
+The prophet filter is survivorship bias weaponized.
+
+---
+
+## Aristotle Saw It First
+
+The insight is ancient. In *On Divination in Sleep*, Aristotle observed that people who dream of disasters and later learn of matching events believe they foresaw them. They forget the thousands of dreams that matched nothing.
+
+> "The principle is the same as in the case of mentioning a particular person, and then that person appearing. For there is nothing strange in this: the cause is that one has had a thousand dreams, and something happens that corresponds to one of them."
+
+If the probability of a dream matching reality is $p$, and you have $N$ dreams over a lifetime, the chance of at least one match is
+
+$$
+P(\text{at least one match}) = 1 - (1-p)^N.
+$$
+
+For small $p$, this approximates $Np$. Dream thousands of dreams, and coincidences become inevitable.
+
+---
+
+## The Poisson Limit
+
+When events are rare but trials are many, the binomial approaches a Poisson distribution with rate $\lambda = Np$.
 
 $$
 P(X = 0) = e^{-\lambda}, \qquad P(X \ge 1) = 1 - e^{-\lambda}.
 $$
 
-Once $\lambda > 1$, the probability of at least one event rises sharply toward certainty.
+Once $\lambda > 1$, at least one occurrence is more likely than none.
 
-A one-in-100,000 event ($p = 10^{-5}$) across eight billion independent trials ($N = 8\times10^9$) gives  
-
-$$
-\lambda = Np = 80{,}000,
-$$  
-
-and  
+Consider a one-in-a-million event. Across eight billion people:
 
 $$
-P(X \ge 1) = 1 - e^{-80{,}000} \approx 1.
-$$  
+\lambda = 8 \times 10^9 \times 10^{-6} = 8000.
+$$
 
-Coincidences of enormous improbability must occur somewhere simply because there are enough chances for them to happen.
+The probability of at least one occurrence is
+
+$$
+1 - e^{-8000} \approx 1.
+$$
+
+Every day, things happen to people that had a one-in-a-million chance of happening to them. That is not remarkable—it is required.
 
 ---
 
-## The Meaning of Certainty
+## Why We Fall For It
 
-The “prophet filter” describes a simple mechanism: selection without replacement.  
-False cases vanish; surviving ones appear perfect.  
-The same principle drives scams, forecasts, and even published research, where visible success hides invisible failure.
+The prophet filter exploits three cognitive biases at once.
 
-Probability does not explain belief, but it shows why belief can arise so easily.  
-Remove what disproves it, and what remains looks inevitable.
+**Survivorship bias.** We see the winners, not the losers. The 976 believers are vocal; the 999,024 who saw failures have no story to tell.
+
+**Confirmation bias.** Once we suspect someone has a gift, we weight the hits more heavily than the misses. Each correct prediction strengthens belief; each miss is explained away.
+
+**Base rate neglect.** We ask "What are the odds this person got ten predictions right?" instead of "What are the odds *someone* got ten predictions right, given a million attempts?"
+
+The second question has an easy answer: near certainty.
+
+---
+
+## The Meaning of Evidence
+
+The prophet filter reveals something uncomfortable about evidence itself.
+
+A track record of ten correct predictions is genuinely impressive—if you know you were the only recipient. But if a million people received the first email, your experience proves nothing. The evidence that would update your beliefs is not "I saw ten correct predictions" but "Ten correct predictions, and I know no one else was receiving different predictions."
+
+The scam works precisely because you cannot see the counterfactual. The failed recipients don't complain—they simply stopped receiving emails. From your vantage point, the prophet has always been right.
+
+Selection doesn't just hide failures. It makes success look like proof.

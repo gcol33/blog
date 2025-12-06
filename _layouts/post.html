@@ -4,7 +4,165 @@ layout: default
 <article class="post">
   <h1 class="post-title">{{ page.title }}</h1>
   <time class="post-date">{{ page.date | date: "%B %-d, %Y" }}</time>
+
+  {% if page.categories.size > 0 %}
+  <div class="post-categories">
+    {% for category in page.categories %}
+      <a href="{{ '/categories/' | relative_url }}#{{ category | slugify }}" class="category-tag">{{ category }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if page.series %}
+  {% assign series_posts = site.posts | where: "series", page.series | sort: "date" %}
+  {% if series_posts.size > 1 %}
+  <nav class="series-nav" aria-label="Series navigation">
+    <strong>{{ page.series }}</strong>
+    <ol>
+      {% for post in series_posts %}
+      <li{% if post.url == page.url %} class="current"{% endif %}>
+        {% if post.url == page.url %}
+          {{ post.title }}
+        {% else %}
+          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+  </nav>
+  {% endif %}
+  {% endif %}
+
+  {% if page.toc %}
+  <nav class="toc" aria-label="Table of contents">
+    <details open>
+      <summary>Contents</summary>
+      <div id="toc-content"></div>
+    </details>
+  </nav>
+  <script>
+  (function() {
+    var headings = document.querySelectorAll('.post-content h2, .post-content h3');
+    if (headings.length < 3) {
+      document.querySelector('.toc').style.display = 'none';
+      return;
+    }
+    var toc = document.getElementById('toc-content');
+    var html = '<ul>';
+    headings.forEach(function(h, i) {
+      if (!h.id) h.id = 'heading-' + i;
+      var indent = h.tagName === 'H3' ? ' class="toc-sub"' : '';
+      html += '<li' + indent + '><a href="#' + h.id + '">' + h.textContent + '</a></li>';
+    });
+    html += '</ul>';
+    toc.innerHTML = html;
+  })();
+  </script>
+  {% endif %}
+
   <div class="post-content">
     {{ content }}
   </div>
 </article>
+
+{% assign related_posts = site.posts | where_exp: "post", "post.url != page.url" %}
+{% assign related = "" | split: "" %}
+{% for category in page.categories %}
+  {% for post in related_posts %}
+    {% if post.categories contains category %}
+      {% unless related contains post %}
+        {% assign related = related | push: post %}
+      {% endunless %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+
+{% if related.size > 0 %}
+<aside class="related-posts">
+  <h2>Related Posts</h2>
+  <ul>
+    {% for post in related limit:3 %}
+    <li>
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      <span class="lightText">{{ post.date | date: "%B %Y" }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+</aside>
+{% endif %}
+
+<style>
+.post-categories {
+  margin: 0.5em 0 1.5em;
+}
+.category-tag {
+  display: inline-block;
+  background: #eee;
+  padding: 0.2em 0.6em;
+  margin-right: 0.3em;
+  font-size: 0.85em;
+  text-decoration: none;
+  color: #333;
+}
+.category-tag:hover {
+  background: #ddd;
+}
+.toc {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 1em;
+  margin: 1.5em 0;
+  max-width: 400px;
+}
+.toc summary {
+  font-weight: bold;
+  cursor: pointer;
+}
+.toc ul {
+  margin: 0.5em 0 0 0;
+  padding-left: 1.2em;
+}
+.toc li {
+  margin: 0.3em 0;
+}
+.toc .toc-sub {
+  margin-left: 1em;
+  font-size: 0.9em;
+}
+.related-posts {
+  margin-top: 3em;
+  padding-top: 2em;
+  border-top: 1px solid #ddd;
+}
+.related-posts h2 {
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+}
+.related-posts ul {
+  list-style: none;
+  padding: 0;
+}
+.related-posts li {
+  margin: 0.5em 0;
+}
+.series-nav {
+  background: #f5f5f0;
+  border: 1px solid #ddd;
+  padding: 1em;
+  margin: 1.5em 0;
+}
+.series-nav strong {
+  display: block;
+  margin-bottom: 0.5em;
+}
+.series-nav ol {
+  margin: 0;
+  padding-left: 1.5em;
+}
+.series-nav li {
+  margin: 0.3em 0;
+}
+.series-nav li.current {
+  font-weight: bold;
+}
+</style>

@@ -2,9 +2,51 @@
 layout: default
 title: Home
 ---
-{% for post in site.posts %}
+{% for post in paginator.posts %}
   <a class="entryLink" href="{{ post.url | relative_url }}">
     <b class="link">{{ post.title }}</b><br />
     <span>{{ post.excerpt | strip_html | truncate: 180 }}</span>
   </a>
 {% endfor %}
+
+{% if paginator.total_pages > 1 %}
+<nav class="pagination" aria-label="Post navigation">
+  {% if paginator.previous_page %}
+    <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination-prev">&larr; Newer</a>
+  {% else %}
+    <span class="pagination-prev disabled">&larr; Newer</span>
+  {% endif %}
+
+  <span class="pagination-info">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
+
+  {% if paginator.next_page %}
+    <a href="{{ paginator.next_page_path | relative_url }}" class="pagination-next">Older &rarr;</a>
+  {% else %}
+    <span class="pagination-next disabled">Older &rarr;</span>
+  {% endif %}
+</nav>
+
+<style>
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2em 0;
+  padding-top: 1em;
+  border-top: 1px solid #ddd;
+}
+.pagination-prev, .pagination-next {
+  min-width: 80px;
+}
+.pagination-next {
+  text-align: right;
+}
+.pagination .disabled {
+  color: #ccc;
+}
+.pagination-info {
+  font-size: 0.9em;
+  color: #666;
+}
+</style>
+{% endif %}

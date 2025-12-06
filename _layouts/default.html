@@ -5,14 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ page.title }} | {{ site.title }}</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Cousine:400,700,400italic,700italic" rel="stylesheet">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 160 }}">
+    <link rel="canonical" href="{{ page.url | absolute_url }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+    <meta property="og:url" content="{{ page.url | absolute_url }}">
+    <meta property="og:title" content="{{ page.title }} | {{ site.title }}">
+    <meta property="og:description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 200 }}">
+    <meta property="og:site_name" content="{{ site.title }}">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{ page.title }} | {{ site.title }}">
+    <meta name="twitter:description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 200 }}">
+
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ '/feed.xml' | relative_url }}">
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+    <link href="https://fonts.googleapis.com/css?family=Cousine:400,700,400italic,700italic&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
     <!-- Favicon (works with baseurl) -->
     <link rel="icon" href="{{ '/favicon.ico' | relative_url }}" type="image/x-icon">
 
-    <!-- KaTeX CSS -->
+    <!-- KaTeX CSS (only on pages with math) -->
+    {% if page.layout == 'post' or page.math %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    {% endif %}
 
     <!-- Prevent math line breaks; allow horizontal scroll for wide display equations -->
     <style>
@@ -31,9 +57,52 @@
         display: inline-block;
         white-space: nowrap !important;
       }
+      /* Skip link */
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: #000;
+        color: #fff;
+        padding: 8px;
+        z-index: 100;
+        text-decoration: none;
+      }
+      .skip-link:focus {
+        top: 0;
+      }
     </style>
+
+    {% if page.layout == 'post' %}
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": {{ page.title | jsonify }},
+      "datePublished": "{{ page.date | date_to_xmlschema }}",
+      "dateModified": "{{ page.date | date_to_xmlschema }}",
+      "author": {
+        "@type": "Person",
+        "name": "Gilles Colling",
+        "url": "https://gillescolling.com/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "{{ site.title }}",
+        "url": "{{ site.url }}{{ site.baseurl }}"
+      },
+      "description": {{ page.excerpt | strip_html | truncate: 200 | jsonify }},
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ page.url | absolute_url }}"
+      }
+    }
+    </script>
+    {% endif %}
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <div class="container">
       <header id="header">
         <div class="brand">
@@ -49,13 +118,18 @@
         <nav class="nav">
           <a href="{{ '/' | relative_url }}">Home</a>
           <a href="{{ '/archives/' | relative_url }}">Archives</a>
+          <a href="{{ '/categories/' | relative_url }}">Categories</a>
           <a href="{{ '/search/' | relative_url }}">Search</a>
+          <a href="{{ '/about/' | relative_url }}">About</a>
         </nav>
       </header>
 
-      {{ content }}
+      <main id="main-content">
+        {{ content }}
+      </main>
     </div>
 
+    {% if page.layout == 'post' or page.math %}
     <!-- KaTeX core + auto-render -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
@@ -80,5 +154,6 @@
         }
       })();
     </script>
+    {% endif %}
   </body>
 </html>

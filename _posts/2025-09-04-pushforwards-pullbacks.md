@@ -3,252 +3,380 @@ layout: post
 title: "Pushforwards and Pullbacks"
 date: 2025-09-04
 categories: category-theory measure-theory probability
+toc: true
 ---
 
-## How Maps Move Structure
+## The Die and the Question
 
-Roll a die.  
+Roll a die. You get a 4.
 
-The sample space consists of the six faces, which map to the numbers $1$ through $6$, and those numbers map further to properties such as odd or even. At each step the probability measure is carried along: the uniform measure on faces becomes the uniform measure on numbers, and then the fair distribution on parity.  
+Now I ask: "Is it even?"
 
-Maps can be more abstract too. For example, in Dungeons & Dragons the sample space is the set of character classes. Each class maps to the abilities it grants, and each ability maps to the actions available in combat. Structure travels through these maps: the class a player chooses determines a set of abilities, and those abilities in turn determine the kinds of actions that can occur in play.  
+Something just happened that's easy to miss. The randomness *moved*. It started in a space of six faces, then traveled to a space of two labels: odd and even. The uniform distribution on faces became the fair coin on parity.
 
-Whether the maps are injective or surjective does not matter. What matters is that structure moves from one space to another along them.  
+This movement has a direction. The die doesn't care about parity — parity is something we impose *after* the roll. But once we ask the question, probability flows forward through our question, landing in a simpler space.
 
-To capture this movement in general, mathematicians invented **category theory**. A category consists of **objects** (the spaces) and **arrows** (the maps). Arrows compose in sequence, and each object carries an identity arrow that leaves it unchanged.  
+What if we go the other way? Suppose I define a reward: \$1 if even, \$0 if odd. That function lives in parity-space. But to compute your expected winnings, you need to pull it back to die-space, where the probability lives.
 
-This minimal framework is enough to ask a sharp question: once a single arrow $f: X \to Y$ is fixed, how should structures that live on $X$ or on $Y$ be transported along it?
+Two directions. Measures go forward. Functions go backward.
 
+This is not a trick specific to dice. It is the grammar of how mathematics moves structure from one space to another.
 
 ---
 
-## Categories Of Spaces And Arrows
+## See It Happen
 
-In probability we work in the category of measurable spaces.  
-- **Objects** are sets equipped with a σ-algebra of subsets, called events.  
-- **Morphisms** are measurable maps, meaning the preimage of every event is an event.  
+<div id="transport-demo" style="max-width: 720px; margin: 1.5em auto;">
+  <svg id="transport-svg" viewBox="0 0 700 320" style="width: 100%; height: auto; border: 1px solid #000; background: #fff;">
+    <!-- Left space: Die faces -->
+    <g id="die-space">
+      <text x="120" y="30" text-anchor="middle" font-size="16" font-weight="bold">Die Faces (Ω)</text>
+      <g id="die-faces" transform="translate(60, 50)">
+        <!-- Six circles for faces -->
+        <circle cx="0" cy="0" r="22" fill="#fff" stroke="#000" stroke-width="2"/>
+        <text x="0" y="6" text-anchor="middle" font-size="16">1</text>
 
-On this foundation we define measures, random variables, and integrals.
+        <circle cx="60" cy="0" r="22" fill="#fff" stroke="#000" stroke-width="2"/>
+        <text x="60" y="6" text-anchor="middle" font-size="16">2</text>
 
-Two categorical notions appear quickly:  
-- A **functor** assigns data in a way that respects composition and identities.  
-  - If it preserves the direction of morphisms, it is *covariant*.  
-  - If it reverses them, it is *contravariant*.  
-- An **adjunction** is a pair of functors pointing in opposite directions, connected by a universal property that equates two ways of forming the same object.
+        <circle cx="120" cy="0" r="22" fill="#fff" stroke="#000" stroke-width="2"/>
+        <text x="120" y="6" text-anchor="middle" font-size="16">3</text>
 
-## Two Canonical Transports
+        <circle cx="0" cy="60" r="22" fill="#fff" stroke="#000" stroke-width="2"/>
+        <text x="0" y="66" text-anchor="middle" font-size="16">4</text>
 
-Fix a measurable map $f: X \to Y$.  
-Two mechanisms appear immediately.  
+        <circle cx="60" cy="60" r="22" fill="#fff" stroke="#000" stroke-width="2"/>
+        <text x="60" y="66" text-anchor="middle" font-size="16">5</text>
 
-- **Inverse image.** For an event $B$ in $Y$, the set  
-  $f^{-1}(B) = \{x \in X : f(x) \in B\}$ is an event in $X$.  
-  Inverse images respect the set operations that generate the σ-algebra.  
+        <circle cx="120" cy="60" r="22" fill="#fff" stroke="#000" stroke-width="2"/>
+        <text x="120" y="66" text-anchor="middle" font-size="16">6</text>
+      </g>
+      <text x="120" y="175" text-anchor="middle" font-size="14" fill="#666">P(each) = 1/6</text>
+    </g>
 
-- **Composition.** For an observable $g: Y \to \mathbb{R}$, the composite  
-  $g \circ f : X \to \mathbb{R}$ is an observable on $X$.  
-  Composition is how information defined on the target is read on the source.  
+    <!-- Right space: Parity -->
+    <g id="parity-space">
+      <text x="580" y="30" text-anchor="middle" font-size="16" font-weight="bold">Parity Space</text>
+      <g transform="translate(520, 70)">
+        <circle cx="0" cy="0" r="35" fill="#fff" stroke="#000" stroke-width="2"/>
+        <text x="0" y="6" text-anchor="middle" font-size="16">Odd</text>
 
-Both directions are stable: inverse images preserve events, and composition preserves observables.  
-Together they form the core ideas behind the formal definitions.
+        <circle cx="120" cy="0" r="35" fill="#fff" stroke="#000" stroke-width="2"/>
+        <text x="120" y="6" text-anchor="middle" font-size="16">Even</text>
+      </g>
+      <text x="580" y="145" text-anchor="middle" font-size="14" fill="#666" id="parity-prob">P(each) = 1/2</text>
+    </g>
 
-## Covariant Transport Of Measures
+    <!-- Arrow between spaces -->
+    <g id="main-arrow">
+      <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#000"/>
+        </marker>
+        <marker id="arrowhead-back" markerWidth="10" markerHeight="7" refX="1" refY="3.5" orient="auto">
+          <polygon points="10 0, 0 3.5, 10 7" fill="#000"/>
+        </marker>
+      </defs>
+      <line x1="250" y1="90" x2="450" y2="90" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)" id="forward-arrow"/>
+      <text x="350" y="75" text-anchor="middle" font-size="14" id="arrow-label">f: face → parity</text>
+    </g>
 
-Let $\mu$ be a measure on $X$. Transport it along $f$ by defining a measure on $Y$ through inverse images,
+    <!-- Controls -->
+    <g transform="translate(180, 210)">
+      <rect x="0" y="0" width="150" height="36" rx="4" fill="#fff" stroke="#000" stroke-width="1" style="cursor:pointer" id="btn-push"/>
+      <text x="75" y="24" text-anchor="middle" font-size="14" style="pointer-events:none">Push measure →</text>
 
-$$
-(f_{*}\mu)(B) \;=\; \mu\!\bigl(f^{-1}(B)\bigr) \qquad B \subseteq Y \text{ measurable}.
-$$
+      <rect x="170" y="0" width="150" height="36" rx="4" fill="#fff" stroke="#000" stroke-width="1" style="cursor:pointer" id="btn-pull"/>
+      <text x="245" y="24" text-anchor="middle" font-size="14" style="pointer-events:none">← Pull function</text>
+    </g>
 
-This is the pushforward of $\mu$. It is covariant because composition is respected:
+    <!-- Explanation box -->
+    <text x="350" y="280" text-anchor="middle" font-size="14" id="explanation" fill="#333">Click a button to see how structure moves.</text>
+    <text x="350" y="300" text-anchor="middle" font-size="13" id="explanation2" fill="#666"></text>
+  </svg>
+</div>
 
-$$
-(g\circ f)_{*} \;=\; g_{*} \circ f_{*}, \qquad (\mathrm{id}_{X})_{*}=\mathrm{id}.
-$$
+{% raw %}
+<script>
+(function(){
+  const svg = document.getElementById('transport-svg');
+  const btnPush = document.getElementById('btn-push');
+  const btnPull = document.getElementById('btn-pull');
+  const explanation = document.getElementById('explanation');
+  const explanation2 = document.getElementById('explanation2');
 
-One might wonder why not use direct images instead. If $A_1,A_2,\dots$ are disjoint in $X$, their images $f(A_i)$ need not be disjoint in $Y$, so countable additivity would fail.  
-Inverse images preserve exactly the structure a measure needs.  
+  const dieFaces = document.querySelectorAll('#die-faces circle');
+  const parityCircles = document.querySelectorAll('#parity-space circle');
 
-From a functorial point of view, we can also describe pushforward differently.  
-Send each measurable space $X$ to the set of all measures on $X$.  
-Then any measurable map $f: X \to Y$ induces a map  
-$f_{*}: \mathrm{Measures}(X) \to \mathrm{Measures}(Y)$.  
-This makes the assignment a covariant functor from measurable spaces to sets.
+  function reset(){
+    dieFaces.forEach(c => c.setAttribute('fill', '#fff'));
+    parityCircles.forEach(c => c.setAttribute('fill', '#fff'));
+  }
 
-## Contravariant Transport Of Observables
+  btnPush.addEventListener('click', function(){
+    reset();
+    // Highlight odd faces (1,3,5) and even faces (2,4,6)
+    [0, 2, 4].forEach(i => dieFaces[i].setAttribute('fill', '#fdd')); // odd - red tint
+    [1, 3, 5].forEach(i => dieFaces[i].setAttribute('fill', '#ddf')); // even - blue tint
 
-Let $g: Y \to \mathbb{R}$ be measurable.  
-Transport it back along $f$ by composition,
+    // Highlight parity space
+    parityCircles[0].setAttribute('fill', '#fdd'); // odd
+    parityCircles[1].setAttribute('fill', '#ddf'); // even
 
-$$
-f^{*} g \;=\; g \circ f : X \to \mathbb{R}.
-$$
+    explanation.textContent = 'Pushforward: The measure moves forward through f.';
+    explanation2.textContent = 'P({odd}) = P({1,3,5}) = 1/2, P({even}) = P({2,4,6}) = 1/2';
+  });
 
-This is the pullback of $g$.  
-It is contravariant because composition reverses:
+  btnPull.addEventListener('click', function(){
+    reset();
+    // Define g(even)=1, g(odd)=0, show it pulled back
+    parityCircles[0].setAttribute('fill', '#fff'); // odd = 0
+    parityCircles[1].setAttribute('fill', '#9d9'); // even = 1 (green for reward)
 
-$$
-(g\circ f)^{*} \;=\; f^{*} \circ g^{*}, \qquad (\mathrm{id}_{Y})^{*} = \mathrm{id}.
-$$
+    // Pull back to die space
+    [0, 2, 4].forEach(i => dieFaces[i].setAttribute('fill', '#fff')); // odd faces get 0
+    [1, 3, 5].forEach(i => dieFaces[i].setAttribute('fill', '#9d9')); // even faces get 1
 
-From a functorial point of view, fix a target value space such as $\mathbb{R}$.  
-Send each measurable space $Y$ to the set  
+    explanation.textContent = 'Pullback: The function g moves backward through f.';
+    explanation2.textContent = 'g(even)=1, g(odd)=0 pulls back to the indicator of {2,4,6}';
+  });
 
-$$
-\mathrm{Obs}(Y) = \{ g: Y \to \mathbb{R} \;\text{measurable} \},
-$$  
+  // Hover effects
+  [btnPush, btnPull].forEach(btn => {
+    btn.addEventListener('mouseenter', () => btn.setAttribute('fill', '#eee'));
+    btn.addEventListener('mouseleave', () => btn.setAttribute('fill', '#fff'));
+  });
+})();
+</script>
+{% endraw %}
 
-and send $f: X \to Y$ to $f^{*}: \mathrm{Obs}(Y) \to \mathrm{Obs}(X)$.  
-This makes the assignment a contravariant functor.
+---
 
-## Adjunction Via Integration
+## Why Two Directions?
 
-Pushforward and pullback are not independent tricks. They are tied by the integral. For a measure $\mu$ on $X$ and an observable $g$ on $Y$,
+This asymmetry puzzled mathematicians long before probability theory existed.
 
-$$
-\int_{Y} g(y)\, d\bigl(f_{*}\mu\bigr)(y)
-\;=\;
-\int_{X} (g\circ f)(x)\, d\mu(x).
-$$
+In the nineteenth century, Bernhard Riemann studied how geometric objects behave when you stretch or bend a surface. He noticed something curious: when you map one surface to another, certain quantities move *with* the map, while others move *against* it.
 
-On the left the measure moves forward. On the right the observable moves back. The equality says that these two transports fit perfectly. This is the integral form of an adjunction written $f^{*} \dashv f_{*}$: pullback is left adjoint to pushforward with respect to the pairing given by integration.
+**Tangent vectors push forward.** If you have a direction at a point and you stretch the surface, the direction stretches along with it. Vectors ride the map.
 
-There is an abstract way to see this. The integral defines a bilinear pairing between observables on a space and measures on that space. Pullback acts on the observable side, pushforward acts on the measure side, and the pairing is preserved.
+**Functions pull back.** If you have a function defined on the target surface (say, temperature), you can read its values on the source by composing with the map. Functions resist the map's direction.
 
-## Distributions As Transported Measures
+This duality appeared again in physics (contravariant vs. covariant tensors), in algebra (homomorphisms vs. cohomomorphisms), and eventually in probability.
 
-A random variable is a measurable map
+The pattern is universal: whenever you have a map between spaces, two operations arise. One follows the map. One opposes it. And something deep holds them together.
 
-$$
-X: \Omega \to \mathbb{R}.
-$$
+---
 
-The base probability $P$ on $\Omega$ is transported along $X$ to a measure on $\mathbb{R}$ given by
+## The Formal Definitions
 
-$$
-P_{X}(B) \;=\; P\!\bigl(X^{-1}(B)\bigr).
-$$
+Fix a measurable map $f: X \to Y$.
 
-This is the distribution of $X$. It is nothing more or less than a pushforward. Marginal distributions are pushforwards along projection maps; for $\pi_{X}: X\times Y\to X$,
-
-$$
-(\pi_{X})_{*}(\mu)(A) \;=\; \mu\!\bigl(A\times Y\bigr).
-$$
-
-Distributions and marginals both arise as pushforwards of the base measure.  
-It is natural to ask whether other familiar operations in probability fit the same pattern.  
-
-A counterexample is conditioning.  
-Conditioning is fundamental because it formalises how probabilities update when new information is known.  
-It underlies Bayes’ rule, posterior distributions, regression, and conditional expectation.  
-
-Concretely, conditioning means updating probabilities once we know that some event $B$ has occurred.  
-The new measure tells us how likely other events $A$ are, given that we restrict attention to outcomes inside $B$.  
-Formally, for an event $B$ with positive mass,  
-
-$$
-P(\,\cdot\,\mid B) : A \mapsto \frac{P(A\cap B)}{P(B)}.
-$$  
-
-This is not transport along a map.  
-It is restriction to the slice $B$, followed by renormalisation so that total mass is $1$.
-
-## From Categories To Statistical Practice
-
-The abstract transports reappear in statistics when models carry probability across spaces.  
-A statistical model maps parameters and covariates to a distribution for an outcome.  
-
-In a frequentist workflow, one chooses a single estimate $\hat{\boldsymbol{\beta}}$ for the coefficient vector $\boldsymbol{\beta}$.  
-Predictions are then read conditionally at fixed covariates, and uncertainty bands describe the sampling distribution of $\hat{\boldsymbol{\beta}}$ under repeated sampling.  
-
-In a Bayesian workflow, by contrast, the entire posterior over $\boldsymbol{\beta}$ is transported through the model.  
-With covariates fixed at representative values,  
-
-$$
-p(y^{*} \mid \text{data})
-\;=\;
-\int p\!\bigl(y^{*} \mid \boldsymbol{\beta}\bigr)\, p(\boldsymbol{\beta}\mid \text{data})\, d\boldsymbol{\beta},
-$$  
-
-which is exactly a pushforward of the posterior through the model map.  
-The curve with credible bands is the image of that transported mass in the outcome space.
-
-## A Discrete Case With Dice
-
-Take  
+**Pushforward of measures.** Let $\mu$ be a measure on $X$. Define a measure on $Y$ by:
 
 $$
-\Omega = \{\omega_1, \dots, \omega_6\}, \qquad  
-P(\{\omega_i\}) = \tfrac{1}{6},
-$$  
+(f_{*}\mu)(B) \;=\; \mu\!\bigl(f^{-1}(B)\bigr) \qquad \text{for } B \subseteq Y \text{ measurable}.
+$$
 
-with the power-set σ-algebra. This is the uniform probability space of a die.  
+This is covariant: $(g \circ f)_* = g_* \circ f_*$.
 
-Map faces to numbers by  
+**Pullback of functions.** Let $g: Y \to \mathbb{R}$ be measurable. Define a function on $X$ by:
 
 $$
-X: \Omega \to \mathbb{R}, \qquad X(\omega_i) = i.
-$$  
+f^{*}g \;=\; g \circ f : X \to \mathbb{R}.
+$$
 
-The distribution of $X$ is the pushforward measure  
+This is contravariant: $(g \circ f)^* = f^* \circ g^*$.
+
+The notation reflects the direction. Subscript $*$ for pushforward (following the arrow). Superscript $*$ for pullback (against the arrow).
+
+---
+
+## Why Not Direct Images?
+
+A natural question: why define pushforward using *inverse* images? Why not just push sets forward directly?
+
+The answer is measure theory's demand for additivity. If $A_1, A_2, \dots$ are disjoint sets in $X$, their direct images $f(A_1), f(A_2), \dots$ need not be disjoint in $Y$. Two different points in $X$ might land on the same point in $Y$.
+
+But inverse images behave perfectly:
 
 $$
-P_X(\{k\}) = P\!\bigl(X^{-1}(\{k\})\bigr) = \tfrac{1}{6}, 
-\quad k=1,\dots,6.
-$$  
+f^{-1}(B_1 \cup B_2) = f^{-1}(B_1) \cup f^{-1}(B_2), \qquad f^{-1}(B^c) = f^{-1}(B)^c.
+$$
 
-Now map faces to parity by  
+Inverse images preserve the set operations that σ-algebras need. That's why pushforward uses inverse images even though the measure moves "forward."
+
+---
+
+## The Adjunction: Where the Two Directions Meet
+
+Pushforward and pullback are not independent tricks. They are married by the integral.
+
+For a measure $\mu$ on $X$ and a function $g$ on $Y$:
 
 $$
-f: \Omega \to \{\text{odd},\text{even}\}, \qquad f(\omega_i) = \text{parity}(i).
-$$  
+\int_{Y} g(y)\, d(f_{*}\mu)(y) \;=\; \int_{X} (g \circ f)(x)\, d\mu(x).
+$$
 
-The pushforward of $P$ along $f$ is the fair distribution on parity:  
+On the left, the measure moves forward to $Y$, where $g$ lives. On the right, the function moves backward to $X$, where $\mu$ lives. Both integrals compute the same number.
+
+This is the change-of-variables formula. But seen through the lens of category theory, it's something more: an **adjunction**. The integral defines a pairing between functions and measures, and pushforward/pullback preserve that pairing.
+
+Written symbolically: $f^* \dashv f_*$, meaning pullback is left adjoint to pushforward.
+
+---
+
+## Category Theory: The General Framework
+
+The pattern of pushforwards and pullbacks is captured by category theory's language of functors.
+
+A **category** consists of:
+- **Objects**: the spaces (sets, measurable spaces, manifolds, etc.)
+- **Morphisms**: the maps between them
+- **Composition**: maps can be chained, and identity maps exist
+
+A **functor** assigns objects to objects and morphisms to morphisms, respecting composition.
+- **Covariant** functors preserve direction: $F(g \circ f) = F(g) \circ F(f)$
+- **Contravariant** functors reverse direction: $F(g \circ f) = F(f) \circ F(g)$
+
+In probability:
+- Sending each space $X$ to its measures, and each map $f$ to $f_*$, is a covariant functor.
+- Sending each space $Y$ to its observables, and each map $f$ to $f^*$, is a contravariant functor.
+
+The integral formula is the **adjunction** that ties them together.
+
+This abstraction earns its keep. Once you see the pattern, you recognize it everywhere: in topology (homology vs. cohomology), in algebra (extension vs. restriction of scalars), in logic (existential vs. universal quantifiers).
+
+---
+
+## Back to the Die
+
+Let's make this concrete with the full calculation.
+
+**The spaces:**
 
 $$
-f_{*}P(\{\text{even}\}) = P(\{2,4,6\}) = \tfrac{1}{2}, 
-\qquad  
-f_{*}P(\{\text{odd}\}) = P(\{1,3,5\}) = \tfrac{1}{2}.
-$$  
-
-Take an observable on parity,  
+\Omega = \{1, 2, 3, 4, 5, 6\}, \qquad P(\{i\}) = \tfrac{1}{6}.
+$$
 
 $$
-g: \{\text{odd}, \text{even}\} \to \mathbb{R}, \qquad 
-g(\text{even}) = 1, \; g(\text{odd}) = 0.
-$$  
+Y = \{\text{odd}, \text{even}\}, \qquad f(i) = \text{parity of } i.
+$$
 
-Its pullback is  
+**Pushforward of $P$:**
 
 $$
-f^{*}g = g \circ f : \Omega \to \mathbb{R},
-$$  
+f_*P(\{\text{odd}\}) = P(\{1, 3, 5\}) = \tfrac{1}{2}, \qquad f_*P(\{\text{even}\}) = P(\{2, 4, 6\}) = \tfrac{1}{2}.
+$$
 
-which is exactly the indicator function of $\{2,4,6\}$.  
+The uniform distribution on faces becomes the fair coin on parity.
 
-Finally, the change-of-variables identity holds:  
+**Pullback of a reward function:**
+
+Define $g: Y \to \mathbb{R}$ by $g(\text{even}) = 1$, $g(\text{odd}) = 0$.
 
 $$
-\int_{\{\text{odd},\text{even}\}} g \, d(f_{*}P)
-\;=\;
-\int_{\Omega} f^{*}g \, dP
-\;=\; \tfrac{1}{2}.
-$$  
+f^*g = g \circ f : \Omega \to \mathbb{R}
+$$
 
-## Beyond Probability
+is the indicator function of $\{2, 4, 6\}$.
 
-The pattern of pushforwards and pullbacks is older and broader than probability.  
-In the nineteenth century, Gauss and Riemann studied how curvature and forms behaved under maps between surfaces.  
-Pullbacks carried functions or differential forms from one manifold to another, while pushforwards carried tangent vectors along smooth maps.  
-The same duality reappeared in analysis as the change-of-variables formula, where Jacobian determinants mark the trace of a pushforward.  
+**The adjunction in action:**
 
-In the twentieth century, probability and computation revived the theme.  
-Monte Carlo methods, developed by Stanislaw Ulam and John von Neumann in the 1940s, transported randomness from simple spaces into complex systems.  
-Today, generative models push forward latent distributions into images or text, normalizing flows make Jacobians explicit, and variational inference relies on pullbacks to estimate expectations.  
-What began as geometry became the machinery of modern statistics and machine learning.  
+$$
+\int_Y g \, d(f_*P) = 1 \cdot \tfrac{1}{2} + 0 \cdot \tfrac{1}{2} = \tfrac{1}{2}.
+$$
 
-The unifying view is straightforward. A single map gives rise to two operations.  
-One moves mass forward, the other moves observables back, and integration holds them in balance.  
-Across centuries and fields, from Gauss’s surfaces to Kolmogorov’s probability, from Shannon’s information to deep learning models, the same structure appears.  
-Pushforwards and pullbacks are not just technical devices.  
-They are the grammar by which mathematics moves structure from one space to another.
+$$
+\int_\Omega f^*g \, dP = \sum_{i \in \{2,4,6\}} \tfrac{1}{6} = \tfrac{1}{2}.
+$$
+
+Both integrals agree. The expected reward is 1/2, computed either by pushing the measure forward or pulling the function back.
+
+---
+
+## Distributions Are Pushforwards
+
+Every probability distribution is a pushforward in disguise.
+
+A random variable is a measurable map $X: \Omega \to \mathbb{R}$. Its distribution is:
+
+$$
+P_X(B) = P(X^{-1}(B)) = (X_* P)(B).
+$$
+
+The distribution is the pushforward of the base probability through the random variable.
+
+Marginal distributions follow the same pattern. For a joint distribution on $X \times Y$, the marginal on $X$ is the pushforward along the projection $\pi_X$:
+
+$$
+(\pi_X)_* \mu (A) = \mu(A \times Y).
+$$
+
+Distributions, marginals, transformations — all pushforwards of the same base measure through different maps.
+
+---
+
+## What About Conditioning?
+
+Not everything in probability is a pushforward.
+
+Conditioning is fundamental: it describes how beliefs update when information arrives. Given an event $B$ with $P(B) > 0$:
+
+$$
+P(A \mid B) = \frac{P(A \cap B)}{P(B)}.
+$$
+
+This is *not* transport along a map. It is restriction to a slice, followed by renormalization.
+
+Pushforwards move probability between spaces. Conditioning reshapes probability within a single space. Both matter, but they are different operations.
+
+(There are ways to encode conditioning using pushforwards — disintegration theory makes this precise — but the naive picture of "just push through a map" doesn't capture what conditioning does.)
+
+---
+
+## From Statistics to Neural Networks
+
+The abstract pattern reappears wherever models transform probability.
+
+**Frequentist statistics.** A model maps parameters $\boldsymbol{\beta}$ and covariates $\mathbf{x}$ to a predicted outcome. Frequentists fix $\hat{\boldsymbol{\beta}}$ at a point estimate and examine how the prediction varies across the sampling distribution of $\hat{\boldsymbol{\beta}}$.
+
+**Bayesian statistics.** The entire posterior over $\boldsymbol{\beta}$ is pushed through the model:
+
+$$
+p(y^* \mid \text{data}) = \int p(y^* \mid \boldsymbol{\beta}) \, p(\boldsymbol{\beta} \mid \text{data}) \, d\boldsymbol{\beta}.
+$$
+
+This integral is a pushforward. The posterior on parameters becomes a predictive distribution on outcomes.
+
+**Generative models.** A neural network maps a simple distribution (Gaussian noise in latent space) to a complex distribution (images, text, audio). The generator is a map $G: Z \to X$, and the generated distribution is:
+
+$$
+p_X = G_* p_Z.
+$$
+
+Every image produced by a diffusion model or GAN is a sample from a pushforward.
+
+**Normalizing flows.** These models make the pushforward explicit. They construct invertible maps with tractable Jacobians, so the density of the pushforward can be computed exactly:
+
+$$
+p_X(x) = p_Z(G^{-1}(x)) \cdot |\det \nabla G^{-1}(x)|.
+$$
+
+The Jacobian is the trace of the pushforward — Riemann's insight, now running on GPUs.
+
+---
+
+## The Grammar of Structure
+
+The pattern is older than probability and broader than statistics.
+
+In the nineteenth century, Gauss and Riemann studied how curvature behaves under maps between surfaces. Pullbacks carried differential forms; pushforwards carried tangent vectors. The change-of-variables formula, with its Jacobian determinant, is the integral adjunction in differential form.
+
+In the twentieth century, category theory gave the pattern a name and a home. Functors, natural transformations, adjunctions — the vocabulary exists precisely to capture what pushforwards and pullbacks do.
+
+In the twenty-first century, the same structure powers machine learning. Monte Carlo methods push simple randomness into complex simulations. Variational inference pulls expectations back through intractable models. Generative AI pushes latent noise into images and text.
+
+A single map gives rise to two operations. One moves mass forward. The other moves questions back. Integration holds them in balance.
+
+From Riemann's surfaces to Kolmogorov's probability to modern neural networks, this is how mathematics moves structure from one space to another.

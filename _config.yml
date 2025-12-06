@@ -6,18 +6,24 @@ description: "A minimalist blog about Stats, Math and other interesting Stuff"
 url: "https://gcol33.github.io"
 baseurl: "/blog"   # since the repo is gcol33/blog
 
-# Theme off; we use custom layouts
-theme: null
-
 # Useful defaults
 permalink: /:title/
 markdown: kramdown
 kramdown:
   input: GFM
 
-# Plugins (feed stays enabled; no header link needed)
+# Excerpt handling
+excerpt_separator: "---"
+
+# Plugins
 plugins:
   - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-paginate
+
+# Pagination
+paginate: 10
+paginate_path: "/page/:num/"
 
 # Housekeeping
 exclude:
@@ -25,3 +31,4 @@ exclude:
   - Gemfile.lock
   - node_modules
   - README.md
+  - CLAUDE.md
