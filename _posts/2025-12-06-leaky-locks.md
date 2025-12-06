@@ -81,7 +81,7 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
 
   <svg id="collapse-svg" viewBox="0 0 700 280" style="width: 100%; height: auto; border: 1px solid #000; background: #fff;"></svg>
 
-  <div style="display: flex; justify-content: space-between; margin-top: 0.5em; padding: 0.5em; background: #fafafa; border: 1px solid #ddd; font-size: 0.95em;">
+  <div style="display: flex; justify-content: space-between; margin-top: 0.5em; padding: 0.5em; background: #fafafa; border: 1px solid #000; font-size: 0.95em;">
     <div><span class="lightText">Without leak:</span> <strong id="exp-value">10,000</strong></div>
     <div><span class="lightText">With leak:</span> <strong id="lin-value">40</strong></div>
     <div><span class="lightText">Collapse:</span> <strong id="ratio-value">250×</strong></div>
@@ -232,7 +232,7 @@ These are not attacks in the traditional sense. No lock is picked. No cipher is 
 
 ## Your Rhythm
 
-<div id="rhythm-demo" style="max-width: 720px; margin: 1.5em auto; padding: 1em; border: 1px solid #000; background: #fff;">
+<div id="rhythm-demo" style="max-width: 720px; margin: 1.5em auto;">
   <p style="margin-top: 0;">Type anything below. The content doesn't matter - your rhythm is the signal.</p>
 
   <input type="text" id="rhythm-input" placeholder="Type here..." style="width: 100%; padding: 0.5em; font-size: 1em; border: 1px solid #000; box-sizing: border-box;">
