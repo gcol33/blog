@@ -268,11 +268,11 @@ The lesson is uncomfortable: information is not a property of what you *intend* 
 
 The deepest consequences go beyond cryptography.
 
-**Netflix and traffic analysis.** Your video stream is encrypted. An eavesdropper sees only noise. But the *pattern* of the traffic - packet sizes, timing, bitrate changes - correlates with what you're watching. Researchers have identified specific movies from encrypted Netflix streams with over 99% accuracy. The content is hidden. Its shape is not.
+**Netflix and traffic analysis.** Your video stream is encrypted. An eavesdropper sees only noise. But the *pattern* of the traffic - packet sizes, timing, bitrate changes - correlates with what you're watching. Researchers have identified specific movies from encrypted Netflix streams with over 99% accuracy.
 
-**Keystroke dynamics.** The rhythm of your typing - how long you hold each key, the gaps between keystrokes - identifies you as reliably as a fingerprint. This works through encryption, through Tor, through any anonymizing layer. You cannot change your rhythm without extraordinary effort. The text is hidden. The author is not.
+**Keystroke dynamics.** The rhythm of your typing - how long you hold each key, the gaps between keystrokes - identifies you as reliably as a fingerprint. This works through encryption, through Tor, through any anonymizing layer.
 
-**Website fingerprinting.** HTTPS hides which page you're viewing. It doesn't hide the pattern of requests: how many resources, what sizes, what timing. The pattern is enough to identify the site with high accuracy. The URL is hidden. The destination is not.
+**Website fingerprinting.** HTTPS hides which page you're viewing but not the pattern of requests: how many resources, what sizes, what timing. The pattern is enough to identify the site with high accuracy.
 
 These are not attacks in the traditional sense. No lock is picked. No cipher is broken. The information was there all along, in the shape of the activity.
 
@@ -415,7 +415,7 @@ Each generation discovers that the last generation's definition of "the secret" 
 
 The expanding boundary of information has implications beyond locks and codes.
 
-**Privacy.** Every digital action has a shape - timing, size, frequency. Encryption hides content but not shape. Metadata is data. The pattern of your life is visible even when the content is not.
+**Privacy.** Every digital action has a shape - timing, size, frequency. Encryption hides content but not shape. Metadata is data.
 
 **Anonymity.** Behavioral patterns are signatures. How you type, how you move your mouse, how you browse. These patterns persist across contexts. True anonymity requires suppressing not just identity but behavior - and behavior is hard to fake.
 
@@ -437,12 +437,8 @@ Every physical process is a broadcast. Security is not about stopping the broadc
 
 This is hard. It requires understanding what information is - not what you intend to transmit, but what can be received.
 
-The safe's designers thought information was the code. They were wrong. Information was also the rhythm of the mechanism, the heat of the electronics, the sound of the buttons.
+The safe's designers protected the code. They didn't think to protect the rhythm of the mechanism, the heat of the electronics, the sound of the buttons.
 
-Churchill's engineers thought information was the words. They were wrong. Information was also the cadence, the pauses, the shape.
-
-We keep learning this lesson. We will keep learning it.
+Churchill's engineers protected the words. They didn't think to protect the cadence.
 
 **The lock will always talk. Security is teaching it to say nothing useful.**
-
-Or more precisely: security is understanding, before your adversary does, what the lock can be made to say.
