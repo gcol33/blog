@@ -46,7 +46,9 @@ Graphics are **inline JavaScript/HTML/CSS** embedded directly in posts using `{%
 - Self-contained: all code within the post markdown file
 
 ### Style Guidelines
-- Black borders, minimal color palette (white/gray backgrounds, accent color like `#0a7`)
+- **Black and white only** - no colored fills, no colored bars, no accent colors. Use `#000` (black), `#fff` (white), and grays (`#fafafa`, `#eee`) only.
+- **Borders: `1px solid #000` only** - never use `#ddd` or other gray borders
+- **No double borders** - outer container has no border, only inner elements (canvas, boxes) have borders
 - Clean, functional UI (no decorative elements)
 - Stats/output displayed in tabular-nums font
 - Responsive: adapt for mobile (smaller canvas, stacked controls)
