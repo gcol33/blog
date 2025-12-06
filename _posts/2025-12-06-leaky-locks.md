@@ -16,7 +16,7 @@ But Bell Labs engineer A.B. Clark noticed something troubling. The encryption sc
 
 Clark realized that rhythm alone might be enough to reconstruct words. He was right. The phenomenon would later be called "residual intelligibility." The secret wasn't in the message. It was in the *shape* of the message.
 
-SIGSALY was redesigned to mask timing patterns. The fix added more equipment. More weight. More complexity. All to hide something no one had thought to protect: the shadow of the words.
+SIGSALY was redesigned to mask timing patterns. The fix added more equipment. More weight. More complexity. All to hide something no one had thought to protect: the rhythm.
 
 This is the story of the twentieth century's long education in what counts as information.
 
