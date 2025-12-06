@@ -117,25 +117,25 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
     document.getElementById('lin-value').textContent = fmt(lin);
     document.getElementById('ratio-value').textContent = fmt(Math.round(exp / lin)) + '×';
 
-    const W = 700, H = 280, pad = 50;
+    const W = 700, H = 280, pad = 80;
     const maxLog = 24;
     const expLog = Math.log10(exp);
     const linLog = Math.log10(lin);
-    const scaleW = W - pad * 2;
+    const scaleW = W - pad - 50;
 
-    let html = `<text x="30" y="${H/2}" text-anchor="middle" font-size="13" transform="rotate(-90,30,${H/2})">Attempts (log scale)</text>`;
+    let html = `<text x="20" y="${H/2}" text-anchor="middle" font-size="13" transform="rotate(-90,20,${H/2})">Attempts (log scale)</text>`;
 
     const y1 = 70, y2 = 150, barH = 45;
     const expW = (expLog / maxLog) * scaleW;
     const linW = (linLog / maxLog) * scaleW;
 
-    html += `<rect x="${pad}" y="${y1}" width="${expW}" height="${barH}" fill="#b55" stroke="#000"/>`;
+    html += `<rect x="${pad}" y="${y1}" width="${expW}" height="${barH}" fill="#000" stroke="#000"/>`;
     html += `<text x="${pad-5}" y="${y1+barH/2+5}" text-anchor="end" font-size="13">No leak</text>`;
 
-    html += `<rect x="${pad}" y="${y2}" width="${Math.max(linW,3)}" height="${barH}" fill="#5a5" stroke="#000"/>`;
+    html += `<rect x="${pad}" y="${y2}" width="${Math.max(linW,3)}" height="${barH}" fill="#fff" stroke="#000"/>`;
     html += `<text x="${pad-5}" y="${y2+barH/2+5}" text-anchor="end" font-size="13">With leak</text>`;
 
-    html += `<line x1="${pad}" y1="${H-35}" x2="${W-pad}" y2="${H-35}" stroke="#000"/>`;
+    html += `<line x1="${pad}" y1="${H-35}" x2="${pad + scaleW}" y2="${H-35}" stroke="#000"/>`;
     for (let i = 0; i <= 24; i += 4) {
       const x = pad + (i / maxLog) * scaleW;
       html += `<line x1="${x}" y1="${H-35}" x2="${x}" y2="${H-30}" stroke="#000"/>`;
@@ -274,7 +274,7 @@ These are not attacks in the traditional sense. No lock is picked. No cipher is 
     const max = Math.max(...intervals, 150);
     const barW = Math.min(16, (W - 20) / intervals.length);
 
-    ctx.fillStyle = '#369';
+    ctx.fillStyle = '#000';
     for (let i = 0; i < intervals.length; i++) {
       const h = (intervals[i] / max) * (H - 10);
       ctx.fillRect(10 + i * barW, H - 5 - h, barW - 2, h);
