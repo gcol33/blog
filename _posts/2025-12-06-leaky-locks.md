@@ -377,7 +377,7 @@ Different people produce different patterns. The text vanishes into encryption. 
 
 ---
 
-## The Fixes
+## The Arms Race Has No End
 
 The natural response is: fix the leaks. And cryptographers have tried.
 
