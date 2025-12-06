@@ -151,3 +151,13 @@ When ready to publish, move to `_posts/` with date prefix.
 
 For multi-part posts, add `series: "Series Name"` to front matter.
 All posts with the same series name will show a navigation box linking them in date order.
+
+## Git Push
+
+This repo uses SSH with a specific key. Push with:
+
+```bash
+git push
+```
+
+Remote is configured as `git@github.com-gcol33:gcol33/blog.git` (uses `~/.ssh/id_ed25519_gcol33` via SSH config alias).
