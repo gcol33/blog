@@ -54,7 +54,7 @@ Before you answer, try the simulation below. You are one of a million people rec
     </div>
     <div class="lightText" style="text-align: center;">Recipients remaining (log scale)</div>
 
-    <div id="prophet-reveal" style="display: none; border: 2px solid #000; padding: 1em; background: #ffe;">
+    <div id="prophet-reveal" style="display: none; border: 1px solid #000; padding: 1em; background: #fafafa;">
       <strong>The trick revealed:</strong> The "prophet" sent <em>both</em> predictions each round—"up" to half, "down" to the other half. No matter what happened, half the recipients saw a correct prediction. The wrong half was simply never contacted again.
       <div style="margin-top: 0.5em;">
         After 10 rounds, <span id="prophet-final">~976</span> people have seen 10 perfect predictions. To them, the prophet seems infallible. To everyone else, the prophet doesn't exist—they stopped receiving emails long ago.
@@ -139,7 +139,7 @@ Before you answer, try the simulation below. You are one of a million people rec
     if(history.length < 2) return;
 
     // Draw line
-    ctx.strokeStyle = '#2266cc';
+    ctx.strokeStyle = '#000';
     ctx.lineWidth = 2;
     ctx.beginPath();
     for(let i = 0; i < history.length; i++){
@@ -152,7 +152,7 @@ Before you answer, try the simulation below. You are one of a million people rec
     ctx.stroke();
 
     // Draw points
-    ctx.fillStyle = '#2266cc';
+    ctx.fillStyle = '#000';
     for(let i = 0; i < history.length; i++){
       const x = pad + (i / 10) * innerW;
       const logVal = Math.log10(Math.max(history[i], 100));
