@@ -250,7 +250,7 @@ The boundary is still moving.
 
 ---
 
-## What We Learned (Slowly)
+## Shannon's Definition
 
 The history of side channels is a history of expanding the concept of information itself.
 
@@ -377,7 +377,7 @@ Different people produce different patterns. The text vanishes into encryption. 
 
 ---
 
-## The Arms Race Has No End
+## The Fixes
 
 The natural response is: fix the leaks. And cryptographers have tried.
 
@@ -395,7 +395,7 @@ For the NSA, the threshold is low. For a random thief, high. But the threshold k
 
 ---
 
-## The Uncomfortable Truth
+## The Moving Boundary
 
 Here is what the twentieth century taught us:
 
@@ -411,7 +411,7 @@ Each generation discovers that the last generation's definition of "the secret" 
 
 ---
 
-## Beyond Security
+## Privacy, Anonymity, AI
 
 The expanding boundary of information has implications beyond locks and codes.
 
