@@ -24,41 +24,27 @@ Before you answer, try the simulation below. You are one of a million people rec
 
 ## See It Happen
 
-<div id="prophet-sim" style="max-width: 720px; margin: 1.5em auto;">
-  <div class="prophet-viz" style="display: flex; flex-direction: column; gap: 1em;">
+<div id="prophet-sim" style="max-width: 720px; margin: 0 auto;">
+  <canvas id="prophet-canvas" style="width: 100%; height: 200px; background: #fff; border: 1px solid #000;"></canvas>
 
-    <div style="display: flex; gap: 1em; align-items: center; flex-wrap: wrap;">
-      <button id="prophet-next">Send Next Prediction</button>
-      <button id="prophet-auto">Auto-run to Round 10</button>
-      <button id="prophet-reset">Reset</button>
-    </div>
+  <div class="prophet-controls">
+    <button id="prophet-next">Send Next Prediction</button>
+    <button id="prophet-auto">Auto-run to Round 10</button>
+    <button id="prophet-reset">Reset</button>
+  </div>
 
-    <div class="prophet-stage" style="border: 1px solid #000; padding: 1em; background: #fafafa; min-height: 120px;">
-      <div id="prophet-round" style="font-size: 1.1em; margin-bottom: 0.5em;"><strong>Round 0</strong> — Before any predictions</div>
-      <div id="prophet-narrative" style="margin-bottom: 1em;">One million people receive the first email...</div>
+  <div class="prophet-stats">
+    <div class="prophet-stat-row"><span>Round:</span><strong id="prophet-round-num">0</strong></div>
+    <div class="prophet-stat-row"><span>Recipients remaining:</span><strong id="prophet-remaining">1,000,000</strong></div>
+    <div class="prophet-stat-row"><span>Correct predictions seen:</span><strong id="prophet-streak">0</strong></div>
+  </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1em; margin-top: 1em;">
-        <div>
-          <div class="lightText">Recipients remaining</div>
-          <div id="prophet-remaining" style="font-size: 1.8em; font-weight: bold;">1,000,000</div>
-        </div>
-        <div>
-          <div class="lightText">Correct predictions seen</div>
-          <div id="prophet-streak" style="font-size: 1.8em; font-weight: bold;">0</div>
-        </div>
-      </div>
-    </div>
+  <div id="prophet-narrative" class="prophet-narrative">One million people receive the first email...</div>
 
-    <div style="border: 1px solid #000; background: #fff;">
-      <canvas id="prophet-canvas" style="width: 100%; height: 200px;"></canvas>
-    </div>
-    <div class="lightText" style="text-align: center;">Recipients remaining (log scale)</div>
-
-    <div id="prophet-reveal" style="display: none; border: 1px solid #000; padding: 1em; background: #fafafa;">
-      <strong>The trick revealed:</strong> The "prophet" sent <em>both</em> predictions each round—"up" to half, "down" to the other half. No matter what happened, half the recipients saw a correct prediction. The wrong half was simply never contacted again.
-      <div style="margin-top: 0.5em;">
-        After 10 rounds, <span id="prophet-final">~976</span> people have seen 10 perfect predictions. To them, the prophet seems infallible. To everyone else, the prophet doesn't exist—they stopped receiving emails long ago.
-      </div>
+  <div id="prophet-reveal" class="prophet-reveal">
+    <strong>The trick revealed:</strong> The "prophet" sent <em>both</em> predictions each round—"up" to half, "down" to the other half. No matter what happened, half the recipients saw a correct prediction. The wrong half was simply never contacted again.
+    <div style="margin-top: 0.5em;">
+      After 10 rounds, <span id="prophet-final">~976</span> people have seen 10 perfect predictions. To them, the prophet seems infallible. To everyone else, the prophet doesn't exist—they stopped receiving emails long ago.
     </div>
   </div>
 </div>
@@ -164,7 +150,7 @@ Before you answer, try the simulation below. You are one of a million people rec
   }
 
   function update(){
-    document.getElementById('prophet-round').innerHTML = `<strong>Round ${round}</strong> — ${round === 0 ? 'Before any predictions' : `After ${round} prediction${round > 1 ? 's' : ''}`}`;
+    document.getElementById('prophet-round-num').textContent = round;
     document.getElementById('prophet-narrative').textContent = narratives[Math.min(round, narratives.length - 1)];
     document.getElementById('prophet-remaining').textContent = Math.round(remaining).toLocaleString();
     document.getElementById('prophet-streak').textContent = round.toString();
@@ -212,6 +198,16 @@ Before you answer, try the simulation below. You are one of a million people rec
 </script>
 
 <style>
+#prophet-sim { font-variant-numeric: tabular-nums; }
+#prophet-sim * { box-sizing: border-box; }
+
+#prophet-sim .prophet-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
 #prophet-sim button {
   padding: 0.5em 1em;
   font-size: 0.95em;
@@ -221,6 +217,33 @@ Before you answer, try the simulation below. You are one of a million people rec
 }
 #prophet-sim button:hover {
   background: #eee;
+}
+
+#prophet-sim .prophet-stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  margin-top: 10px;
+}
+#prophet-sim .prophet-stat-row {
+  border-top: 1px solid #000;
+  padding: 6px 0;
+  font-size: 0.95em;
+  display: flex;
+  gap: 6px;
+}
+
+#prophet-sim .prophet-narrative {
+  border-top: 1px solid #000;
+  padding: 10px 0;
+  font-size: 0.95em;
+}
+
+#prophet-sim .prophet-reveal {
+  display: none;
+  border-top: 1px solid #000;
+  padding: 10px 0;
+  font-size: 0.95em;
 }
 </style>
 {% endraw %}
