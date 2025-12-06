@@ -2,39 +2,43 @@
 layout: post
 title: "Leaky Locks"
 date: 2025-12-06
-categories: security probability information-theory
+categories: security information-theory history
 toc: true
 ---
 
-## The Shadow of the Secret
+## What Counts as Information?
 
-You encrypt a message. The ciphertext is random noise to anyone without the key. The content is safe.
+In 1943, the telephone in Winston Churchill's war room was a problem.
 
-But you sent the message at 2:47 AM. It was 3.2 kilobytes. You sent another one 12 minutes later, shorter. Then nothing until morning.
+The transatlantic calls to Roosevelt were encrypted by a system called SIGSALY - fifty tons of equipment that digitized speech, scrambled it with one-time pads, and reassembled it on the other end. The voice channel was mathematically unbreakable. The Germans couldn't decode a single word.
 
-The message is hidden. Its *shadow* is not.
+But Bell Labs engineer A.B. Clark noticed something troubling. The encryption scrambled the *content* of Churchill's speech. It didn't scramble the *rhythm*. The timing of syllables, the cadence of sentences, the patterns of pauses - all of it passed through intact.
 
-This is meta-information: data about data. And it turns out that protecting the secret is easy compared to protecting its shape.
+Clark realized that rhythm alone might be enough to reconstruct words. He was right. The phenomenon would later be called "residual intelligibility." The secret wasn't in the message. It was in the *shape* of the message.
+
+SIGSALY was redesigned to mask timing patterns. The fix added more equipment. More weight. More complexity. All to hide something no one had thought to protect: the shadow of the words.
+
+This is the story of the twentieth century's long education in what counts as information.
 
 ---
 
 ## The Beeping Safe
 
-In the 1980s, hotel room safes used a simple four-digit code. Guests would set their own combination, and the safe would beep once for each correct digit as you entered it.
+The lesson had to be learned many times.
 
-Beep. Beep. Beep. Beep. The safe opens.
+In the 1980s, hotel room safes used a simple four-digit code. Guests would set their own combination, and the safe would beep once for each correct digit as you entered it.
 
 Thieves figured it out immediately. Start with 0000. If the safe beeps once, the first digit is 0. If not, try 1000. Work through 0-9 until you hear a beep. Then move to the second digit.
 
-A four-digit safe should require up to 10,000 attempts to crack. These safes fell in at most 40.
+A four-digit safe has 10,000 combinations. These safes fell in 40 tries.
 
-The safe never revealed the code. It revealed *meta-information about* the code: how many digits were correct. That was enough.
+The safe protected the code. It didn't protect *information about* the code - specifically, how many digits were correct. That distinction cost everything.
 
 ---
 
 ## The Collapse
 
-Here is what happens mathematically when meta-information leaks.
+Here is the mathematics of what happens when structure leaks.
 
 A password with $n$ positions, each drawn from an alphabet of size $k$, has $k^n$ possible values. For a 4-digit PIN:
 
@@ -42,55 +46,45 @@ $$
 10^4 = 10{,}000 \text{ attempts}
 $$
 
-But if the system leaks whether each position is correct independently, the attacker can solve each position separately:
+But if the system reveals whether each position is correct independently, the attacker solves each position separately:
 
 $$
 k \times n = 10 \times 4 = 40 \text{ attempts}
 $$
 
-The exponent becomes a multiplier. What was $k^n$ is now $kn$.
+The exponent becomes a multiplier. Security collapses from $k^n$ to $kn$.
 
-| Password length | Without leak | With leak | Collapse factor |
-|-----------------|--------------|-----------|-----------------|
-| 4 digits        | 10,000       | 40        | 250$\times$ |
-| 8 lowercase     | 208 billion  | 208       | 1 billion$\times$ |
-| 12 mixed        | $10^{21}$    | 744       | $10^{18}\times$ |
+| Secret length | Without leak | With leak | Collapse |
+|---------------|--------------|-----------|----------|
+| 4 digits      | 10,000       | 40        | 250× |
+| 8 lowercase   | 208 billion  | 208       | 1 billion× |
+| 12 mixed      | $10^{21}$    | 744       | $10^{18}$× |
 
-The longer the secret, the more catastrophic the leak.
+The longer the secret, the more catastrophic the leak. This is not a bug in one safe. It's a theorem about information.
 
 ---
 
-## See the Collapse
+## See It
 
 <div id="collapse-viz" style="max-width: 720px; margin: 1.5em auto;">
   <div style="margin-bottom: 1em;">
     <label>Alphabet size (k):
-      <input type="range" id="k-slider" min="2" max="26" value="10" style="width: 120px;">
+      <input type="range" id="k-slider" min="2" max="26" value="10" style="width: 100px;">
       <span id="k-value">10</span>
     </label>
     &nbsp;&nbsp;
-    <label>Password length (n):
-      <input type="range" id="n-slider" min="2" max="12" value="4" style="width: 120px;">
+    <label>Length (n):
+      <input type="range" id="n-slider" min="2" max="12" value="4" style="width: 100px;">
       <span id="n-value">4</span>
     </label>
   </div>
 
-  <svg id="collapse-svg" viewBox="0 0 700 300" style="width: 100%; height: auto; border: 1px solid #000; background: #fff;">
-  </svg>
+  <svg id="collapse-svg" viewBox="0 0 700 280" style="width: 100%; height: auto; border: 1px solid #000; background: #fff;"></svg>
 
-  <div style="display: flex; justify-content: space-between; margin-top: 1em; padding: 0.5em; background: #fafafa; border: 1px solid #ddd;">
-    <div>
-      <span class="lightText">Without leak:</span><br>
-      <strong id="exp-value" style="font-family: monospace;">10,000</strong>
-    </div>
-    <div>
-      <span class="lightText">With leak:</span><br>
-      <strong id="lin-value" style="font-family: monospace;">40</strong>
-    </div>
-    <div>
-      <span class="lightText">Collapse factor:</span><br>
-      <strong id="ratio-value" style="font-family: monospace;">250x</strong>
-    </div>
+  <div style="display: flex; justify-content: space-between; margin-top: 0.5em; padding: 0.5em; background: #fafafa; border: 1px solid #ddd; font-size: 0.95em;">
+    <div><span class="lightText">Without leak:</span> <strong id="exp-value">10,000</strong></div>
+    <div><span class="lightText">With leak:</span> <strong id="lin-value">40</strong></div>
+    <div><span class="lightText">Collapse:</span> <strong id="ratio-value">250×</strong></div>
   </div>
 </div>
 
@@ -100,15 +94,10 @@ The longer the secret, the more catastrophic the leak.
   const svg = document.getElementById('collapse-svg');
   const kSlider = document.getElementById('k-slider');
   const nSlider = document.getElementById('n-slider');
-  const kValue = document.getElementById('k-value');
-  const nValue = document.getElementById('n-value');
-  const expValue = document.getElementById('exp-value');
-  const linValue = document.getElementById('lin-value');
-  const ratioValue = document.getElementById('ratio-value');
 
-  function formatNumber(x) {
-    if (x >= 1e18) return (x / 1e18).toFixed(1) + ' quintillion';
-    if (x >= 1e15) return (x / 1e15).toFixed(1) + ' quadrillion';
+  function fmt(x) {
+    if (x >= 1e18) return (x / 1e18).toFixed(1) + ' × 10¹⁸';
+    if (x >= 1e15) return (x / 1e15).toFixed(1) + ' × 10¹⁵';
     if (x >= 1e12) return (x / 1e12).toFixed(1) + ' trillion';
     if (x >= 1e9) return (x / 1e9).toFixed(1) + ' billion';
     if (x >= 1e6) return (x / 1e6).toFixed(1) + ' million';
@@ -119,57 +108,38 @@ The longer the secret, the more catastrophic the leak.
   function draw() {
     const k = parseInt(kSlider.value);
     const n = parseInt(nSlider.value);
-    kValue.textContent = k;
-    nValue.textContent = n;
+    document.getElementById('k-value').textContent = k;
+    document.getElementById('n-value').textContent = n;
 
     const exp = Math.pow(k, n);
     const lin = k * n;
-    const ratio = exp / lin;
+    document.getElementById('exp-value').textContent = fmt(exp);
+    document.getElementById('lin-value').textContent = fmt(lin);
+    document.getElementById('ratio-value').textContent = fmt(Math.round(exp / lin)) + '×';
 
-    expValue.textContent = formatNumber(exp);
-    linValue.textContent = formatNumber(lin);
-    ratioValue.textContent = formatNumber(Math.round(ratio)) + 'x';
-
-    // Visualization: two bars on log scale
-    const maxLog = Math.log10(Math.pow(26, 12)); // max possible
+    const W = 700, H = 280, pad = 50;
+    const maxLog = 24;
     const expLog = Math.log10(exp);
     const linLog = Math.log10(lin);
-
-    const W = 700, H = 300;
-    const pad = 60;
-    const barH = 50;
-    const gap = 40;
-
-    let html = '';
-
-    // Y axis label
-    html += `<text x="30" y="${H/2}" text-anchor="middle" font-size="14" transform="rotate(-90, 30, ${H/2})">Attempts (log scale)</text>`;
-
-    // Scale
     const scaleW = W - pad * 2;
-    const expBarW = (expLog / maxLog) * scaleW;
-    const linBarW = (linLog / maxLog) * scaleW;
 
-    // Exponential bar
-    const y1 = 80;
-    html += `<rect x="${pad}" y="${y1}" width="${expBarW}" height="${barH}" fill="#c66" stroke="#000"/>`;
-    html += `<text x="${pad - 10}" y="${y1 + barH/2 + 5}" text-anchor="end" font-size="13">Without leak</text>`;
-    html += `<text x="${pad + expBarW + 10}" y="${y1 + barH/2 + 5}" font-size="13" font-family="monospace">${formatNumber(exp)}</text>`;
+    let html = `<text x="30" y="${H/2}" text-anchor="middle" font-size="13" transform="rotate(-90,30,${H/2})">Attempts (log scale)</text>`;
 
-    // Linear bar
-    const y2 = y1 + barH + gap;
-    html += `<rect x="${pad}" y="${y2}" width="${Math.max(linBarW, 2)}" height="${barH}" fill="#6a6" stroke="#000"/>`;
-    html += `<text x="${pad - 10}" y="${y2 + barH/2 + 5}" text-anchor="end" font-size="13">With leak</text>`;
-    html += `<text x="${pad + Math.max(linBarW, 2) + 10}" y="${y2 + barH/2 + 5}" font-size="13" font-family="monospace">${formatNumber(lin)}</text>`;
+    const y1 = 70, y2 = 150, barH = 45;
+    const expW = (expLog / maxLog) * scaleW;
+    const linW = (linLog / maxLog) * scaleW;
 
-    // Axis
-    html += `<line x1="${pad}" y1="${H - 40}" x2="${W - pad}" y2="${H - 40}" stroke="#000"/>`;
+    html += `<rect x="${pad}" y="${y1}" width="${expW}" height="${barH}" fill="#b55" stroke="#000"/>`;
+    html += `<text x="${pad-5}" y="${y1+barH/2+5}" text-anchor="end" font-size="13">No leak</text>`;
 
-    // Tick marks
-    for (let i = 0; i <= 24; i += 6) {
-      const x = pad + (i / 24) * scaleW;
-      html += `<line x1="${x}" y1="${H - 40}" x2="${x}" y2="${H - 35}" stroke="#000"/>`;
-      html += `<text x="${x}" y="${H - 20}" text-anchor="middle" font-size="11">10^${i}</text>`;
+    html += `<rect x="${pad}" y="${y2}" width="${Math.max(linW,3)}" height="${barH}" fill="#5a5" stroke="#000"/>`;
+    html += `<text x="${pad-5}" y="${y2+barH/2+5}" text-anchor="end" font-size="13">With leak</text>`;
+
+    html += `<line x1="${pad}" y1="${H-35}" x2="${W-pad}" y2="${H-35}" stroke="#000"/>`;
+    for (let i = 0; i <= 24; i += 4) {
+      const x = pad + (i / maxLog) * scaleW;
+      html += `<line x1="${x}" y1="${H-35}" x2="${x}" y2="${H-30}" stroke="#000"/>`;
+      html += `<text x="${x}" y="${H-15}" text-anchor="middle" font-size="11">10^${i}</text>`;
     }
 
     svg.innerHTML = html;
@@ -184,130 +154,110 @@ The longer the secret, the more catastrophic the leak.
 
 ---
 
-## Timing: The Invisible Beep
+## Paul Kocher's Discovery
 
-The hotel safe's feedback was obvious. Modern systems leak more subtly.
+For decades after the beeping safe, cryptographers believed they had learned the lesson. Don't leak partial information. Make verification all-or-nothing.
 
-A naive password check:
+They were wrong. They had only learned half the lesson.
+
+In 1996, a twenty-three-year-old cryptographer named Paul Kocher published a paper that redrew the boundaries of information security. He showed that even when software reveals nothing explicitly, the *time it takes to compute* is itself a channel.
+
+Consider password verification:
 
 ```python
-def check_password(input, stored):
+def check(input, stored):
     for i in range(len(stored)):
         if input[i] != stored[i]:
-            return False   # Fails fast
+            return False
     return True
 ```
 
-This code returns immediately when it finds a wrong character. A password with a wrong first letter fails in 1 microsecond. A password with only the last character wrong takes 8 microseconds.
+This code returns as soon as it finds a mismatch. A wrong first character fails in one microsecond. A wrong last character takes eight microseconds.
 
 The timing *is* the beep.
 
-An attacker who measures response times can learn each position independently - the same exponential-to-linear collapse.
+Kocher demonstrated the attack against RSA implementations. By measuring how long decryption took for different inputs, he could extract private keys bit by bit. The attack worked remotely. It worked through noise. It worked against code that had been audited for security and revealed nothing through any official channel.
 
-In 2003, researchers demonstrated this against OpenSSL's RSA implementation. The attack worked remotely, over a network. Millisecond differences, amplified across thousands of requests, revealed private keys.
-
----
-
-## Cable TV: Cracking the Broadcast
-
-In the 1990s, satellite TV signals were encrypted. Subscribers got a smart card that decrypted the signal. Pirates wanted in.
-
-The encryption was strong. But the smart cards would respond differently to valid versus invalid decryption attempts. By probing the card with carefully crafted inputs and measuring its responses, attackers could extract the keys incrementally.
-
-The encryption protected the content. The card's *behavior* leaked the keys.
-
-Same pattern. Different domain.
+The cryptographic community was stunned. They had protected the message. They hadn't thought to protect the *duration* of the computation.
 
 ---
 
-## Physical Locks: The Original Leak
+## The Expanding Boundary
 
-This vulnerability predates computers entirely.
+Kocher's work opened a floodgate.
 
-A traditional safe dial has numbers 0-99. A three-number combination has $100^3 = 1{,}000{,}000$ possibilities. But the mechanism has physical tolerances.
+If timing is information, what else might be?
 
-Skilled safecrackers apply slight pressure to the handle while slowly turning the dial. When a wheel reaches the correct position, the resistance changes subtly - a tiny give, a faint click.
+**1998: Power analysis.** Kocher again. The power consumed by a chip varies with the operations it performs. Different instructions draw different current. By measuring power consumption during cryptographic operations, attackers could extract keys from smart cards. Banking, pay TV, secure ID - all vulnerable.
 
-This reduces the problem from a million combinations to roughly $100 \times 3 = 300$ tests. Each wheel can be solved independently.
+**1985 (published much later): Van Eck radiation.** Every wire is an antenna. CRT monitors emit electromagnetic radiation proportional to what they display. Wim van Eck showed you could reconstruct screen contents from across the street. Later researchers demonstrated the same for LCD screens, keyboards, and network cables.
 
-The lock doesn't reveal the combination. It reveals *which wheel you're getting right*. That's enough.
+**2003: Cache timing.** Modern CPUs have memory caches. Accessing cached data is fast; uncached data is slow. If an attacker shares your CPU, they can deduce what memory addresses you're touching - including cryptographic key material.
 
----
+**2018: Spectre and Meltdown.** CPUs speculate about which instructions to execute next. Sometimes they guess wrong and roll back. But the speculative execution leaves traces in the cache. These traces leak secrets across process boundaries, across virtual machines, across the boundary between user code and the operating system kernel.
 
-## The Unfixable Leaks
+Each discovery expanded the definition of "information." First it was the message. Then it was metadata. Then timing. Then power. Then radiation. Then cache state. Then speculative execution.
 
-You might think: just remove the feedback. Make everything constant-time. Don't beep, don't vary timing, don't respond differently.
-
-But the hardware betrays you.
-
-**Branch prediction.** Modern CPUs guess which way an if-statement will go and execute speculatively. Different guesses leave different traces in the cache. Spectre and Meltdown exploited this.
-
-**Cache timing.** Accessing memory that's cached is faster than accessing memory that isn't. An attacker who shares your CPU can tell what memory addresses you've touched.
-
-**Power consumption.** Chips draw different power for different operations. Measure the power draw with enough precision and you can reconstruct the computation.
-
-**Electromagnetic radiation.** Wires emit radio signals proportional to their current. The Van Eck attack reconstructs CRT monitor images from across the room.
-
-You can fix your code. You cannot fix physics.
+The boundary is still moving.
 
 ---
 
-## The Shape of Secrets
+## What We Learned (Slowly)
 
-The deepest version of this problem goes beyond security.
+The history of side channels is a history of expanding the concept of information itself.
 
-Netflix encrypts your video stream. An eavesdropper sees only noise. But the *pattern* of the traffic - when packets arrive, how large they are, when you pause - reveals what you're watching. Researchers have identified specific movies from encrypted Netflix streams with over 99% accuracy.
+Shannon defined information as reduction in uncertainty. A message conveys information because it tells you something you didn't know. By this definition, *anything* that reduces uncertainty is information - whether or not it was intended to communicate.
 
-The content is hidden. The *shape* of the content is not.
+The safe's beep reduces uncertainty about which digit is correct. The computation's timing reduces uncertainty about which branch was taken. The chip's power draw reduces uncertainty about which operations occurred. The radiation from a cable reduces uncertainty about what it's carrying.
 
-This is true everywhere:
+None of these channels were designed. All of them communicate.
 
-**Encrypted messaging.** The messages are hidden but the timing, frequency, and size of messages reveal the relationship. Metadata is data.
-
-**Keystroke dynamics.** How you type - your rhythm, your pauses, your patterns - identifies you as reliably as a fingerprint. Even through Tor, even with encrypted chat.
-
-**Website fingerprinting.** HTTPS hides which page you're viewing but not the pattern of requests. The sequence of encrypted packet sizes reveals the site.
-
-**Behavioral biometrics.** How you hold your phone, how you scroll, how you move your mouse. All of it is a signature you cannot turn off.
+The lesson is uncomfortable: information is not a property of what you *intend* to reveal. It's a property of what can be *inferred* from what you do.
 
 ---
 
-## Try It: Behavioral Fingerprinting
+## The Shape of Everything
 
-<div id="fingerprint-demo" style="max-width: 720px; margin: 1.5em auto; padding: 1em; border: 1px solid #000; background: #fff;">
-  <p style="margin-top: 0;">Type anything in the box below. Your keystroke timing creates a signature.</p>
+The deepest consequences go beyond cryptography.
 
-  <input type="text" id="fp-input" placeholder="Type here..." style="width: 100%; padding: 0.5em; font-size: 1em; border: 1px solid #000; box-sizing: border-box;">
+**Netflix and traffic analysis.** Your video stream is encrypted. An eavesdropper sees only noise. But the *pattern* of the traffic - packet sizes, timing, bitrate changes - correlates with what you're watching. Researchers have identified specific movies from encrypted Netflix streams with over 99% accuracy. The content is hidden. Its shape is not.
 
-  <div style="margin-top: 1em;">
-    <canvas id="fp-canvas" style="width: 100%; height: 100px; border: 1px solid #000; background: #fafafa;"></canvas>
-  </div>
+**Keystroke dynamics.** The rhythm of your typing - how long you hold each key, the gaps between keystrokes - identifies you as reliably as a fingerprint. This works through encryption, through Tor, through any anonymizing layer. You cannot change your rhythm without extraordinary effort. The text is hidden. The author is not.
+
+**Website fingerprinting.** HTTPS hides which page you're viewing. It doesn't hide the pattern of requests: how many resources, what sizes, what timing. The pattern is enough to identify the site with high accuracy. The URL is hidden. The destination is not.
+
+These are not attacks in the traditional sense. No lock is picked. No cipher is broken. The information was there all along, in the shape of the activity.
+
+---
+
+## Your Rhythm
+
+<div id="rhythm-demo" style="max-width: 720px; margin: 1.5em auto; padding: 1em; border: 1px solid #000; background: #fff;">
+  <p style="margin-top: 0;">Type anything below. The content doesn't matter - your rhythm is the signal.</p>
+
+  <input type="text" id="rhythm-input" placeholder="Type here..." style="width: 100%; padding: 0.5em; font-size: 1em; border: 1px solid #000; box-sizing: border-box;">
+
+  <canvas id="rhythm-canvas" style="width: 100%; height: 100px; margin-top: 1em; border: 1px solid #000; background: #fafafa;"></canvas>
 
   <div style="margin-top: 0.5em; font-size: 0.9em;">
-    <span class="lightText">Average interval:</span> <strong id="fp-avg">—</strong>ms
+    <span class="lightText">Mean interval:</span> <strong id="r-mean">—</strong> ms
     &nbsp;&nbsp;
-    <span class="lightText">Variance:</span> <strong id="fp-var">—</strong>
+    <span class="lightText">Std dev:</span> <strong id="r-std">—</strong> ms
     &nbsp;&nbsp;
-    <span class="lightText">Pattern:</span> <span id="fp-pattern" style="font-family: monospace;">—</span>
+    <span class="lightText">Signature:</span> <span id="r-sig" style="font-family: monospace; letter-spacing: 1px;">—</span>
   </div>
-
-  <p class="lightText" style="margin-bottom: 0; font-size: 0.9em;">Different people produce different patterns. The content doesn't matter - the rhythm is the fingerprint.</p>
 </div>
 
 {% raw %}
 <script>
 (function(){
-  const input = document.getElementById('fp-input');
-  const canvas = document.getElementById('fp-canvas');
+  const input = document.getElementById('rhythm-input');
+  const canvas = document.getElementById('rhythm-canvas');
   const ctx = canvas.getContext('2d');
-  const avgEl = document.getElementById('fp-avg');
-  const varEl = document.getElementById('fp-var');
-  const patternEl = document.getElementById('fp-pattern');
 
-  let times = [];
-  let intervals = [];
+  let times = [], intervals = [];
 
-  function resizeCanvas() {
+  function resize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const rect = canvas.getBoundingClientRect();
     canvas.width = Math.round(rect.width * dpr);
@@ -319,104 +269,115 @@ This is true everywhere:
   function draw() {
     const W = canvas.clientWidth, H = canvas.clientHeight;
     ctx.clearRect(0, 0, W, H);
-
     if (intervals.length < 2) return;
 
-    const maxInterval = Math.max(...intervals, 200);
-    const barW = Math.min(20, (W - 20) / intervals.length);
+    const max = Math.max(...intervals, 150);
+    const barW = Math.min(16, (W - 20) / intervals.length);
 
     ctx.fillStyle = '#369';
     for (let i = 0; i < intervals.length; i++) {
-      const h = (intervals[i] / maxInterval) * (H - 20);
-      const x = 10 + i * barW;
-      ctx.fillRect(x, H - 10 - h, barW - 2, h);
+      const h = (intervals[i] / max) * (H - 10);
+      ctx.fillRect(10 + i * barW, H - 5 - h, barW - 2, h);
     }
   }
 
-  function updateStats() {
-    if (intervals.length < 2) {
-      avgEl.textContent = '—';
-      varEl.textContent = '—';
-      patternEl.textContent = '—';
-      return;
-    }
+  function update() {
+    if (intervals.length < 2) return;
+    const mean = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+    const std = Math.sqrt(intervals.reduce((s, x) => s + (x - mean) ** 2, 0) / intervals.length);
 
-    const avg = intervals.reduce((a, b) => a + b, 0) / intervals.length;
-    const variance = intervals.reduce((sum, x) => sum + Math.pow(x - avg, 2), 0) / intervals.length;
+    document.getElementById('r-mean').textContent = mean.toFixed(0);
+    document.getElementById('r-std').textContent = std.toFixed(0);
 
-    avgEl.textContent = avg.toFixed(0);
-    varEl.textContent = variance.toFixed(0);
-
-    // Create a simple pattern signature
-    const pattern = intervals.slice(-10).map(i => {
-      if (i < avg * 0.7) return 'F';  // Fast
-      if (i > avg * 1.3) return 'S';  // Slow
-      return 'M';  // Medium
-    }).join('');
-    patternEl.textContent = pattern;
+    const sig = intervals.slice(-12).map(i => i < mean * 0.75 ? '▄' : i > mean * 1.25 ? '█' : '▆').join('');
+    document.getElementById('r-sig').textContent = sig || '—';
   }
 
-  input.addEventListener('keydown', function(e) {
+  input.addEventListener('keydown', () => {
     const now = performance.now();
-    if (times.length > 0) {
-      intervals.push(now - times[times.length - 1]);
-    }
+    if (times.length > 0) intervals.push(now - times[times.length - 1]);
     times.push(now);
-
-    // Keep last 50
-    if (times.length > 50) {
-      times.shift();
-      intervals.shift();
-    }
-
-    updateStats();
+    if (times.length > 60) { times.shift(); intervals.shift(); }
+    update();
     draw();
   });
 
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
+  window.addEventListener('resize', resize);
+  resize();
 })();
 </script>
 {% endraw %}
 
----
-
-## What You Cannot Hide
-
-The pattern is everywhere:
-
-| What's protected | What leaks |
-|------------------|------------|
-| Password | Which characters are correct |
-| Encrypted message | When it was sent, how large it is |
-| HTTPS content | Sequence of request sizes |
-| Video stream | Traffic pattern reveals the title |
-| Text content | Keystroke rhythm reveals the author |
-| File contents | Access patterns reveal what you're doing |
-
-Encryption hides the content. Nothing hides the shape.
+Different people produce different patterns. The text vanishes into encryption. The signature persists.
 
 ---
 
-## The Design Lesson
+## The Arms Race Has No End
 
-Every system casts a shadow. The question is not whether information leaks, but *which* information, and whether it matters.
+The natural response is: fix the leaks. And cryptographers have tried.
 
-The beeping safe was obvious. Timing attacks are subtle. Hardware side-channels are fundamental. Behavioral biometrics are inescapable.
+**Constant-time code.** Compare all characters, even after finding a mismatch. Make every branch take the same time. Never let computation depend on secret data.
 
-You can reduce leakage:
-- Constant-time comparisons
-- Traffic padding
-- Randomized delays
-- Noise injection
+**Blinding.** Add random noise to inputs. The answer is the same, but the intermediate steps are randomized, masking power and timing patterns.
 
-But you cannot eliminate it. The act of processing information leaves traces. Physics guarantees this.
+**Shielding.** Faraday cages block electromagnetic radiation. Expensive. Imperfect. A well-funded adversary can still get through.
 
-The practical lesson is not paranoia. It's designing with awareness:
+Each fix addresses one channel. But physics guarantees there are always more.
 
-1. **Know what your system reveals** - not just directly, but through timing, size, frequency, and pattern
-2. **Separate sensitive operations** - isolation limits what an attacker can correlate
-3. **Assume the shape leaks** - design so that shape reveals less
-4. **Defense in depth** - no single layer is leak-proof
+Computation requires energy. Energy dissipates as heat, radiation, vibration. Any physical process leaves traces. The question is not whether information leaks, but whether an adversary can detect it.
 
-The lock will always talk. The art is in giving it nothing important to say.
+For the NSA, the threshold is low. For a random thief, high. But the threshold keeps falling as sensors improve and analysis gets cheaper.
+
+---
+
+## The Uncomfortable Truth
+
+Here is what the twentieth century taught us:
+
+**Information is not what you intend to reveal. It is what can be inferred from what you do.**
+
+The boundary between "the secret" and "information about the secret" is not fixed. It moves as our ability to measure improves. What leaked undetectably in 1980 leaks detectably in 2000. What seems safe today will leak tomorrow.
+
+This is not paranoia. It is physics.
+
+Churchill's engineers thought they were protecting speech. They were forced to protect rhythm. Cryptographers thought they were protecting keys. They were forced to protect timing, power, radiation, cache access, and speculative execution.
+
+Each generation discovers that the last generation's definition of "the secret" was too narrow.
+
+---
+
+## Beyond Security
+
+The expanding boundary of information has implications beyond locks and codes.
+
+**Privacy.** Every digital action has a shape - timing, size, frequency. Encryption hides content but not shape. Metadata is data. The pattern of your life is visible even when the content is not.
+
+**Anonymity.** Behavioral patterns are signatures. How you type, how you move your mouse, how you browse. These patterns persist across contexts. True anonymity requires suppressing not just identity but behavior - and behavior is hard to fake.
+
+**AI.** Machine learning excels at finding patterns humans miss. The leaks that were too subtle to exploit manually become tractable with enough data and compute. The attacker's threshold keeps dropping.
+
+The lesson of side channels generalizes: any system that processes information leaves traces of that processing. Those traces are themselves information. And that information can be extracted by anyone with sufficient motivation and technology.
+
+---
+
+## The Lock Will Always Talk
+
+Return to the beeping safe.
+
+The fix seems obvious: remove the beep. But the beep was not the problem. The problem was that the mechanism processed each digit separately, and that separation was detectable.
+
+Make the electronics silent and the timing still differs. Equalize the timing and the power draw still differs. Shield the power and the EM radiation still differs. Shield everything and the fact that you're standing in front of the safe still reveals something.
+
+Every physical process is a broadcast. Security is not about stopping the broadcast. It is about ensuring the broadcast conveys nothing useful.
+
+This is hard. It requires understanding what information is - not what you intend to transmit, but what can be received.
+
+The safe's designers thought information was the code. They were wrong. Information was also the rhythm of the mechanism, the heat of the electronics, the sound of the buttons.
+
+Churchill's engineers thought information was the words. They were wrong. Information was also the cadence, the pauses, the shape.
+
+We keep learning this lesson. We will keep learning it.
+
+**The lock will always talk. Security is teaching it to say nothing useful.**
+
+Or more precisely: security is understanding, before your adversary does, what the lock can be made to say.
