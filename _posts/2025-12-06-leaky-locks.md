@@ -67,7 +67,7 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
 ## See It
 
 <div id="collapse-demo" style="max-width: 720px; margin: 0 auto;">
-  <svg id="collapse-svg" style="width:100%; height:280px; background:#fff; border:1px solid #000;"></svg>
+  <svg id="collapse-svg" style="width:100%; height:260px; background:#fff; border:1px solid #000;"></svg>
 
   <div class="collapse-controls">
     <label>Alphabet size (k)
@@ -164,23 +164,23 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
     document.getElementById('lin-value').textContent = fmt(lin);
     document.getElementById('ratio-value').textContent = fmt(Math.round(exp / lin)) + '×';
 
-    const W = 700, H = 280, pad = 80;
+    const W = 700, H = 260, pad = 70;
     const maxLog = 24;
     const expLog = Math.log10(exp);
     const linLog = Math.log10(lin);
-    const scaleW = W - pad - 50;
+    const scaleW = W - pad - 30;
 
-    let html = `<text x="20" y="${H/2}" text-anchor="middle" font-size="13" transform="rotate(-90,20,${H/2})">Attempts (log scale)</text>`;
+    let html = '';
 
-    const y1 = 70, y2 = 150, barH = 45;
+    const y1 = 50, y2 = 120, barH = 40;
     const expW = (expLog / maxLog) * scaleW;
     const linW = (linLog / maxLog) * scaleW;
 
     html += `<rect x="${pad}" y="${y1}" width="${expW}" height="${barH}" fill="#000" stroke="#000"/>`;
-    html += `<text x="${pad-5}" y="${y1+barH/2+5}" text-anchor="end" font-size="13">No leak</text>`;
+    html += `<text x="${pad-8}" y="${y1+barH/2+5}" text-anchor="end" font-size="13">No leak</text>`;
 
     html += `<rect x="${pad}" y="${y2}" width="${Math.max(linW,3)}" height="${barH}" fill="#fff" stroke="#000"/>`;
-    html += `<text x="${pad-5}" y="${y2+barH/2+5}" text-anchor="end" font-size="13">With leak</text>`;
+    html += `<text x="${pad-8}" y="${y2+barH/2+5}" text-anchor="end" font-size="13">With leak</text>`;
 
     html += `<line x1="${pad}" y1="${H-35}" x2="${pad + scaleW}" y2="${H-35}" stroke="#000"/>`;
     for (let i = 0; i <= 24; i += 4) {
