@@ -165,9 +165,9 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
     document.getElementById('ratio-value').textContent = fmt(Math.round(exp / lin)) + '×';
 
     const W = 700, H = 260, pad = 70;
-    const maxLog = 24;
     const expLog = Math.log10(exp);
     const linLog = Math.log10(lin);
+    const maxLog = Math.ceil(expLog);
     const scaleW = W - pad - 30;
 
     let html = '';
@@ -187,7 +187,8 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
     html += `<text x="${pad-8}" y="${y2+barH/2+5}" text-anchor="end" font-size="13">With leak</text>`;
 
     html += `<line x1="${pad}" y1="${H-35}" x2="${pad + scaleW}" y2="${H-35}" stroke="#000"/>`;
-    for (let i = 0; i <= 24; i += 4) {
+    const tickStep = Math.max(1, Math.ceil(maxLog / 6));
+    for (let i = 0; i <= maxLog; i += tickStep) {
       const x = pad + (i / maxLog) * scaleW;
       html += `<line x1="${x}" y1="${H-35}" x2="${x}" y2="${H-30}" stroke="#000"/>`;
       html += `<text x="${x}" y="${H-15}" text-anchor="middle" font-size="11">10^${i}</text>`;
