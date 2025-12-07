@@ -447,5 +447,3 @@ Make the electronics silent and the timing still differs. Equalize the timing an
 Every physical process is a broadcast. Security is not about stopping the broadcast. It is about ensuring the broadcast conveys nothing useful.
 
 This is hard. It requires understanding what information is: not what you intend to transmit, but what can be received.
-
-The safe's designers protected the code. They didn't think to protect the rhythm of the mechanism, the heat of the electronics, the sound of the buttons.
