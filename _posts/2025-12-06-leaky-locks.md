@@ -94,9 +94,7 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
-  margin-top: 0;
-  padding: 10px 0;
-  border-top: 1px solid #000;
+  margin-top: 10px;
 }
 @media (max-width: 560px) {
   #collapse-demo .collapse-controls { grid-template-columns: 1fr; }
@@ -128,7 +126,8 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
 #collapse-demo .collapse-stats {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0;
+  gap: 4px;
+  margin-top: 6px;
 }
 #collapse-demo .collapse-stat-row {
   border-top: 1px solid #000;
@@ -282,7 +281,7 @@ These are not attacks in the traditional sense. No lock is picked. No cipher is 
 
   <input type="text" id="rhythm-input" placeholder="Type here..." style="width: 100%; padding: 0.5em; font-size: 1em; border: 1px solid #000; box-sizing: border-box;">
 
-  <canvas id="rhythm-canvas" style="width: 100%; height: 100px; border: 1px solid #000; border-top: none; background: #fff;"></canvas>
+  <canvas id="rhythm-canvas" style="width: 100%; height: 100px; margin-top: 10px; border: 1px solid #000; background: #fff;"></canvas>
 
   <div class="rhythm-stats">
     <div class="rhythm-stat-row"><span>Mean interval:</span><strong id="r-mean">—</strong> ms</div>
@@ -299,7 +298,8 @@ These are not attacks in the traditional sense. No lock is picked. No cipher is 
 #rhythm-demo .rhythm-stats {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0;
+  gap: 4px;
+  margin-top: 6px;
 }
 #rhythm-demo .rhythm-stat-row {
   border-top: 1px solid #000;
