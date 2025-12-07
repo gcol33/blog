@@ -172,6 +172,10 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
 
     let html = '';
 
+    // Inner border
+    const innerPad = 14;
+    html += `<rect x="${innerPad}" y="${innerPad}" width="${W - innerPad*2}" height="${H - innerPad*2}" fill="none" stroke="#000"/>`;
+
     const y1 = 50, y2 = 120, barH = 40;
     const expW = (expLog / maxLog) * scaleW;
     const linW = (linLog / maxLog) * scaleW;
