@@ -160,7 +160,8 @@ The longer the secret, the more catastrophic the leak.
     document.getElementById('lin-value').textContent = fmt(lin);
     document.getElementById('ratio-value').textContent = fmt(Math.round(exp / lin)) + '×';
 
-    const W = 720, H = 260;  // fixed viewBox dimensions
+    const rect = svg.getBoundingClientRect();
+    const W = rect.width, H = rect.height;
     const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
     const pad = 0.875 * rem;  // constant border padding on all sides
     const innerW = W - pad * 2;
@@ -206,7 +207,7 @@ The longer the secret, the more catastrophic the leak.
 
   kSlider.addEventListener('input', draw);
   nSlider.addEventListener('input', draw);
-  svg.setAttribute('viewBox', '0 0 720 260');
+  // viewBox set dynamically in draw()
   svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
   draw();
 })();
