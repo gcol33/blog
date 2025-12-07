@@ -337,16 +337,24 @@ These are not attacks in the traditional sense. No lock is picked. No cipher is 
 
   function draw() {
     const W = canvas.clientWidth, H = canvas.clientHeight;
+    const pad = 14;
     ctx.clearRect(0, 0, W, H);
+
+    // Inner border
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(pad, pad, W - pad*2, H - pad*2);
+
     if (intervals.length < 2) return;
 
     const max = Math.max(...intervals, 150);
-    const barW = Math.min(16, (W - 20) / intervals.length);
+    const innerW = W - pad*2;
+    const barW = Math.min(16, (innerW - 10) / intervals.length);
 
     ctx.fillStyle = '#000';
     for (let i = 0; i < intervals.length; i++) {
-      const h = (intervals[i] / max) * (H - 10);
-      ctx.fillRect(10 + i * barW, H - 5 - h, barW - 2, h);
+      const h = (intervals[i] / max) * (H - pad*2 - 10);
+      ctx.fillRect(pad + 5 + i * barW, H - pad - 5 - h, barW - 2, h);
     }
   }
 
