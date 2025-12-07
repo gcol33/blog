@@ -167,7 +167,7 @@ The longer the secret, the more catastrophic the leak.
     const pad = 14;  // constant border padding on all sides
     const innerW = W - pad * 2;
     const innerH = H - pad * 2;
-    const labelMargin = Math.min(65, W * 0.12);  // responsive label margin
+    const labelMargin = Math.max(60, W * 0.12);  // responsive label margin, min 60px for labels
     const expLog = Math.log10(exp);
     const linLog = Math.log10(lin);
     const maxLog = Math.ceil(expLog);

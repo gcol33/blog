@@ -20,6 +20,21 @@ URL: https://gcol33.github.io/blog
 - No emojis, no casual language, no excessive enthusiasm
 - Direct sentences, active voice when possible
 
+### Avoid AI-Sounding Patterns
+Do NOT use these clichéd AI writing patterns:
+- **"Not X, but Y" / "Not X. It's Y."** - e.g., "This is not a bug. It's a feature."
+- **"This is the story of..."** - grandiose framing sentences
+- **"The lesson had to be learned"** - pithy transition phrases
+- **"X opened a floodgate"** - clichéd metaphors
+- **"Each X expanded/revealed/showed..."** - repetitive summary patterns
+- **"The boundary is still moving"** - dramatic one-liners
+- **"The history of X is a history of Y"** - parallel structure clichés
+- **"None of these... All of them..."** - parallel contrast sentences
+- **"They were wrong."** - dramatic reveals
+- **"This is not paranoia. It is physics."** - false dichotomy closers
+
+Let the content speak for itself. End sections naturally without wrapping up with a punchy takeaway line.
+
 ### Structure
 - Posts open with an intuitive hook or everyday scenario
 - Build from concrete examples toward formal definitions
@@ -144,16 +159,31 @@ Key points:
 </div>
 ```
 
-Then inside the JS, draw inner border:
+Then inside the JS, draw inner border with **constant 14px padding on all sides**:
+
+For SVG (responsive - uses actual rendered dimensions):
 ```js
-const innerPad = 14;
-html += `<rect x="${innerPad}" y="${innerPad}" width="${W - innerPad*2}" height="${H - innerPad*2}" fill="none" stroke="#000"/>`;
+const rect = svg.getBoundingClientRect();
+const W = rect.width, H = rect.height;
+const pad = 14;  // constant border padding on all sides
+const innerW = W - pad * 2;
+const innerH = H - pad * 2;
+
+html += `<rect x="${pad}" y="${pad}" width="${innerW}" height="${innerH}" fill="none" stroke="#000"/>`;
+
+// Position all content relative to pad, e.g.:
+const contentLeft = pad + labelMargin;
+const y1 = pad + innerH * 0.15;
 ```
 
-For canvas:
+For canvas (also responsive):
 ```js
-ctx.strokeRect(pad, pad, innerW, innerH);
+const W = canvas.clientWidth, H = canvas.clientHeight;
+const pad = 14;
+ctx.strokeRect(pad, pad, W - pad*2, H - pad*2);
 ```
+
+**Key rule**: The 14px gap between outer border and inner border must be constant on all four sides (top, bottom, left, right). All content (labels, bars, axes) must fit inside the inner border area.
 
 ## Common Patterns
 
