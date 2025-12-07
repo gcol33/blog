@@ -166,11 +166,11 @@ The longer the secret, the more catastrophic the leak.
     const pad = 0.875 * rem;  // constant border padding on all sides
     const innerW = W - pad * 2;
     const innerH = H - pad * 2;
-    const labelMargin = 70;
+    const labelMargin = innerW * 0.12;
     const expLog = Math.log10(exp);
     const linLog = Math.log10(lin);
     const maxLog = Math.ceil(expLog);
-    const scaleW = innerW - labelMargin - 10;
+    const scaleW = innerW - labelMargin - pad;
 
     let html = '';
 
@@ -178,27 +178,27 @@ The longer the secret, the more catastrophic the leak.
     html += `<rect x="${pad}" y="${pad}" width="${innerW}" height="${innerH}" fill="none" stroke="#000"/>`;
 
     const barLeft = pad + labelMargin;
-    const barH = 36;
-    const y1 = pad + 12;
-    const y2 = pad + 60;
+    const barH = innerH * 0.18;
+    const y1 = pad + innerH * 0.08;
+    const y2 = pad + innerH * 0.38;
     const expW = (expLog / maxLog) * scaleW;
     const linW = (linLog / maxLog) * scaleW;
 
-    const fontSize = Math.min(13, W * 0.025);
+    const fontSize = Math.min(13, innerH * 0.065);
     html += `<rect x="${barLeft}" y="${y1}" width="${expW}" height="${barH}" fill="#000" stroke="#000"/>`;
     html += `<text x="${barLeft-6}" y="${y1+barH/2+fontSize*0.35}" text-anchor="end" font-size="${fontSize}">No leak</text>`;
 
     html += `<rect x="${barLeft}" y="${y2}" width="${Math.max(linW,3)}" height="${barH}" fill="#fff" stroke="#000"/>`;
     html += `<text x="${barLeft-6}" y="${y2+barH/2+fontSize*0.35}" text-anchor="end" font-size="${fontSize}">With leak</text>`;
 
-    const axisY = pad + innerH - 25;
+    const axisY = pad + innerH * 0.78;
     html += `<line x1="${barLeft}" y1="${axisY}" x2="${barLeft + scaleW}" y2="${axisY}" stroke="#000"/>`;
     const tickStep = Math.max(1, Math.ceil(maxLog / 6));
-    const tickFontSize = Math.min(11, W * 0.02);
+    const tickFontSize = Math.min(11, innerH * 0.055);
     for (let i = 0; i <= maxLog; i += tickStep) {
       const x = barLeft + (i / maxLog) * scaleW;
-      html += `<line x1="${x}" y1="${axisY}" x2="${x}" y2="${axisY + 5}" stroke="#000"/>`;
-      html += `<text x="${x}" y="${axisY + 15}" text-anchor="middle" font-size="${tickFontSize}">10^${i}</text>`;
+      html += `<line x1="${x}" y1="${axisY}" x2="${x}" y2="${axisY + innerH * 0.03}" stroke="#000"/>`;
+      html += `<text x="${x}" y="${axisY + innerH * 0.09}" text-anchor="middle" font-size="${tickFontSize}">10^${i}</text>`;
     }
 
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
