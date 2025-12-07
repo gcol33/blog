@@ -166,11 +166,12 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
     document.getElementById('lin-value').textContent = fmt(lin);
     document.getElementById('ratio-value').textContent = fmt(Math.round(exp / lin)) + '×';
 
-    const W = 700, H = 260;
+    const rect = svg.getBoundingClientRect();
+    const W = rect.width, H = rect.height;
     const pad = 14;  // constant border padding on all sides
     const innerW = W - pad * 2;
     const innerH = H - pad * 2;
-    const labelMargin = 65;  // space for labels inside inner border
+    const labelMargin = Math.min(65, W * 0.12);  // responsive label margin
     const expLog = Math.log10(exp);
     const linLog = Math.log10(lin);
     const maxLog = Math.ceil(expLog);
@@ -182,23 +183,26 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
     html += `<rect x="${pad}" y="${pad}" width="${innerW}" height="${innerH}" fill="none" stroke="#000"/>`;
 
     const barLeft = pad + labelMargin;
-    const y1 = pad + 30, y2 = pad + 95, barH = 40;
+    const barH = Math.min(40, innerH * 0.22);
+    const y1 = pad + innerH * 0.15, y2 = pad + innerH * 0.5;
     const expW = (expLog / maxLog) * scaleW;
     const linW = (linLog / maxLog) * scaleW;
 
+    const fontSize = Math.min(13, W * 0.025);
     html += `<rect x="${barLeft}" y="${y1}" width="${expW}" height="${barH}" fill="#000" stroke="#000"/>`;
-    html += `<text x="${barLeft-8}" y="${y1+barH/2+5}" text-anchor="end" font-size="13">No leak</text>`;
+    html += `<text x="${barLeft-6}" y="${y1+barH/2+fontSize*0.35}" text-anchor="end" font-size="${fontSize}">No leak</text>`;
 
     html += `<rect x="${barLeft}" y="${y2}" width="${Math.max(linW,3)}" height="${barH}" fill="#fff" stroke="#000"/>`;
-    html += `<text x="${barLeft-8}" y="${y2+barH/2+5}" text-anchor="end" font-size="13">With leak</text>`;
+    html += `<text x="${barLeft-6}" y="${y2+barH/2+fontSize*0.35}" text-anchor="end" font-size="${fontSize}">With leak</text>`;
 
-    const axisY = pad + innerH - 30;
+    const axisY = pad + innerH - 25;
     html += `<line x1="${barLeft}" y1="${axisY}" x2="${barLeft + scaleW}" y2="${axisY}" stroke="#000"/>`;
     const tickStep = Math.max(1, Math.ceil(maxLog / 6));
+    const tickFontSize = Math.min(11, W * 0.02);
     for (let i = 0; i <= maxLog; i += tickStep) {
       const x = barLeft + (i / maxLog) * scaleW;
       html += `<line x1="${x}" y1="${axisY}" x2="${x}" y2="${axisY + 5}" stroke="#000"/>`;
-      html += `<text x="${x}" y="${axisY + 16}" text-anchor="middle" font-size="11">10^${i}</text>`;
+      html += `<text x="${x}" y="${axisY + 14}" text-anchor="middle" font-size="${tickFontSize}">10^${i}</text>`;
     }
 
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
@@ -207,6 +211,7 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
 
   kSlider.addEventListener('input', draw);
   nSlider.addEventListener('input', draw);
+  window.addEventListener('resize', draw);
   draw();
 })();
 </script>
