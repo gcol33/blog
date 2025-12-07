@@ -14,17 +14,13 @@ The transatlantic calls to Roosevelt were encrypted by a system called SIGSALY, 
 
 But Bell Labs engineer A.B. Clark noticed something troubling. The encryption scrambled the *content* of Churchill's speech. It didn't scramble the *rhythm*. The timing of syllables, the cadence of sentences, the patterns of pauses: all of it passed through intact.
 
-Clark realized that rhythm alone might be enough to reconstruct words. He was right. The phenomenon would later be called "residual intelligibility." The secret wasn't in the message. It was in the *shape* of the message.
+Clark realized that rhythm alone might be enough to reconstruct words. He was right. The phenomenon would later be called "residual intelligibility."
 
 SIGSALY was redesigned to mask timing patterns. The fix added more equipment. More weight. More complexity. All to hide something no one had thought to protect: the rhythm.
-
-This is the story of the twentieth century's long education in what counts as information.
 
 ---
 
 ## The Beeping Safe
-
-The lesson had to be learned many times.
 
 In the 1980s, hotel room safes used a simple four-digit code. Guests would set their own combination, and the safe would beep once for each correct digit as you entered it.
 
@@ -60,7 +56,7 @@ The exponent becomes a multiplier. Security collapses from $k^n$ to $kn$.
 | 8 lowercase   | 208 billion  | 208       | 1 billion× |
 | 12 mixed      | $10^{21}$    | 744       | $10^{18}$× |
 
-The longer the secret, the more catastrophic the leak. This is not a bug in one safe. It's a theorem about information.
+The longer the secret, the more catastrophic the leak.
 
 ---
 
@@ -223,8 +219,6 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
 
 For decades after the beeping safe, cryptographers believed they had learned the lesson. Don't leak partial information. Make verification all-or-nothing.
 
-They were wrong. They had only learned half the lesson.
-
 In 1996, a twenty-three-year-old cryptographer named Paul Kocher published a paper that redrew the boundaries of information security. He showed that even when software reveals nothing explicitly, the *time it takes to compute* is itself a channel.
 
 Consider password verification:
@@ -249,8 +243,6 @@ The cryptographic community was stunned. They had protected the message. They ha
 
 ## The Expanding Boundary
 
-Kocher's work opened a floodgate.
-
 If timing is information, what else might be?
 
 **1998: Power analysis.** Kocher again. The power consumed by a chip varies with the operations it performs. Different instructions draw different current. By measuring power consumption during cryptographic operations, attackers could extract keys from smart cards.
@@ -261,21 +253,13 @@ If timing is information, what else might be?
 
 **2018: Spectre and Meltdown.** CPUs speculate about which instructions to execute next. Sometimes they guess wrong and roll back. But the speculative execution leaves traces in the cache. These traces leak secrets across process boundaries, across virtual machines, across the boundary between user code and the operating system kernel.
 
-Each discovery expanded the definition of "information." First it was the message. Then it was metadata. Then timing. Then power. Then radiation. Then cache state. Then speculative execution.
-
-The boundary is still moving.
-
 ---
 
 ## Shannon's Definition
 
-The history of side channels is a history of expanding the concept of information itself.
-
 Shannon defined information as reduction in uncertainty. A message conveys information because it tells you something you didn't know. By this definition, *anything* that reduces uncertainty is information, whether or not it was intended to communicate.
 
 The safe's beep reduces uncertainty about which digit is correct. The computation's timing reduces uncertainty about which branch was taken. The chip's power draw reduces uncertainty about which operations occurred. The radiation from a cable reduces uncertainty about what it's carrying.
-
-None of these channels were designed. All of them communicate.
 
 ---
 
@@ -286,8 +270,6 @@ None of these channels were designed. All of them communicate.
 **Keystroke dynamics.** The rhythm of your typing (how long you hold each key, the gaps between keystrokes) identifies you as reliably as a fingerprint. This works through encryption, through Tor, through any anonymizing layer.
 
 **Website fingerprinting.** HTTPS hides which page you're viewing but not the pattern of requests: how many resources, what sizes, what timing. The pattern is enough to identify the site with high accuracy.
-
-These are not attacks in the traditional sense. No lock is picked. No cipher is broken. The information was there all along, in the shape of the activity.
 
 ---
 
