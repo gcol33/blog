@@ -161,7 +161,8 @@ The longer the secret, the more catastrophic the leak.
     document.getElementById('ratio-value').textContent = fmt(Math.round(exp / lin)) + '×';
 
     const W = 720, H = 260;  // fixed viewBox dimensions
-    const pad = 14;  // constant border padding on all sides
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const pad = 0.875 * rem;  // constant border padding on all sides
     const innerW = W - pad * 2;
     const innerH = H - pad * 2;
     const labelMargin = 70;
@@ -334,7 +335,8 @@ The safe's beep reduces uncertainty about which digit is correct. The computatio
 
   function draw() {
     const W = canvas.clientWidth, H = canvas.clientHeight;
-    const pad = Math.round(Math.min(W, H) * 0.047);  // ~14px at 300px height
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const pad = 0.875 * rem;
     ctx.clearRect(0, 0, W, H);
 
     // Inner border

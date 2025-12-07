@@ -188,7 +188,8 @@ The difference between 51.8% and 49.1% is small. Over a few games, luck dominate
 
   function draw(){
     const W = canvas.clientWidth, H = canvas.clientHeight;
-    const pad = 30, innerW = W - pad * 2, innerH = H - pad * 2;
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const pad = 1.875 * rem, innerW = W - pad * 2, innerH = H - pad * 2;
 
     ctx.clearRect(0, 0, W, H);
     ctx.strokeStyle = '#000';

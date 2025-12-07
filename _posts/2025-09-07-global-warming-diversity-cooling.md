@@ -173,7 +173,8 @@ The simulation below shows how diversity entropy changes as species disappear. S
 
   function drawBars(){
     const W = barsCanvas.clientWidth, H = barsCanvas.clientHeight;
-    const pad = 10;
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const pad = 0.625 * rem;
     barsCtx.clearRect(0, 0, W, H);
 
     if(abundances.length === 0) return;
@@ -196,7 +197,8 @@ The simulation below shows how diversity entropy changes as species disappear. S
 
   function drawEntropy(){
     const W = entropyCanvas.clientWidth, H = entropyCanvas.clientHeight;
-    const pad = 30;
+    const rem2 = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const pad = 1.875 * rem2;
     entropyCtx.clearRect(0, 0, W, H);
 
     // Axes

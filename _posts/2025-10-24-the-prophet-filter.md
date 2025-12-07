@@ -86,7 +86,8 @@ Before you answer, try the simulation below. You are one of a million people rec
 
   function draw(){
     const W = canvas.clientWidth, H = canvas.clientHeight;
-    const pad = 40, innerW = W - pad * 2, innerH = H - pad * 2;
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const pad = 2.5 * rem, innerW = W - pad * 2, innerH = H - pad * 2;
 
     ctx.clearRect(0, 0, W, H);
 

@@ -231,7 +231,8 @@ function redrawOnly(){
 
 function drawHist(hist, R, hDraw){
   const w = canvas.clientWidth, H = canvas.clientHeight;
-  const pad = 14, innerW = w - pad*2, innerH = H - pad*2;
+  const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+  const pad = 0.875 * rem, innerW = w - pad*2, innerH = H - pad*2;
 
   ctx.clearRect(0,0,w,H);
   ctx.strokeStyle = '#000'; ctx.lineWidth = 1;

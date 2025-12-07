@@ -146,7 +146,7 @@ Always use this exact structure for interactive demos:
 
 Key points:
 - Outer container: `max-width: 720px; margin: 0 auto;` with **NO border**
-- **Double border effect**: wrap canvas/SVG in a div with `border: 1px solid #000`, then draw an inner border inside the canvas/SVG with ~14px padding. The ratio between outer and inner should be consistent.
+- **Double border effect**: put `border: 1px solid #000` directly on the canvas/SVG element, then draw an inner border inside with 0.875rem padding. Always use rem units for padding, never raw pixels.
 - Stats rows: `border-top: 1px solid #000` (separator lines, not boxes)
 - Always include `font-variant-numeric: tabular-nums` on container
 - Always include `box-sizing: border-box` on all children
@@ -154,36 +154,32 @@ Key points:
 ### Double Border Pattern
 
 ```html
-<div style="border: 1px solid #000; overflow: hidden;">
-  <svg id="chart" style="width:100%; height:260px; background:#fff;"></svg>
-</div>
+<svg id="chart" style="width:100%; height:260px; background:#fff; border:1px solid #000;"></svg>
 ```
 
-Then inside the JS, draw inner border with **constant 14px padding on all sides**:
+Then inside the JS, draw inner border with **rem-based padding** on all sides:
 
-For SVG (responsive - uses actual rendered dimensions):
+For canvas:
+```js
+const W = canvas.clientWidth, H = canvas.clientHeight;
+const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+const pad = 0.875 * rem;  // 0.875rem ≈ 14px at default 16px font
+ctx.strokeRect(pad, pad, W - pad*2, H - pad*2);
+```
+
+For SVG (with fixed viewBox, get actual dimensions first):
 ```js
 const rect = svg.getBoundingClientRect();
 const W = rect.width, H = rect.height;
-const pad = 14;  // constant border padding on all sides
+const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+const pad = 0.875 * rem;
 const innerW = W - pad * 2;
 const innerH = H - pad * 2;
 
 html += `<rect x="${pad}" y="${pad}" width="${innerW}" height="${innerH}" fill="none" stroke="#000"/>`;
-
-// Position all content relative to pad, e.g.:
-const contentLeft = pad + labelMargin;
-const y1 = pad + innerH * 0.15;
 ```
 
-For canvas (also responsive):
-```js
-const W = canvas.clientWidth, H = canvas.clientHeight;
-const pad = 14;
-ctx.strokeRect(pad, pad, W - pad*2, H - pad*2);
-```
-
-**Key rule**: The 14px gap between outer border and inner border must be constant on all four sides (top, bottom, left, right). All content (labels, bars, axes) must fit inside the inner border area.
+**Key rule**: Always use rem units for padding (`0.875 * rem` for standard spacing). Never use raw pixel values. This ensures consistent spacing across all screen sizes and respects user font size preferences.
 
 ## Common Patterns
 
