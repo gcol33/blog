@@ -426,8 +426,6 @@ Here is what the twentieth century taught us:
 
 The boundary between "the secret" and "information about the secret" is not fixed. It moves as our ability to measure improves. What leaked undetectably in 1980 leaks detectably in 2000. What seems safe today will leak tomorrow.
 
-This is not paranoia. It is physics.
-
 Churchill's engineers thought they were protecting speech. They were forced to protect rhythm. Cryptographers thought they were protecting keys. They were forced to protect timing, power, radiation, cache access, and speculative execution.
 
 Each generation discovers that the last generation's definition of "the secret" was too narrow.
