@@ -67,7 +67,9 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
 ## See It
 
 <div id="collapse-demo" style="max-width: 720px; margin: 0 auto;">
-  <svg id="collapse-svg" style="width:100%; height:260px; background:#fff; border:1px solid #000;"></svg>
+  <div style="border: 1px solid #000; overflow: hidden;">
+    <svg id="collapse-svg" style="width:100%; height:260px; background:#fff;"></svg>
+  </div>
 
   <div class="collapse-controls">
     <label>Alphabet size (k)
@@ -284,9 +286,10 @@ These are not attacks in the traditional sense. No lock is picked. No cipher is 
 <div id="rhythm-demo" style="max-width: 720px; margin: 0 auto;">
   <p style="margin-top: 0;">Type anything below. The content doesn't matter. Your rhythm is the signal.</p>
 
-  <input type="text" id="rhythm-input" placeholder="Type here..." style="width: 100%; padding: 0.5em; font-size: 1em; border: 1px solid #000; box-sizing: border-box;">
-
-  <canvas id="rhythm-canvas" style="width: 100%; height: 100px; margin-top: 10px; border: 1px solid #000; background: #fff;"></canvas>
+  <div style="border: 1px solid #000; overflow: hidden;">
+    <input type="text" id="rhythm-input" placeholder="Type here..." style="width: 100%; padding: 0.5em; font-size: 1em; border: none; border-bottom: 1px solid #000; box-sizing: border-box;">
+    <canvas id="rhythm-canvas" style="width: 100%; height: 100px; background: #fff;"></canvas>
+  </div>
 
   <div class="rhythm-stats">
     <div class="rhythm-stat-row"><span>Mean interval:</span><strong id="r-mean">—</strong> ms</div>
