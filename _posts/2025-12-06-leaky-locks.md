@@ -251,7 +251,13 @@ If timing is information, what else might be?
 
 **2003: Cache timing.** Modern CPUs have memory caches. Accessing cached data is fast; uncached data is slow. An attacker who shares your CPU can deduce what memory addresses you're touching, including cryptographic key material.
 
-**2018: Spectre and Meltdown.** CPUs speculate about which instructions to execute next. Sometimes they guess wrong and roll back. But the speculative execution leaves traces in the cache. These traces leak secrets across process boundaries, across virtual machines, across the boundary between user code and the operating system kernel.
+**2018: Spectre and Meltdown.** Modern CPUs don't wait. When they hit a conditional branch, they guess which way it will go and start executing instructions down that path. If the guess is wrong, they roll back and pretend it never happened. This is speculative execution, and it makes processors fast.
+
+Meltdown exploited the fact that Intel chips performed speculative memory accesses before checking permissions. A user program could speculatively read kernel memory. The CPU would eventually realize the access was forbidden and discard the result—but not before the data had touched the cache. By measuring which cache lines were now fast to access, an attacker could reconstruct the forbidden bytes.
+
+Spectre was subtler. It trained the branch predictor to mispredict, then used that misprediction to speculatively access memory through the victim's own code. The victim's program would briefly touch memory it shouldn't, leaving cache traces the attacker could read. Spectre affected nearly every processor made in the last twenty years.
+
+Both attacks crossed boundaries that were supposed to be inviolable: user to kernel, guest to host, process to process. The CPU's architecture guaranteed isolation. The CPU's microarchitecture leaked it away.
 
 ---
 
