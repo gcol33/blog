@@ -451,5 +451,3 @@ This is hard. It requires understanding what information is: not what you intend
 The safe's designers protected the code. They didn't think to protect the rhythm of the mechanism, the heat of the electronics, the sound of the buttons.
 
 Churchill's engineers protected the words. They didn't think to protect the cadence.
-
-**The lock will always talk. Security is teaching it to say nothing useful.**
