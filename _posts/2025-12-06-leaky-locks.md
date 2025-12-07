@@ -177,8 +177,8 @@ The longer the secret, the more catastrophic the leak.
 
     const barLeft = pad + labelMargin;
     const barH = 36;
-    const y1 = pad + 25;
-    const y2 = pad + 85;
+    const y1 = pad + 12;
+    const y2 = pad + 60;
     const expW = (expLog / maxLog) * scaleW;
     const linW = (linLog / maxLog) * scaleW;
 
@@ -189,7 +189,7 @@ The longer the secret, the more catastrophic the leak.
     html += `<rect x="${barLeft}" y="${y2}" width="${Math.max(linW,3)}" height="${barH}" fill="#fff" stroke="#000"/>`;
     html += `<text x="${barLeft-6}" y="${y2+barH/2+fontSize*0.35}" text-anchor="end" font-size="${fontSize}">With leak</text>`;
 
-    const axisY = pad + innerH - 40;
+    const axisY = pad + innerH - 25;
     html += `<line x1="${barLeft}" y1="${axisY}" x2="${barLeft + scaleW}" y2="${axisY}" stroke="#000"/>`;
     const tickStep = Math.max(1, Math.ceil(maxLog / 6));
     const tickFontSize = Math.min(11, W * 0.02);
