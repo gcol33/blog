@@ -162,12 +162,11 @@ The longer the secret, the more catastrophic the leak.
     document.getElementById('lin-value').textContent = fmt(lin);
     document.getElementById('ratio-value').textContent = fmt(Math.round(exp / lin)) + '×';
 
-    const rect = svg.getBoundingClientRect();
-    const W = rect.width, H = rect.height;
+    const W = 720, H = 260;  // fixed viewBox dimensions
     const pad = 14;  // constant border padding on all sides
     const innerW = W - pad * 2;
     const innerH = H - pad * 2;
-    const labelMargin = Math.max(60, W * 0.12);  // responsive label margin, min 60px for labels
+    const labelMargin = 70;
     const expLog = Math.log10(exp);
     const linLog = Math.log10(lin);
     const maxLog = Math.ceil(expLog);
@@ -208,7 +207,8 @@ The longer the secret, the more catastrophic the leak.
 
   kSlider.addEventListener('input', draw);
   nSlider.addEventListener('input', draw);
-  window.addEventListener('resize', draw);
+  svg.setAttribute('viewBox', '0 0 720 260');
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
   draw();
 })();
 </script>
