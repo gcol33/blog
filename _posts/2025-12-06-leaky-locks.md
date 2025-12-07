@@ -449,5 +449,3 @@ Every physical process is a broadcast. Security is not about stopping the broadc
 This is hard. It requires understanding what information is: not what you intend to transmit, but what can be received.
 
 The safe's designers protected the code. They didn't think to protect the rhythm of the mechanism, the heat of the electronics, the sound of the buttons.
-
-Churchill's engineers protected the words. They didn't think to protect the cadence.
