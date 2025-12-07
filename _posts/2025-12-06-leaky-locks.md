@@ -179,8 +179,13 @@ The longer the secret, the more catastrophic the leak.
     html += `<rect x="${pad}" y="${pad}" width="${innerW}" height="${innerH}" fill="none" stroke="#000"/>`;
 
     const barLeft = pad + labelMargin;
-    const barH = Math.min(40, innerH * 0.22);
-    const y1 = pad + innerH * 0.15, y2 = pad + innerH * 0.5;
+    const contentTop = pad + 8;  // 8px margin inside inner border
+    const contentBottom = pad + innerH - 8;  // 8px margin inside inner border
+    const contentH = contentBottom - contentTop;
+
+    const barH = contentH * 0.22;
+    const y1 = contentTop + contentH * 0.05;
+    const y2 = contentTop + contentH * 0.38;
     const expW = (expLog / maxLog) * scaleW;
     const linW = (linLog / maxLog) * scaleW;
 
@@ -191,14 +196,14 @@ The longer the secret, the more catastrophic the leak.
     html += `<rect x="${barLeft}" y="${y2}" width="${Math.max(linW,3)}" height="${barH}" fill="#fff" stroke="#000"/>`;
     html += `<text x="${barLeft-6}" y="${y2+barH/2+fontSize*0.35}" text-anchor="end" font-size="${fontSize}">With leak</text>`;
 
-    const axisY = pad + innerH - 25;
+    const axisY = contentBottom - 18;
     html += `<line x1="${barLeft}" y1="${axisY}" x2="${barLeft + scaleW}" y2="${axisY}" stroke="#000"/>`;
     const tickStep = Math.max(1, Math.ceil(maxLog / 6));
     const tickFontSize = Math.min(11, W * 0.02);
     for (let i = 0; i <= maxLog; i += tickStep) {
       const x = barLeft + (i / maxLog) * scaleW;
       html += `<line x1="${x}" y1="${axisY}" x2="${x}" y2="${axisY + 5}" stroke="#000"/>`;
-      html += `<text x="${x}" y="${axisY + 14}" text-anchor="middle" font-size="${tickFontSize}">10^${i}</text>`;
+      html += `<text x="${x}" y="${axisY + 13}" text-anchor="middle" font-size="${tickFontSize}">10^${i}</text>`;
     }
 
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
