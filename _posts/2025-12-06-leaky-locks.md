@@ -63,9 +63,7 @@ The longer the secret, the more catastrophic the leak.
 ## The Collapse, Visualized
 
 <div id="collapse-demo" style="max-width: 720px; margin: 0 auto;">
-  <div style="border: 1px solid #000; overflow: hidden; box-shadow: none;">
-    <svg id="collapse-svg" style="width:100%; height:260px; background:#fff; display:block;"></svg>
-  </div>
+  <svg id="collapse-svg" style="width:100%; height:260px; background:#fff; border:1px solid #000;"></svg>
 
   <div class="collapse-controls">
     <label>Alphabet size (k)
