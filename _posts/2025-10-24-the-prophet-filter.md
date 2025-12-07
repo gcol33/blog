@@ -91,6 +91,11 @@ Before you answer, try the simulation below. You are one of a million people rec
 
     ctx.clearRect(0, 0, W, H);
 
+    // Inner border
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(pad, pad, innerW, innerH);
+
     // Axes
     ctx.strokeStyle = '#000';
     ctx.lineWidth = 1;
