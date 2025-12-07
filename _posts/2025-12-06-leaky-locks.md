@@ -167,35 +167,38 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
     document.getElementById('ratio-value').textContent = fmt(Math.round(exp / lin)) + '×';
 
     const W = 700, H = 260;
-    const innerPad = 14;
-    const pad = 80;  // left margin for labels
+    const pad = 14;  // constant border padding on all sides
+    const innerW = W - pad * 2;
+    const innerH = H - pad * 2;
+    const labelMargin = 65;  // space for labels inside inner border
     const expLog = Math.log10(exp);
     const linLog = Math.log10(lin);
     const maxLog = Math.ceil(expLog);
-    const scaleW = W - pad - innerPad - 20;
+    const scaleW = innerW - labelMargin - 10;
 
     let html = '';
 
     // Inner border
-    html += `<rect x="${innerPad}" y="${innerPad}" width="${W - innerPad*2}" height="${H - innerPad*2}" fill="none" stroke="#000"/>`;
+    html += `<rect x="${pad}" y="${pad}" width="${innerW}" height="${innerH}" fill="none" stroke="#000"/>`;
 
-    const y1 = 45, y2 = 110, barH = 40;
+    const barLeft = pad + labelMargin;
+    const y1 = pad + 30, y2 = pad + 95, barH = 40;
     const expW = (expLog / maxLog) * scaleW;
     const linW = (linLog / maxLog) * scaleW;
 
-    html += `<rect x="${pad}" y="${y1}" width="${expW}" height="${barH}" fill="#000" stroke="#000"/>`;
-    html += `<text x="${pad-8}" y="${y1+barH/2+5}" text-anchor="end" font-size="13">No leak</text>`;
+    html += `<rect x="${barLeft}" y="${y1}" width="${expW}" height="${barH}" fill="#000" stroke="#000"/>`;
+    html += `<text x="${barLeft-8}" y="${y1+barH/2+5}" text-anchor="end" font-size="13">No leak</text>`;
 
-    html += `<rect x="${pad}" y="${y2}" width="${Math.max(linW,3)}" height="${barH}" fill="#fff" stroke="#000"/>`;
-    html += `<text x="${pad-8}" y="${y2+barH/2+5}" text-anchor="end" font-size="13">With leak</text>`;
+    html += `<rect x="${barLeft}" y="${y2}" width="${Math.max(linW,3)}" height="${barH}" fill="#fff" stroke="#000"/>`;
+    html += `<text x="${barLeft-8}" y="${y2+barH/2+5}" text-anchor="end" font-size="13">With leak</text>`;
 
-    const axisY = H - innerPad - 35;
-    html += `<line x1="${pad}" y1="${axisY}" x2="${pad + scaleW}" y2="${axisY}" stroke="#000"/>`;
+    const axisY = pad + innerH - 30;
+    html += `<line x1="${barLeft}" y1="${axisY}" x2="${barLeft + scaleW}" y2="${axisY}" stroke="#000"/>`;
     const tickStep = Math.max(1, Math.ceil(maxLog / 6));
     for (let i = 0; i <= maxLog; i += tickStep) {
-      const x = pad + (i / maxLog) * scaleW;
+      const x = barLeft + (i / maxLog) * scaleW;
       html += `<line x1="${x}" y1="${axisY}" x2="${x}" y2="${axisY + 5}" stroke="#000"/>`;
-      html += `<text x="${x}" y="${axisY + 18}" text-anchor="middle" font-size="11">10^${i}</text>`;
+      html += `<text x="${x}" y="${axisY + 16}" text-anchor="middle" font-size="11">10^${i}</text>`;
     }
 
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
