@@ -131,10 +131,29 @@ Always use this exact structure for interactive demos:
 
 Key points:
 - Outer container: `max-width: 720px; margin: 0 auto;` with **NO border**
-- Canvas/SVG: `border: 1px solid #000; background: #fff;`
+- **Double border effect**: wrap canvas/SVG in a div with `border: 1px solid #000`, then draw an inner border inside the canvas/SVG with ~14px padding. The ratio between outer and inner should be consistent.
 - Stats rows: `border-top: 1px solid #000` (separator lines, not boxes)
 - Always include `font-variant-numeric: tabular-nums` on container
 - Always include `box-sizing: border-box` on all children
+
+### Double Border Pattern
+
+```html
+<div style="border: 1px solid #000; overflow: hidden;">
+  <svg id="chart" style="width:100%; height:260px; background:#fff;"></svg>
+</div>
+```
+
+Then inside the JS, draw inner border:
+```js
+const innerPad = 14;
+html += `<rect x="${innerPad}" y="${innerPad}" width="${W - innerPad*2}" height="${H - innerPad*2}" fill="none" stroke="#000"/>`;
+```
+
+For canvas:
+```js
+ctx.strokeRect(pad, pad, innerW, innerH);
+```
 
 ## Common Patterns
 
