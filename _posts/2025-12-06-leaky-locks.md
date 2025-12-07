@@ -337,7 +337,7 @@ These are not attacks in the traditional sense. No lock is picked. No cipher is 
 
   function draw() {
     const W = canvas.clientWidth, H = canvas.clientHeight;
-    const pad = 14;
+    const pad = Math.round(Math.min(W, H) * 0.047);  // ~14px at 300px height
     ctx.clearRect(0, 0, W, H);
 
     // Inner border
@@ -349,12 +349,13 @@ These are not attacks in the traditional sense. No lock is picked. No cipher is 
 
     const max = Math.max(...intervals, 150);
     const innerW = W - pad*2;
-    const barW = Math.min(16, (innerW - 10) / intervals.length);
+    const innerH = H - pad*2;
+    const barW = Math.min(16, (innerW - pad) / intervals.length);
 
     ctx.fillStyle = '#000';
     for (let i = 0; i < intervals.length; i++) {
-      const h = (intervals[i] / max) * (H - pad*2 - 10);
-      ctx.fillRect(pad + 5 + i * barW, H - pad - 5 - h, barW - 2, h);
+      const h = (intervals[i] / max) * (innerH - pad);
+      ctx.fillRect(pad + pad/2 + i * barW, H - pad - pad/2 - h, barW - 2, h);
     }
   }
 
