@@ -63,8 +63,8 @@ The longer the secret, the more catastrophic the leak.
 ## The Collapse, Visualized
 
 <div id="collapse-demo" style="max-width: 720px; margin: 0 auto;">
-  <div style="border: 1px solid #000; overflow: hidden;">
-    <svg id="collapse-svg" style="width:100%; height:260px; background:#fff;"></svg>
+  <div style="border: 1px solid #000; overflow: hidden; box-shadow: none;">
+    <svg id="collapse-svg" style="width:100%; height:260px; background:#fff; display:block;"></svg>
   </div>
 
   <div class="collapse-controls">
@@ -285,9 +285,9 @@ The safe's beep reduces uncertainty about which digit is correct. The computatio
 <div id="rhythm-demo" style="max-width: 720px; margin: 0 auto;">
   <p style="margin-top: 0;">Type anything below. The content doesn't matter. Your rhythm is the signal.</p>
 
-  <div style="border: 1px solid #000; overflow: hidden;">
+  <div style="border: 1px solid #000; overflow: hidden; box-shadow: none;">
     <input type="text" id="rhythm-input" placeholder="Type here..." style="width: 100%; padding: 0.5em; font-size: 1em; border: none; border-bottom: 1px solid #000; box-sizing: border-box;">
-    <canvas id="rhythm-canvas" style="width: 100%; height: 100px; background: #fff;"></canvas>
+    <canvas id="rhythm-canvas" style="width: 100%; height: 100px; background: #fff; display: block;"></canvas>
   </div>
 
   <div class="rhythm-stats">
