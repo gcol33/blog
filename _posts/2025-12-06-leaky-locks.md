@@ -129,7 +129,7 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
   display: grid;
   grid-template-columns: 1fr;
   gap: 4px;
-  margin-top: 6px;
+  margin-top: 10px;
 }
 #collapse-demo .collapse-stat-row {
   border-top: 1px solid #000;
@@ -309,7 +309,7 @@ These are not attacks in the traditional sense. No lock is picked. No cipher is 
   display: grid;
   grid-template-columns: 1fr;
   gap: 4px;
-  margin-top: 6px;
+  margin-top: 10px;
 }
 #rhythm-demo .rhythm-stat-row {
   border-top: 1px solid #000;
