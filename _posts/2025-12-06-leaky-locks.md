@@ -64,7 +64,7 @@ The longer the secret, the more catastrophic the leak. This is not a bug in one 
 
 ---
 
-## See It
+## The Collapse, Visualized
 
 <div id="collapse-demo" style="max-width: 720px; margin: 0 auto;">
   <div style="border: 1px solid #000; overflow: hidden;">
