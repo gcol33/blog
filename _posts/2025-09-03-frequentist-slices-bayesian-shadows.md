@@ -5,114 +5,117 @@ date: 2025-09-03
 categories: probability measure-theory bayesian
 ---
 
-## Marginal vs. Conditional Predictions
+## The Same Model, Two Different Answers
 
-The central difference between frequentist and Bayesian statistics is how they treat the unknown.  
-In the frequentist view, parameters are fixed but unknown constants, and probability describes variation in the data under repeated sampling.  
-In the Bayesian view, the data are fixed once observed, and it is the parameters themselves that are uncertain, described by probability distributions.  
+You fit a regression model predicting tree growth from elevation and soil moisture. You want to know: how does elevation affect growth?
 
-This contrast becomes concrete when we make predictions. Frequentists usually condition on fixed parameter estimates, while Bayesians average over the entire range of plausible parameter values. To see why, it helps to return to the foundations of probability in measure theory.
+A frequentist hands you a plot with a line and a confidence band. A Bayesian hands you a plot with a line and a credible band. The lines are similar. The bands look similar. But they mean completely different things.
+
+The frequentist band says: if we repeated this experiment many times, 95% of such bands would contain the true line.
+
+The Bayesian band says: given what we observed, there's a 95% probability the true value lies here.
+
+Same data. Same model. Different answers to different questions. The difference comes down to a choice: do you slice through uncertainty, or let it cast a shadow?
 
 ---
 
-## Probability as a Pushforward
+## A Mountain of Uncertainty
 
-A probability space is a triple $(\Omega, \mathcal{F}, P)$, where  
+Picture the joint posterior distribution of two regression coefficients—$\beta_1$ for elevation, $\beta_2$ for soil moisture. This distribution forms a three-dimensional mountain rising over the $(\beta_1, \beta_2)$ plane. The peak sits where the parameters are most plausible; the slopes fall away toward less likely combinations.
 
-- $\Omega$ is the set of all possible outcomes,  
-- $\mathcal{F}$ is a collection of measurable subsets of $\Omega$,  
-- $P$ is the probability measure assigning each event a number in $[0,1]$.
+Now suppose you want to report just the effect of elevation, $\beta_1$. You have two options.
 
-A random variable is a measurable function  
+**Slice.** Take a vertical cut through the mountain at some fixed value of $\beta_2$—say, the point estimate. You're left with a one-dimensional curve: the distribution of $\beta_1$ *given that* $\beta_2$ equals exactly that value. This is conditioning. It's what frequentists typically do.
 
-$$
-X: \Omega \to \mathbb{R}.
-$$
+**Shadow.** Shine light along the $\beta_2$ axis so the entire mountain casts a shadow onto the $\beta_1$ axis. At each point, you accumulate all the probability mass across every possible $\beta_2$. This is marginalizing. It's what Bayesians typically do.
 
-Its distribution is the **pushforward** of $P$ through $X$:  
+The slice is sharp. It pretends $\beta_2$ is known. The shadow is diffuse. It admits $\beta_2$ could be many things.
 
-$$
-P_X(B) = P\!\big(X^{-1}(B)\big), \quad B \subseteq \mathbb{R}.
-$$
+---
 
-In words: the probability that $X$ lands in a set $B$ is the probability of all original outcomes $\omega$ that map into $B$.  
+## Pushforwards: The Machinery Behind Both
 
-**Example.** If $\Omega$ is the six faces of a die with uniform measure $P$, and $X(\text{face } k) = k$, then the pushforward is the uniform distribution on $\{1,\dots,6\}$. The function $X$ transfers the measure from die faces to numbers.  
+Measure theory provides the language for what's happening here. A probability distribution is a **pushforward**—a way of transferring measure from one space to another through a function.
 
-Every probability distribution can be seen as the pushforward of a measure through a function. Marginals and conditionals are different ways of doing this.
-
-## Conditionals in Frequentist Predictions
-
-In the frequentist framework, parameters are treated as fixed but unknown constants.  
-When we make predictions, we typically insert point estimates of these parameters into the model.  
-This produces what is called a **conditional prediction**: we condition on the chosen parameter values and then describe the variability of the outcome.  
-
-Consider a regression model of the form  
+Start with a probability space $(\Omega, \mathcal{F}, P)$: outcomes $\Omega$, measurable sets $\mathcal{F}$, and a measure $P$. A random variable $X: \Omega \to \mathbb{R}$ maps outcomes to numbers. The distribution of $X$ is defined by pushing $P$ forward through $X$:
 
 $$
-Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \varepsilon.
+P_X(B) = P\big(X^{-1}(B)\big)
 $$
 
-Suppose we are interested in the effect of elevation $x_1$, while soil moisture $x_2$ is another predictor.  
-To visualize the role of elevation, we fix soil moisture at some reference value, for example $x_2 = 20\%$, and plot  
+The probability that $X$ lands in $B$ equals the probability of all outcomes that map into $B$.
+
+Roll a die. Let $X$ assign the number on the top face. The pushforward of the uniform measure on six faces is the uniform distribution on $\{1, \ldots, 6\}$. The function $X$ transfers the measure from physical faces to abstract numbers.
+
+---
+
+## Frequentist Predictions: Conditioning on the Slice
+
+In frequentist regression, parameters $\boldsymbol{\beta}$ are fixed but unknown. We estimate them from data, then plug those estimates into the model.
+
+Consider:
 
 $$
-E[Y \mid x_1, x_2 = 0.2] = \beta_0 + \beta_1 x_1 + \beta_2 \cdot 0.2.
+Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \varepsilon
 $$
 
-The fitted line is conditional on soil moisture being set at 20% and on the estimated parameters $\hat{\boldsymbol{\beta}}$ (the hat denotes that these are estimates of the true but unknown coefficients $\boldsymbol{\beta}$).
-The surrounding uncertainty band comes from the sampling distribution of these estimates: if we repeatedly drew new datasets from the same true model, 95% of such bands would contain the true regression line.
-
-Frequentist prediction plots are conditional in two senses:  
-they are conditional on fixed values of covariates and conditional on fixed parameter estimates.
-
-## Marginals in Bayesian Predictions
-
-In the Bayesian framework, the parameters are not fixed constants but uncertain quantities.  
-Their uncertainty is described by a posterior distribution, which combines the prior and the likelihood.  
-Predictions are then obtained by averaging over this full distribution rather than plugging in a single estimate.  
-
-Using the same regression model,  
+To visualize the effect of elevation $x_1$, we fix soil moisture at a reference value—say $x_2 = 0.2$—and plot:
 
 $$
-Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \varepsilon,
+\mathbb{E}[Y \mid x_1, x_2 = 0.2] = \hat\beta_0 + \hat\beta_1 x_1 + \hat\beta_2 \cdot 0.2
 $$
 
-we again want to study the effect of elevation $x_1$ while holding soil moisture at $x_2 = 20\%$.  
-Instead of inserting point estimates for $\boldsymbol{\beta}$, we integrate over the entire posterior distribution:
+The hat marks estimates. The line is conditional on two things: fixed covariate values *and* fixed parameter estimates.
+
+The confidence band comes from the sampling distribution of $\hat{\boldsymbol{\beta}}$. It answers a hypothetical question: if we repeated this experiment infinitely many times, how often would such bands contain the true line?
+
+This is a slice through parameter space—a single point, plus the variation from sampling.
+
+---
+
+## Bayesian Predictions: Casting the Shadow
+
+In Bayesian regression, parameters are uncertain quantities with a posterior distribution. Predictions integrate over this entire distribution rather than conditioning on a single point.
+
+Same model:
 
 $$
-p(y^* \mid x_1, x_2 = 0.2, \text{data})  
-= \int p(y^* \mid x_1, x_2 = 0.2, \boldsymbol{\beta}) \, p(\boldsymbol{\beta} \mid \text{data}) \, d\boldsymbol{\beta}.
+Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \varepsilon
 $$
 
-This is a **marginal prediction**: we marginalize over parameter uncertainty to obtain a predictive distribution for $y^*$.  
-From this distribution, we can summarize the mean prediction and a credible interval.  
-The credible interval has a direct probability interpretation: given the data and prior, there is a 95% probability that the outcome lies within that range.  
+Same goal: the effect of elevation at $x_2 = 0.2$. But now we average:
 
-Unlike the frequentist approach, the Bayesian view does not condition on fixed parameter values.  
-Instead, it integrates across all plausible parameter values, weighting each according to its posterior probability.  
-The resulting prediction plot shows the mean curve with credible bands, reflecting the full uncertainty.
+$$
+p(y^* \mid x_1, x_2 = 0.2, \text{data}) = \int p(y^* \mid x_1, x_2 = 0.2, \boldsymbol{\beta}) \, p(\boldsymbol{\beta} \mid \text{data}) \, d\boldsymbol{\beta}
+$$
 
-## Slices and Shadows
+The posterior $p(\boldsymbol{\beta} \mid \text{data})$ weights each parameter combination by its plausibility. The integral sums their contributions.
 
-The difference between conditional and marginal predictions can be pictured with a simple metaphor.  
-Imagine the joint posterior distribution of two regression coefficients, say $\beta_1$ for elevation and $\beta_2$ for soil moisture.  
-This distribution is a three-dimensional mountain rising over the $(\beta_1, \beta_2)$ plane.  
+The credible band has a direct interpretation: given the data, there's a 95% probability the outcome lies within this range. No hypothetical repetitions required.
 
-- A **conditional view** is like taking a vertical slice through the mountain at $\beta_2 = c$.  
-  We pretend soil moisture is known exactly and examine how plausible different values of $\beta_1$ are along that slice.  
-  This corresponds to the frequentist habit of fixing parameters at chosen values.  
+This is the shadow—the full uncertainty of the parameter mountain, projected onto the prediction.
 
-- A **marginal view** is like shining light along the $\beta_2$ axis so the entire mountain casts a shadow onto the $\beta_1$ axis.  
-  At each point on the $\beta_1$ axis, we accumulate all the probability mass across $\beta_2$.  
-  This corresponds to the Bayesian practice of averaging over parameter uncertainty.  
+---
 
-## Predictions as Pushforwards
+## What the Plots Actually Show
 
-Seen through measure theory, both traditions are constructing pushforwards.  
-The difference is in what is treated as fixed and what is averaged over.  
-Frequentist predictions push forward a single slice of parameter space, holding coefficients fixed at their estimates.  
-Bayesian predictions push forward the entire posterior, letting its uncertainty spread into the outcome space.  
+Both approaches produce a curve with a band. The visual similarity obscures a deep difference.
 
-What we plot, whether a regression line with a confidence band or a curve with a credible band, is the trace of this pushforward.
+| | Frequentist | Bayesian |
+|---|---|---|
+| Parameters | Fixed unknowns | Random variables |
+| Band meaning | Coverage under repetition | Direct probability |
+| Uncertainty source | Sampling variability | Posterior distribution |
+| Metaphor | Slice | Shadow |
+
+The frequentist slices through the mountain at a single point, then asks how that slice might wobble across repeated samples. The Bayesian lets the whole mountain cast its shadow, incorporating every plausible parameter combination.
+
+---
+
+## The Same Machinery, Different Inputs
+
+Seen through measure theory, both traditions construct pushforwards. The difference lies in what they push forward.
+
+Frequentists push a single slice of parameter space—estimates held fixed—into the outcome space. Bayesians push the entire posterior, letting its uncertainty propagate into predictions.
+
+The regression line you plot, whether adorned with confidence or credible bands, traces the image of this pushforward. The question is whether you sliced first, or let the shadow fall.

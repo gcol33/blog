@@ -7,118 +7,131 @@ categories: probability paradox everyday-math
 
 ## Catch It If You Can
 
-You arrive at the stop. The sign promised a bus every $10$ minutes. Your watch says you should be fine. But the street is empty. $5$ minutes. $7$ minutes. A faint growl of an engine, only a truck. Finally, after $9$ long minutes, the bus arrives, already full of tired faces.  
+You arrive at the stop. The sign says buses come every 10 minutes. Your watch says you should be fine.
 
-It feels like you are unlucky, always catching the long gaps. Yet the buses really do average $10$ minutes apart. The reason is not bad luck but statistics. A simple effect called the *inspection paradox*.  
+But the street is empty. Five minutes pass. Seven. A distant growl—just a truck. Finally, after nine long minutes, the bus arrives, already packed.
 
-Whenever arrivals are irregular, the gaps you fall into are likely to be longer than average. The more irregularity, the longer the wait.
+It feels like you always catch the long gaps. Bad luck, you think.
+
+But the buses really do average 10 minutes apart. The problem isn't your luck. It's statistics. A phenomenon called the **inspection paradox**: whenever arrivals are irregular, the gaps you land in tend to be longer than average.
+
+The more variability, the longer the wait.
 
 ---
 
-## The Simple World: Clockwork Buses
+## The Clockwork World
 
-Imagine a city where buses really do run on time. One comes exactly every $T$ minutes. If you arrive at a random instant, you are equally likely to land anywhere in that $T$ minute slot. Your wait $W$ is uniform:  
+Imagine a city where buses run exactly on time. One arrives every $T$ minutes, no exceptions.
+
+If you show up at a random moment, you're equally likely to land anywhere in that $T$-minute slot. Your wait $W$ is uniformly distributed:
 
 $$
 f_W(w) = \frac{1}{T}, \qquad 0 \leq w \leq T
 $$
 
-and the average is  
+The average wait:
 
 $$
-\mathbb{E}[W] = \tfrac{T}{2}.
+\mathbb{E}[W] = \frac{T}{2}
 $$
 
-The mean interval is $T$ and the mean wait is exactly half of it. Simple and predictable.
+Mean interval $T$, mean wait $T/2$. Half the gap. Clean and predictable.
 
-## The Chaotic World: Poisson Buses
+---
 
-Now consider the other extreme. Buses arrive at random, following a Poisson process. **The mean gap between buses is still $T$, exactly the same as in the regular case.** What changes is the variability. The gaps are exponential: many are short, some are long, but on average $T$.  
+## The Chaotic World
 
-If you arrive at a random instant, your wait $W$ is also exponential:  
+Now consider the opposite extreme. Buses arrive at random, following a Poisson process. The mean gap is still $T$—exactly the same as before. What changes is the variability. Most gaps are short. Some are long. But on average, $T$.
+
+If you arrive at a random moment, your wait is exponentially distributed:
 
 $$
-P(W > w) = e^{-w/T}, \qquad \mathbb{E}[W] = T.
+P(W > w) = e^{-w/T}, \qquad \mathbb{E}[W] = T
 $$
 
-So the mean interval is still $T$, but the mean wait is not $T/2$: It is the full $T$. The extra variability doubles the expected wait. Same mean interval, different passenger experience.
+Same mean interval. But the mean wait is no longer $T/2$. It's the full $T$.
+
+The extra variability doubles your expected wait.
+
+---
 
 ## The General Rule
 
-Both cases fit a more general formula. Let $S$ be the interval between buses. Then the expected waiting time is  
+Both cases follow a single formula. Let $S$ be the random interval between buses. The expected wait is:
 
 $$
-\mathbb{E}[W] = \frac{\mathbb{E}[S^2]}{2\,\mathbb{E}[S]}.
+\mathbb{E}[W] = \frac{\mathbb{E}[S^2]}{2\,\mathbb{E}[S]}
 $$
 
-This shows why variance matters. If the gaps never vary, then $\mathrm{Var}(S) = 0$ and the mean wait is $T/2$. As variability grows, the mean wait grows with it. For exponential gaps, $\mathrm{Var}(S) = T^2$, giving a mean wait of $T$.
+This reveals why variance matters. If gaps never vary ($\mathrm{Var}(S) = 0$), the mean wait is $T/2$. As variability increases, so does the wait. For exponential gaps with $\mathrm{Var}(S) = T^2$, the mean wait reaches $T$.
+
+Variance isn't just noise. It's time stolen from passengers.
+
+---
 
 ## Why This Formula Holds
 
-Suppose the distribution of gaps is given by $S$. To compute the average wait for a random passenger, two facts matter:
+Two facts combine:
 
-1. **Long gaps are more likely to be sampled.** The chance of landing in an interval of length $s$ is proportional to $s$.  
-2. **Once inside a gap of length $s$, the wait is uniform on $[0,s]$ with mean $s/2$.**
+**1. Long gaps are more likely to be sampled.** The chance of landing in a gap of length $s$ is proportional to $s$. A 20-minute gap covers twice as much time as a 10-minute gap, so you're twice as likely to arrive during it.
 
-Formally, the density of the gap containing the arrival is  
+**2. Once inside a gap, your wait is uniform.** If the gap is length $s$, your expected wait is $s/2$.
 
-$$
-P(S=s) \propto s \, f_S(s),
-$$  
-
-where $f_S$ is the density of $S$. Normalizing gives  
+Formally, the density of the gap containing your arrival is:
 
 $$
-P(S=s) = \frac{s f_S(s)}{\mathbb{E}[S]}.
-$$  
-
-Conditioning on $S=s$, the mean wait is $s/2$. Putting this together:  
-
-$$
-\mathbb{E}[W] = \int_0^\infty \frac{s}{\mathbb{E}[S]} \cdot \frac{s}{2} f_S(s)\, ds
-= \frac{\mathbb{E}[S^2]}{2 \,\mathbb{E}[S]}.
+f_{\text{sampled}}(s) = \frac{s \, f_S(s)}{\mathbb{E}[S]}
 $$
 
-This is the **inspection paradox formula.**
+Conditioning on landing in a gap of length $s$, the mean wait is $s/2$. Combining:
+
+$$
+\mathbb{E}[W] = \int_0^\infty \frac{s}{\mathbb{E}[S]} \cdot \frac{s}{2} \, f_S(s)\, ds = \frac{\mathbb{E}[S^2]}{2\,\mathbb{E}[S]}
+$$
+
+This is the inspection paradox formula.
+
+---
 
 ## A Toy Example
 
-Take ten buses spread across $100$ minutes. Five gaps are $5$ minutes, five are $15$ minutes. The mean gap is still $10$.  
+Ten buses spread across 100 minutes. Five gaps are 5 minutes long; five are 15 minutes long. The mean gap is $(5 \times 5 + 5 \times 15)/10 = 10$ minutes.
 
-One passenger arrives each minute. That means $25$ of them fall in short gaps and $75$ in long ones. The average wait is  
+Now imagine 100 passengers, one arriving each minute.
 
-$$
-\frac{5 \cdot (15+14+\dots+1) + 5 \cdot (5+4+\dots+1)}{100} = 6.75.
-$$
+- 25 land in short gaps (5 gaps × 5 minutes each)
+- 75 land in long gaps (5 gaps × 15 minutes each)
 
-Instead of $5.5$ minutes from perfect regularity, the average wait increases. Long gaps cover more time, so more people land inside them.
+Three times as many passengers experience the long waits. The average wait across all passengers is 6.75 minutes—not the 5 minutes you'd expect from perfect regularity.
+
+Long gaps cover more time. More people land inside them. The schedule average and the passenger average diverge.
+
+---
 
 ## Not Just Buses
 
-The same effect shows up in many situations.
+The same effect appears wherever people sample processes by being inside them.
 
-**Lecture halls.** A department offers one class of $80$, one of $10$, and two of $5$. The true average class size is  
+**Class sizes.** A department offers four classes: one with 80 students, one with 10, two with 5. The average class size is $(80 + 10 + 5 + 5)/4 = 25$. But ask the 100 students what class size they experience, and their answers average to 65.5. Large classes dominate because most students are in them.
 
-$$
-\frac{80+10+5+5}{4} = 25.
-$$  
+**Flights.** Airlines fly plenty of half-empty planes, but those planes carry few passengers. Full planes carry many. Survey passengers, and most report crowded flights.
 
-But if you ask the $100$ students, their answers average to $65.5$. Large classes dominate the sample because most students are in them.
+**Checkout lines.** Some queues are short, others long. Pick a random shopper and they're probably in one of the long ones. Averaging over people gives longer waits than averaging over queues.
 
-**Flights.** Airlines operate plenty of half empty planes, but they carry few passengers. Full planes carry many. If you ask passengers, most will report crowded flights.
+**Server response times.** A website responds in milliseconds most of the time, but occasionally takes 30 seconds. The average response time might be 2 seconds. But most users experience slow periods, because slow periods last longer.
 
-**Checkout lines.** In a supermarket, some queues are short, others are long. Pick a random shopper and chances are they are in one of the long queues. Averaging over people makes the waits longer than averaging over queues.
+In every case, individuals are more likely to land in bigger or longer groups. The experienced average exceeds the scheduled average.
 
-**Servers.** A website responds quickly most of the time but sometimes takes $30$ seconds. The average response time may be $2$ seconds, but most users experience the slow periods. Long delays dominate.
-
-In every case, individuals are more likely to be found in the bigger or longer groups. The result is an average that looks worse than the underlying schedule.
+---
 
 ## The Scorecard
 
-Compare the cases:
+| Schedule type | Mean gap | Mean wait |
+|---------------|----------|-----------|
+| Regular (clockwork) | $T$ | $T/2$ |
+| Poisson (random) | $T$ | $T$ |
+| Irregular (variable) | $T$ | between $T/2$ and $T$ |
 
-- **Regular schedule:** mean gap $T$, mean wait $T/2$.  
-- **Poisson schedule:** mean gap $T$, mean wait $T$.  
-- **Irregular schedule:** mean gap $T$, mean wait between $T/2$ and $T$.  
+The schedule average and the passenger average measure different things. Schedules average over intervals. Passengers average over time spent inside them.
 
-The schedule average and the passenger average are not the same. Schedules average over intervals. Passengers average over time spent inside them. That difference is why the long gaps are so hard to avoid.
+That's why standing at the bus stop feels worse than the timetable suggests. You're not sampling buses. You're sampling the gaps between them—and long gaps, by definition, take up more of your time.

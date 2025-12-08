@@ -14,11 +14,11 @@ You ignore it. But the next day, you check—and it did close up.
 
 A week later, another email: "Tech stocks will drop on Friday." You're skeptical. Friday comes. Tech stocks drop.
 
-This keeps happening. Five predictions. Six. Seven. All correct. By now you're paying attention. The eighth email offers you access to a "premium service" for just $500. After all, this person has never been wrong.
+This keeps happening. Five predictions. Six. Seven. All correct. By the eighth email, you're paying attention. The sender offers access to a "premium service" for $500. After all, this person has never been wrong.
 
 Would you pay?
 
-Before you answer, try the simulation below. You are one of a million people receiving these emails. Watch what happens.
+Before you answer, try the simulation below. You are one of a million people receiving these emails.
 
 ---
 
@@ -44,7 +44,7 @@ Before you answer, try the simulation below. You are one of a million people rec
   <div id="prophet-reveal" class="prophet-reveal">
     <strong>The trick revealed:</strong> The "prophet" sent <em>both</em> predictions each round—"up" to half, "down" to the other half. No matter what happened, half the recipients saw a correct prediction. The wrong half was simply never contacted again.
     <div style="margin-top: 0.5em;">
-      After 10 rounds, <span id="prophet-final">~976</span> people have seen 10 perfect predictions. To them, the prophet seems infallible. To everyone else, the prophet doesn't exist—they stopped receiving emails long ago.
+      After 10 rounds, <span id="prophet-final">~976</span> people have seen 10 perfect predictions. To them, the prophet seems infallible. To everyone else, the prophet doesn't exist.
     </div>
   </div>
 </div>
@@ -91,12 +91,10 @@ Before you answer, try the simulation below. You are one of a million people rec
 
     ctx.clearRect(0, 0, W, H);
 
-    // Inner border
     ctx.strokeStyle = '#000';
     ctx.lineWidth = 1;
     ctx.strokeRect(pad, pad, innerW, innerH);
 
-    // Axes
     ctx.strokeStyle = '#000';
     ctx.lineWidth = 1;
     ctx.beginPath();
@@ -105,7 +103,6 @@ Before you answer, try the simulation below. You are one of a million people rec
     ctx.lineTo(pad + innerW, pad + innerH);
     ctx.stroke();
 
-    // Y-axis labels (log scale)
     ctx.fillStyle = '#000';
     ctx.font = '11px system-ui, sans-serif';
     ctx.textAlign = 'right';
@@ -120,7 +117,6 @@ Before you answer, try the simulation below. You are one of a million people rec
       ctx.stroke();
     });
 
-    // X-axis labels
     ctx.textAlign = 'center';
     ctx.strokeStyle = '#000';
     for(let i = 0; i <= 10; i++){
@@ -130,7 +126,6 @@ Before you answer, try the simulation below. You are one of a million people rec
 
     if(history.length < 2) return;
 
-    // Draw line
     ctx.strokeStyle = '#000';
     ctx.lineWidth = 2;
     ctx.beginPath();
@@ -143,7 +138,6 @@ Before you answer, try the simulation below. You are one of a million people rec
     }
     ctx.stroke();
 
-    // Draw points
     ctx.fillStyle = '#000';
     for(let i = 0; i < history.length; i++){
       const x = pad + (i / 10) * innerW;
@@ -262,16 +256,16 @@ The trick requires nothing but scale and selection.
 
 Start with $M$ recipients. Send half a prediction that the market will rise, half that it will fall. Whatever happens, half are correct. Discard the rest.
 
-After $N$ rounds, the expected number of survivors is
+After $N$ rounds, the expected number of survivors:
 
 $$
-M \times \left(\frac{1}{2}\right)^N.
+M \times \left(\frac{1}{2}\right)^N
 $$
 
 With one million initial targets and ten rounds:
 
 $$
-10^6 \times \left(\frac{1}{2}\right)^{10} = 976.
+10^6 \times \left(\frac{1}{2}\right)^{10} = 976
 $$
 
 Nearly a thousand people witness a perfect streak. Not because the prophet knows anything, but because selection guarantees survivors.
@@ -280,15 +274,17 @@ Nearly a thousand people witness a perfect streak. Not because the prophet knows
 
 ## The Scam in the Wild
 
-This is not hypothetical. In the 1990s and 2000s, "stock-picking" newsletters ran exactly this con. Some were prosecuted; many were not. The scheme works because the victims never see the full picture—they only see their own experience of ten correct predictions.
+This is not hypothetical.
+
+In the 1990s and 2000s, "stock-picking" newsletters ran exactly this scheme. Some were prosecuted; many were not. The scheme works because victims never see the full picture. They see only their own experience of ten correct predictions.
 
 Variations appear everywhere:
 
-**Psychics and mediums.** A cold reader throws out dozens of guesses. The hits are remembered; the misses are rationalized or forgotten. After an hour, the client recalls only the "impossible" accuracies.
+**Psychics and mediums.** A cold reader throws out dozens of guesses. Hits are remembered; misses rationalized or forgotten. After an hour, the client recalls only the "impossible" accuracies.
 
 **Sports tipsters.** Betting services send different picks to different subscribers. After a few weeks, a subset has received only winners. Those are the ones who pay for the premium tier.
 
-**Hedge fund incubation.** A firm launches twenty funds with different strategies. After five years, most have failed. The survivors are marketed based on their "track record," even though selection, not skill, explains the performance.
+**Hedge fund incubation.** A firm launches twenty funds with different strategies. After five years, most have failed. The survivors are marketed based on their "track record," even though selection—not skill—explains the performance.
 
 The prophet filter is survivorship bias weaponized.
 
@@ -296,14 +292,16 @@ The prophet filter is survivorship bias weaponized.
 
 ## Aristotle Saw It First
 
-The insight is ancient. In *On Divination in Sleep*, Aristotle observed that people who dream of disasters and later learn of matching events believe they foresaw them. They forget the thousands of dreams that matched nothing.
+The insight is ancient.
+
+In *On Divination in Sleep*, Aristotle observed that people who dream of disasters and later learn of matching events believe they foresaw them. They forget the thousands of dreams that matched nothing.
 
 > "The principle is the same as in the case of mentioning a particular person, and then that person appearing. For there is nothing strange in this: the cause is that one has had a thousand dreams, and something happens that corresponds to one of them."
 
-If the probability of a dream matching reality is $p$, and you have $N$ dreams over a lifetime, the chance of at least one match is
+If the probability of a dream matching reality is $p$, and you have $N$ dreams over a lifetime, the chance of at least one match:
 
 $$
-P(\text{at least one match}) = 1 - (1-p)^N.
+P(\text{at least one match}) = 1 - (1-p)^N
 $$
 
 For small $p$, this approximates $Np$. Dream thousands of dreams, and coincidences become inevitable.
@@ -312,10 +310,10 @@ For small $p$, this approximates $Np$. Dream thousands of dreams, and coincidenc
 
 ## The Poisson Limit
 
-When events are rare but trials are many, the binomial approaches a Poisson distribution with rate $\lambda = Np$.
+When events are rare but trials are many, the binomial approaches a Poisson distribution with rate $\lambda = Np$:
 
 $$
-P(X = 0) = e^{-\lambda}, \qquad P(X \ge 1) = 1 - e^{-\lambda}.
+P(X = 0) = e^{-\lambda}, \qquad P(X \ge 1) = 1 - e^{-\lambda}
 $$
 
 Once $\lambda > 1$, at least one occurrence is more likely than none.
@@ -323,16 +321,16 @@ Once $\lambda > 1$, at least one occurrence is more likely than none.
 Consider a one-in-a-million event. Across eight billion people:
 
 $$
-\lambda = 8 \times 10^9 \times 10^{-6} = 8000.
+\lambda = 8 \times 10^9 \times 10^{-6} = 8000
 $$
 
-The probability of at least one occurrence is
+The probability of at least one occurrence:
 
 $$
-1 - e^{-8000} \approx 1.
+1 - e^{-8000} \approx 1
 $$
 
-Every day, things happen to people that had a one-in-a-million chance of happening to them. That is not remarkable—it is required.
+Every day, things happen to people that had a one-in-a-million chance of happening to them. That is not remarkable. It is required.
 
 ---
 
@@ -342,7 +340,7 @@ The prophet filter exploits three cognitive biases at once.
 
 **Survivorship bias.** We see the winners, not the losers. The 976 believers are vocal; the 999,024 who saw failures have no story to tell.
 
-**Confirmation bias.** Once we suspect someone has a gift, we weight the hits more heavily than the misses. Each correct prediction strengthens belief; each miss is explained away.
+**Confirmation bias.** Once we suspect someone has a gift, we weight hits more heavily than misses. Each correct prediction strengthens belief; each miss is explained away.
 
 **Base rate neglect.** We ask "What are the odds this person got ten predictions right?" instead of "What are the odds *someone* got ten predictions right, given a million attempts?"
 
@@ -354,7 +352,9 @@ The second question has an easy answer: near certainty.
 
 The prophet filter reveals something uncomfortable about evidence itself.
 
-A track record of ten correct predictions is genuinely impressive—if you know you were the only recipient. But if a million people received the first email, your experience proves nothing. The evidence that would update your beliefs is not "I saw ten correct predictions" but "Ten correct predictions, and I know no one else was receiving different predictions."
+A track record of ten correct predictions is genuinely impressive—if you know you were the only recipient. But if a million people received the first email, your experience proves nothing.
+
+The evidence that would update your beliefs is not "I saw ten correct predictions" but "Ten correct predictions, and I know no one else was receiving different predictions."
 
 The scam works precisely because you cannot see the counterfactual. The failed recipients don't complain—they simply stopped receiving emails. From your vantage point, the prophet has always been right.
 

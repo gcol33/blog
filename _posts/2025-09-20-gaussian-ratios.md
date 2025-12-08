@@ -5,22 +5,23 @@ date: 2025-09-20
 categories: probability statistics
 ---
 
-### Where more data doesn’t mean more certainty
+### Where More Data Doesn't Mean More Certainty
 
 Take two random numbers and divide them.
+
 Do it again. And again.
 
 Now average the results.
+
 Does the number settle down?
 
-No matter how many times you repeat the experiment, the mean refuses to converge. And hidden inside that chaos is something even stranger, surfacing in a place that seems to have nothing to do with circles...
+No matter how many times you repeat the experiment, the mean refuses to converge. And hidden inside that chaos is something stranger still, surfacing in a place that seems to have nothing to do with circles.
 
-Try it yourself: collect the slopes, count how many land in a narrow strip around horizontal, then scale by the strip’s width. A circle’s number quietly emerges.
+Try it yourself: collect the slopes, count how many land in a narrow strip around horizontal, then scale by the strip's width. A circle's number quietly emerges.
 
 <div id="pi-demo" style="max-width: 720px; margin: 0 auto;">
   <canvas id="hist" style="width:100%; height:300px; background:#fff; border:1px solid #000;"></canvas>
 
-  <!-- Controls: responsive (4 → 2 → 1 columns) -->
   <div class="pi-controls">
     <label>Samples n
       <input type="range" id="nSlider" min="10000" max="1000000" step="10000" value="50000" />
@@ -36,7 +37,6 @@ Try it yourself: collect the slopes, count how many land in a narrow strip aroun
     </label>
   </div>
 
-  <!-- Stats -->
   <div id="stats" class="pi-stats">
     <div class="pi-stat-row"><span>Total samples n:</span><strong id="nOut">0</strong></div>
     <div class="pi-stat-row"><span>Fraction inside band:</span><strong id="fracOut">0</strong></div>
@@ -48,7 +48,7 @@ Try it yourself: collect the slopes, count how many land in a narrow strip aroun
     \[
       \pi_{\text{ish}} \;=\; \frac{\text{total width of the band}}{\text{fraction of slopes inside it}}
     \]<br/>
-    where total width = \(2h\) (from \(-h\) to \(+h\)).  
+    where total width = \(2h\) (from \(-h\) to \(+h\)).
     Narrow the band. Increase the samples. The number drifts toward 3.14…
   </p>
 </div>
@@ -58,12 +58,10 @@ Try it yourself: collect the slopes, count how many land in a narrow strip aroun
 #pi-demo { font-variant-numeric: tabular-nums; }
 #pi-demo * { box-sizing: border-box; }
 
-/* Canvas tweaks for small screens */
 @media (max-width: 560px){
   #pi-demo canvas#hist{ height: 240px !important; }
 }
 
-/* Controls: responsive grid */
 #pi-demo .pi-controls{
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -77,7 +75,6 @@ Try it yourself: collect the slopes, count how many land in a narrow strip aroun
   #pi-demo .pi-controls{ grid-template-columns: 1fr; }
 }
 
-/* Slider labels */
 #pi-demo label{
   display: flex;
   flex-direction: column;
@@ -85,7 +82,6 @@ Try it yourself: collect the slopes, count how many land in a narrow strip aroun
   gap: 4px;
 }
 
-/* Sliders */
 #pi-demo input[type="range"]{
   width: 100%;
   appearance: none;
@@ -103,7 +99,6 @@ Try it yourself: collect the slopes, count how many land in a narrow strip aroun
   border-radius: 50%; background: #000; cursor: pointer;
 }
 
-/* Stats: aligned left */
 #pi-demo .pi-stats{
   display: grid;
   grid-template-columns: 1fr;
@@ -122,7 +117,6 @@ Try it yourself: collect the slopes, count how many land in a narrow strip aroun
   text-align: left;
 }
 
-/* Explanatory note */
 #pi-demo .pi-note{
   font-size: 0.95em;
   color: #111;
@@ -132,14 +126,12 @@ Try it yourself: collect the slopes, count how many land in a narrow strip aroun
 </style>
 
 <script>
-// -------- RNG (Box–Muller, polar form) ----------
 function randn(){
   let u=0,v=0,s=0;
   do{ u=Math.random()*2-1; v=Math.random()*2-1; s=u*u+v*v; }while(s===0||s>=1);
   return u*Math.sqrt(-2*Math.log(s)/s);
 }
 
-// -------- Elements ----------
 const canvas = document.getElementById('hist'), ctx = canvas.getContext('2d');
 const nSlider = document.getElementById('nSlider');
 const hSlider = document.getElementById('hSlider');
@@ -150,7 +142,6 @@ const nOut   = document.getElementById('nOut');
 const fracOut= document.getElementById('fracOut');
 const piOut  = document.getElementById('piOut');
 
-// -------- Sample cache ----------
 let Z = new Float64Array(0);
 function regenerateSamples(n){
   Z = new Float64Array(n);
@@ -162,7 +153,6 @@ function regenerateSamples(n){
   }
 }
 
-// -------- DPI-aware canvas ----------
 function resizeCanvas(){
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   const rect = canvas.getBoundingClientRect();
@@ -173,7 +163,6 @@ function resizeCanvas(){
 window.addEventListener('resize', () => { resizeCanvas(); redrawOnly(); });
 resizeCanvas();
 
-// -------- Helpers ----------
 function displayStep(){
   const R = parseFloat(rangeSel.value);
   const B = parseInt(binsSel.value, 10);
@@ -193,10 +182,8 @@ function updateHSliderBounds(){
   hSlider.step = (step/10).toFixed(6);
 }
 
-// -------- State for band width ----------
 let hCount = parseFloat(hSlider.value);
 
-// -------- Stats ----------
 function recomputeStats(){
   const n = Z.length;
   let count = 0;
@@ -211,7 +198,6 @@ function recomputeStats(){
   piOut.textContent   = Number.isFinite(piHat) ? piHat.toFixed(7) : '—';
 }
 
-// -------- Histogram redraw ----------
 function redrawOnly(){
   const R = parseFloat(rangeSel.value);
   const B = parseInt(binsSel.value, 10);
@@ -259,7 +245,6 @@ function drawHist(hist, R, hDraw){
   ctx.setLineDash([]);
 }
 
-// -------- Wiring --------
 nSlider.addEventListener('input', () => {
   regenerateSamples(parseInt(nSlider.value,10));
   recomputeStats();
@@ -290,7 +275,6 @@ function onRangeOrBins(){
 rangeSel.addEventListener('input', onRangeOrBins);
 binsSel .addEventListener('input', onRangeOrBins);
 
-// init
 updateHSliderBounds();
 regenerateSamples(parseInt(nSlider.value,10));
 recomputeStats();
@@ -299,171 +283,176 @@ redrawOnly();
 {% endraw %}
 
 
-Why π?
-Why does averaging fail, even with mountains of data?
-To find out we need to go back to Gauss, to Cauchy, and to a curve first drawn in 1748.
+Why π? Why does averaging fail, even with mountains of data?
 
+To find out, we need to go back to Gauss, to Cauchy, and to a curve first drawn in 1748.
 
-### How a Simple Curve Defied Gauss  
+---
 
-Gauss believed in certainty through numbers. His law of errors, the Gaussian bell curve, promised that mistakes in measurement were well-behaved. The assumptions were clear: errors came from many small independent causes, variance was finite, and averages converged to the truth. The law of large numbers guaranteed stability of the mean, the central limit theorem explained the bell shape, and the method of least squares rested securely on these foundations. With more data, you always approached certainty.  
+### How a Simple Curve Defied Gauss
 
-Cauchy broke that faith. In 1853, before the Académie des Sciences in Paris, he presented a rival law of errors in which variance was infinite and averages refused to settle. Joseph Bienaymé rose to defend Gauss, warning that least squares collapsed without finite variance. But Cauchy insisted that mathematics itself admitted such laws, and that in their presence the Gaussian guarantees failed. With more data, you did not get closer to the truth. You only deepened the confusion.  
+Gauss believed in certainty through numbers. His bell curve promised that measurement errors were well-behaved: they came from many small independent causes, variance was finite, and averages converged to the truth. The law of large numbers guaranteed stability. The central limit theorem explained the bell shape. With more data, you approached certainty.
 
-The curve he used was not obscure. It had been introduced a century earlier, in 1748, by Maria Gaetana Agnesi in her *Instituzioni Analitiche*. Agnesi was not thinking about probability at all. She worked in the **geometric analytic tradition** of the 18th century, when curves were defined by geometric constructions and then explored with the new tools of calculus. This tradition served three purposes: it bridged the visual world of geometry with the symbolic power of analysis, it contributed to the encyclopedic catalog of named curves such as the cycloid, cissoid, and lemniscate, and it gave students concrete, visual examples in an age when calculus was still new.  
+Cauchy broke that faith.
 
-Agnesi’s *Instituzioni* was written not in Latin but in Italian, aimed at students rather than savants, and designed to systematize analysis in a clear, accessible way. Within this project the *versiera* fit perfectly. It came from a simple construction: a circle, a fixed point on its diameter, a line rotating around it, and a point tracing where it cut an axis. The resulting curve was bounded, symmetric, and easy to draw. Its equation was  
+In 1853, before the Académie des Sciences in Paris, he presented a rival law of errors in which variance was infinite and averages refused to settle. Joseph Bienaymé rose to defend Gauss, warning that least squares collapsed without finite variance. Cauchy insisted that mathematics itself admitted such laws, and that in their presence the Gaussian guarantees failed.
 
-$$
-y=\frac{a^3}{x^2+a^2},
-$$  
+With more data, you did not get closer to the truth. You only deepened the confusion.
 
-which for $a=1$ reduces to  
+The curve Cauchy used was not obscure. It had been introduced a century earlier, in 1748, by Maria Gaetana Agnesi in her *Instituzioni Analitiche*. Agnesi was not thinking about probability. She worked in the geometric analytic tradition of the 18th century, when curves were defined by geometric constructions and explored with the new tools of calculus.
 
-$$
-y=\frac{1}{1+x^2}.
-$$  
-
-Its analytic elegance was undeniable: a rational function whose integral was the arctangent, tying it directly back to circle geometry. For Agnesi, it was an ideal teaching curve. Later, through mistranslation, it would acquire the odd name “Witch of Agnesi.”  
-
-Cauchy saw something different. He turned Agnesi’s curve into a probability law of errors, a direct challenge to Gauss’s assumptions. Normalized, it becomes  
+Agnesi's *Instituzioni* was written in Italian rather than Latin, aimed at students, designed to systematize analysis in a clear, accessible way. Her *versiera* came from a simple construction: a circle, a fixed point on its diameter, a rotating line, and a point tracing where it cut an axis. The resulting curve was bounded, symmetric, and easy to draw. Its equation:
 
 $$
-f(x)=\frac{1}{\pi(1+x^2)}.
-$$  
+y=\frac{a^3}{x^2+a^2}
+$$
 
-The total area under the curve is still one:  
+For $a=1$:
+
+$$
+y=\frac{1}{1+x^2}
+$$
+
+A rational function whose integral was the arctangent, tying it directly back to circle geometry. For Agnesi, an ideal teaching curve. Later, through mistranslation, it would acquire the odd name "Witch of Agnesi."
+
+Cauchy saw something different. He turned Agnesi's curve into a probability law—a direct challenge to Gauss. Normalized:
+
+$$
+f(x)=\frac{1}{\pi(1+x^2)}
+$$
+
+The total area under the curve is one:
 
 $$
 \frac{1}{\pi}\int_{-\infty}^{\infty}\frac{dx}{1+x^2}
-=\frac{1}{\pi}\Big(\tfrac{\pi}{2}-(-\tfrac{\pi}{2})\Big)=1,
-$$  
+=\frac{1}{\pi}\Big(\tfrac{\pi}{2}-(-\tfrac{\pi}{2})\Big)=1
+$$
 
-so it qualifies as a density. But unlike Gauss’s bell curve, its tails decay too slowly. The mean diverges. By symmetry the principal value is zero, but the absolute expectation  
+It qualifies as a density. But unlike Gauss's bell curve, its tails decay too slowly. The mean diverges. By symmetry the principal value is zero, but the absolute expectation:
 
 $$
 \int_{-\infty}^{\infty} |x|f(x)\,dx
 =\frac{2}{\pi}\int_{0}^{\infty}\frac{x}{1+x^2}\,dx
 =\frac{1}{\pi}\ln u\Big|_{1}^{\infty}
-$$  
+$$
 
-is infinite. The variance fares no better. Computing  
+is infinite. The variance fares no better:
 
 $$
 \int_{-\infty}^{\infty} x^2 f(x)\,dx
-=\frac{2}{\pi}\int_{0}^{\infty}\left(1-\frac{1}{1+x^2}\right)\!dx,
-$$  
-
-and truncating at $R$ gives  
-
+=\frac{2}{\pi}\int_{0}^{\infty}\left(1-\frac{1}{1+x^2}\right)\!dx
 $$
-\frac{2}{\pi}(R-\arctan R),
-$$  
 
-which grows without bound as $R\to\infty$.  
+Truncating at $R$ gives $\frac{2}{\pi}(R-\arctan R)$, which grows without bound.
 
-Cauchy’s conclusion was devastating. Here was a legitimate law of errors with no mean and no variance. Averages wandered instead of converging. The method of least squares lost its justification. The central limit theorem did not apply. The Gaussian promise of certainty was not universal. 
+Cauchy's conclusion was devastating. Here was a legitimate law of errors with no mean and no variance. Averages wandered instead of converging. The method of least squares lost its justification. The central limit theorem did not apply. The Gaussian promise was not universal.
 
-Only later did mathematicians discover a simpler route to the same law: take two independent Gaussians, divide one by the other, and Cauchy’s distribution reappears. That modern shortcut is where we turn next.  
+Only later did mathematicians discover a simpler route to the same law: take two independent Gaussians, divide one by the other, and Cauchy's distribution reappears.
 
 ---
 
-### Geometry of the slope  
+### Geometry of the Slope
 
-The strange behavior of the ratio becomes clear once you look at the geometry. Start with the pair $(X,Y)$ of independent standard Gaussians. Their joint density  
+The strange behavior of the ratio becomes clear once you look at the geometry.
+
+Start with the pair $(X,Y)$ of independent standard Gaussians. Their joint density:
 
 $$
 g(x,y) = \frac{1}{2\pi} e^{-\tfrac{1}{2}(x^2+y^2)}
-$$  
+$$
 
-depends only on the radius $r=\sqrt{x^2+y^2}$. Spin the plane and nothing changes. The Gaussian cloud is rotationally symmetric: no direction is special.  
+depends only on the radius $r=\sqrt{x^2+y^2}$. Spin the plane and nothing changes. The Gaussian cloud is rotationally symmetric: no direction is special.
 
-That symmetry has a consequence. In polar coordinates $(r,\theta)$ with $x=r\cos\theta$ and $y=r\sin\theta$, the density becomes  
+In polar coordinates $(r,\theta)$ with $x=r\cos\theta$ and $y=r\sin\theta$, the density becomes:
 
 $$
-g(r,\theta)\,r\,dr\,d\theta = \frac{1}{2\pi} e^{-r^2/2}\, r\,dr\,d\theta,
-$$  
+g(r,\theta)\,r\,dr\,d\theta = \frac{1}{2\pi} e^{-r^2/2}\, r\,dr\,d\theta
+$$
 
-which shows that $\theta$ is uniform on $(-\pi,\pi)$. Slopes $y/x$ correspond to angles in $(-\tfrac{\pi}{2},\tfrac{\pi}{2})$, so  
+The angle $\theta$ is uniform on $(-\pi,\pi)$. Slopes $y/x$ correspond to angles in $(-\tfrac{\pi}{2},\tfrac{\pi}{2})$, so:
 
 $$
-\theta \sim \text{Uniform}\!\left(-\tfrac{\pi}{2}, \tfrac{\pi}{2}\right).
-$$  
+\theta \sim \text{Uniform}\!\left(-\tfrac{\pi}{2}, \tfrac{\pi}{2}\right)
+$$
 
-Now  
+Now:
 
 $$
-Z = \frac{Y}{X} = \tan\theta,
-$$  
+Z = \frac{Y}{X} = \tan\theta
+$$
 
-the slope of the line through the origin and the random point $(X,Y)$. Picking a Gaussian ratio is the same as picking a random direction and asking how steep it is. Because $\theta$ is uniform, the density of $Z$ comes from the change of variables formula:  
+The slope of the line through the origin and the random point $(X,Y)$. Picking a Gaussian ratio is the same as picking a random direction and asking how steep it is.
+
+Because $\theta$ is uniform, the density of $Z$ comes from the change of variables formula:
 
 $$
-f_Z(z) = \frac{1}{\pi}\cdot \frac{1}{1+z^2}.
-$$  
+f_Z(z) = \frac{1}{\pi}\cdot \frac{1}{1+z^2}
+$$
 
-The heavy tails now have a simple explanation. As $\theta$ approaches $\pm\tfrac{\pi}{2}$, the slope shoots to infinity. Vertical directions are not rare — they have the same chance as any other angle — so extreme ratios appear often. This is why averages fail to settle: steep slopes keep intruding.  
+The heavy tails have a simple explanation. As $\theta$ approaches $\pm\tfrac{\pi}{2}$, the slope shoots to infinity. Vertical directions are not rare—they have the same chance as any other angle—so extreme ratios appear often. Steep slopes keep intruding. That's why averages fail to settle.
 
 ---
 
-### Algebraic Proof  
+### Algebraic Proof
 
-Cauchy himself never used this geometric shortcut; probability theory in 1853 did not yet have the modern language of random variables and transformations. His argument stayed analytic, tied to Agnesi’s curve. The ratio-of-Gaussians view came later, in the early 20th century, as statisticians such as R. A. Fisher formalized distribution theory. It was then recognized that the Cauchy distribution is the law of a Gaussian ratio, in the same way that the $t$-distribution is built from a Gaussian divided by a chi-square.  
+Cauchy himself never used this geometric shortcut; probability theory in 1853 did not yet have the language of random variables and transformations. His argument stayed analytic. The ratio-of-Gaussians view came later, in the early 20th century, as statisticians formalized distribution theory.
 
-Formally, let $X$ and $Y$ be independent standard Gaussians and set $Z=Y/X$. The density is obtained by integrating out $X$:  
-
-$$
-f_Z(z) = \int_{-\infty}^\infty f_{X,Y}(x,zx)\,|x|\,dx,
-$$  
-
-with $f_{X,Y}(x,y) = \tfrac{1}{2\pi}\exp[-\tfrac{1}{2}(x^2+y^2)]$. Substituting $y=zx$ gives  
+Formally, let $X$ and $Y$ be independent standard Gaussians and set $Z=Y/X$. The density is obtained by integrating out $X$:
 
 $$
-f_Z(z) = \int_{-\infty}^\infty \frac{1}{2\pi} \exp\!\left(-\tfrac{1}{2}(1+z^2)x^2\right) |x|\,dx.
-$$  
+f_Z(z) = \int_{-\infty}^\infty f_{X,Y}(x,zx)\,|x|\,dx
+$$
 
-Since the integrand is even,  
+with $f_{X,Y}(x,y) = \tfrac{1}{2\pi}\exp[-\tfrac{1}{2}(x^2+y^2)]$. Substituting $y=zx$:
 
 $$
-f_Z(z) = \frac{1}{\pi}\int_{0}^\infty x \exp\!\left(-\tfrac{1}{2}(1+z^2)x^2\right) dx.
-$$  
+f_Z(z) = \int_{-\infty}^\infty \frac{1}{2\pi} \exp\!\left(-\tfrac{1}{2}(1+z^2)x^2\right) |x|\,dx
+$$
 
-Let $u=\tfrac{1}{2}(1+z^2)x^2$, so $du=(1+z^2)x\,dx/2$. Then  
+Since the integrand is even:
+
+$$
+f_Z(z) = \frac{1}{\pi}\int_{0}^\infty x \exp\!\left(-\tfrac{1}{2}(1+z^2)x^2\right) dx
+$$
+
+Let $u=\tfrac{1}{2}(1+z^2)x^2$:
 
 $$
 f_Z(z) = \frac{1}{\pi}\int_{0}^\infty e^{-u}\,\frac{du}{1+z^2}
-       = \frac{1}{\pi(1+z^2)}.
-$$  
+       = \frac{1}{\pi(1+z^2)}
+$$
 
-The density that Cauchy introduced by analytic argument is exactly the one that falls out of this modern calculation.  
+The density Cauchy introduced by analytic argument is exactly the one that falls out of this modern calculation.
 
-### A law without an average  
+---
 
-The density we derived,  
+### A Law Without an Average
+
+The density we derived:
 
 $$
-f(z) = \frac{1}{\pi(1+z^2)},
-$$  
+f(z) = \frac{1}{\pi(1+z^2)}
+$$
 
-is the **Cauchy distribution**. Its height at zero is  
+is the **Cauchy distribution**. Its height at zero:
 
 $$
-f(0) = \frac{1}{\pi}.
-$$  
+f(0) = \frac{1}{\pi}
+$$
 
-That is exactly the fraction of slopes you expect to land inside a narrow band, once rescaled by the band’s width. Rearranging gives the formula from the opening experiment:  
+That is exactly the fraction of slopes you expect to land inside a narrow band, once rescaled by the band's width. Rearranging:
 
 $$
-\pi = \frac{2h}{\Pr(|Z|\le h)} \quad \text{for small } h.
-$$  
+\pi = \frac{2h}{\Pr(|Z|\le h)} \quad \text{for small } h
+$$
 
-So the number your slider converges to is **π**. The constant comes not from circles but from the length of the angle interval: $\theta=\arctan(Y/X)$ is uniform on $(-\tfrac{\pi}{2},\tfrac{\pi}{2})$, an interval of length π. Each slice of angle of width $\varepsilon$ always carries probability $\varepsilon/\pi$. Push that uniform angle through the tangent, and π controls the entire distribution of slopes.  
+The number your slider converges to is **π**. The constant comes not from circles directly, but from the length of the angle interval: $\theta=\arctan(Y/X)$ is uniform on $(-\tfrac{\pi}{2},\tfrac{\pi}{2})$, an interval of length π. Each slice of angle of width $\varepsilon$ carries probability $\varepsilon/\pi$. Push that uniform angle through the tangent, and π controls the entire distribution of slopes.
 
 The Cauchy law breaks every Gaussian intuition:
 
-- **No mean**: averages drift endlessly, never converging.  
-- **No variance**: tails are too heavy for second moments.  
-- **Stable**: sums of Cauchy variables stay Cauchy, but without narrowing.  
-- **CLT fails**: with infinite variance, the central limit theorem gives no refuge; more samples bring no certainty.  
+- **No mean**: averages drift endlessly, never converging
+- **No variance**: tails are too heavy for second moments
+- **Stable**: sums of Cauchy variables stay Cauchy, but without narrowing
+- **CLT fails**: with infinite variance, the central limit theorem gives no refuge; more samples bring no certainty
 
-Later developments linked the Cauchy to the wider family of $t$-distributions. In 1908 William Sealy Gosset introduced the $t$ law while working at Guinness. With one degree of freedom, the $t$ reduces exactly to the Cauchy. Among all $t$ distributions, it is the simplest and the only one without an average.
+In 1908, William Sealy Gosset introduced the $t$-distribution while working at Guinness. With one degree of freedom, the $t$ reduces exactly to the Cauchy. Among all $t$-distributions, it is the simplest—and the only one without an average.

@@ -8,11 +8,11 @@ toc: true
 
 ## When $1+1$ Is Not $2$
 
-In seventeenth century France, Antoine Gombaud, better known as Chevalier de Méré, was a man of letters, a gambler, and a self-styled authority on matters of taste and reason. He moved in the circles of Paris salons, corresponded with philosophers, and took a serious interest in games of chance.
+In 1654, a French nobleman named Antoine Gombaud—better known as the Chevalier de Méré—had a problem. Two gambling wagers that seemed identical by his reasoning behaved differently at the tables. One made money over time. The other slowly drained it.
 
-De Méré noticed something troubling. Two wagers that seemed identical by his reasoning behaved differently at the tables. One made money over time; the other slowly drained it. Unable to resolve the puzzle himself, he brought it to Blaise Pascal in the summer of 1654.
+De Méré was no mathematician. But he knew someone who was. He brought the puzzle to Blaise Pascal, then thirty-one and already famous for his work on vacuum and pressure.
 
-Pascal, then thirty-one, was already famous for his work on vacuum and pressure. He took the problem seriously and wrote to Pierre de Fermat, a magistrate in Toulouse who pursued mathematics in his spare time. Over several months, the two exchanged letters dissecting de Méré's wagers and related puzzles about dividing stakes in interrupted games.
+Pascal took the problem seriously. He wrote to Pierre de Fermat, a magistrate in Toulouse who pursued mathematics in his spare time. Over several months, the two exchanged letters dissecting de Méré's wagers.
 
 That correspondence is now remembered as the birth of probability theory. What began as a question about dice became a new branch of mathematics.
 
@@ -20,73 +20,84 @@ That correspondence is now remembered as the birth of probability theory. What b
 
 ## The Two Wagers
 
-De Méré described two forms of play:
+De Méré described two bets:
 
-1. Roll a single die $4$ times. The wager is that at least one six appears.
-2. Roll two dice $24$ times. The wager is that at least one double six appears.
+1. Roll a single die 4 times. Bet that at least one six appears.
+2. Roll two dice 24 times. Bet that at least one double-six appears.
 
-At first sight they look the same. A single die has probability $1/6$ of showing a six. The expected number of sixes in $4$ rolls is
+At first sight, they look equivalent.
 
-$$
-4 \times \frac{1}{6} = \frac{2}{3}.
-$$
-
-A pair of dice has probability $1/36$ of showing double six. The expected number of double sixes in $24$ rolls is
+A single die has probability $1/6$ of showing a six. The expected number of sixes in 4 rolls:
 
 $$
-24 \times \frac{1}{36} = \frac{2}{3}.
+4 \times \frac{1}{6} = \frac{2}{3}
 $$
 
-Both wagers seem to offer the same expectation of successes. De Méré reasoned that if the expected count is the same, the chance of winning should be the same. But the gambling tables told a different story.
+A pair of dice has probability $1/36$ of showing double-six. The expected number of double-sixes in 24 rolls:
+
+$$
+24 \times \frac{1}{36} = \frac{2}{3}
+$$
+
+Same expectation. De Méré reasoned that if the expected count of successes is the same, the probability of winning should be the same.
+
+The gambling tables disagreed.
+
+---
 
 ## The First Wager: One Die, Four Rolls
 
-The probability of no six in a single roll is $5/6$. Four independent rolls give  
+The probability of *no* six in a single roll is $5/6$. Four independent rolls:
 
 $$
-\left(\frac{5}{6}\right)^4 \approx 0.482.
+\left(\frac{5}{6}\right)^4 \approx 0.482
 $$
 
-So the probability of at least one six is  
+So the probability of *at least one* six:
 
 $$
-1 - \left(\frac{5}{6}\right)^4 \approx 0.518.
+1 - \left(\frac{5}{6}\right)^4 \approx 0.518
 $$
 
-This wager is slightly favorable.
+Slightly favorable. Bet this long enough, and you win.
 
-## The Second Wager: Two Dice, Twenty Four Rolls
+---
 
-The probability of no double six in a single roll is $35/36$. Twenty four rolls give  
+## The Second Wager: Two Dice, Twenty-Four Rolls
 
-$$
-\left(\frac{35}{36}\right)^{24} \approx 0.509.
-$$
-
-So the probability of at least one double six is  
+The probability of *no* double-six in a single roll is $35/36$. Twenty-four rolls:
 
 $$
-1 - \left(\frac{35}{36}\right)^{24} \approx 0.491.
+\left(\frac{35}{36}\right)^{24} \approx 0.509
 $$
 
-This wager is slightly unfavorable.
+So the probability of *at least one* double-six:
+
+$$
+1 - \left(\frac{35}{36}\right)^{24} \approx 0.491
+$$
+
+Slightly unfavorable. Bet this long enough, and you lose.
+
+---
 
 ## Why the Results Differ
 
-Both wagers give the same expectation of $2/3$ successes, but the probability of winning is different. The reason is that two different measures are involved.
+Both wagers give the same expected number of successes: $2/3$. But the probability of winning differs. The reason: two different measures are involved.
 
-- **Expectation of successes** is linear. If the chance of success in one trial is $p$, then the expected number of successes in $n$ trials is $np$.  
-- **Probability of at least one success** is nonlinear. It is given by $1 - (1-p)^n$, which reflects how independent failures combine.
+**Expectation is linear.** If each trial has probability $p$ of success, then $n$ trials have expected successes $np$. Double the trials, double the expectation. Simple addition.
 
-Expectation treats each trial separately and simply adds them. Probability of at least one success compounds the chance of failure across all trials.  
+**Probability of at least one success is nonlinear.** It equals $1 - (1-p)^n$. Failures compound. When $p$ is small, $(1-p)^n$ stays close to 1 even for moderately large $n$.
 
-In the first wager the event is common enough that one of the four trials usually succeeds. In the second wager the event is rarer, so independence makes it quite likely that all twenty four trials fail. This difference between a linear measure and a nonlinear measure explains why two wagers with the same expectation can lead to different probabilities of winning.
+In the first wager, the event is common enough (probability $1/6$) that one of four trials usually succeeds. In the second wager, the event is rare (probability $1/36$). Twenty-four trials aren't enough to overcome the compounding failures.
+
+De Méré assumed scaling trials would compensate for scaling probabilities. It works for expectation. It fails for the probability of winning.
 
 ---
 
 ## Try It Yourself
 
-The difference between 51.8% and 49.1% is small. Over a few games, luck dominates. But over hundreds of rounds, the edge becomes visible. The simulation below lets you run both wagers and watch the win rates converge to their true probabilities.
+The difference between 51.8% and 49.1% is small. Over a few games, luck dominates. But over hundreds of rounds, the edge becomes visible.
 
 <div id="demere-sim" style="max-width: 720px; margin: 1.5em auto;">
   <div class="sim-controls" style="display: flex; gap: 1em; flex-wrap: wrap; margin-bottom: 1em;">
@@ -280,36 +291,26 @@ The difference between 51.8% and 49.1% is small. Over a few games, luck dominate
 
 ---
 
-## Why Intuition Fails
-
-The core mistake is treating expectation and probability as interchangeable. They are not.
-
-**Expectation is linear.** If a single trial has probability $p$ of success, then $n$ trials have expected successes $np$. Double $n$, double the expectation. Triple $p$, triple the expectation. The arithmetic is simple addition.
-
-**Probability of at least one success is nonlinear.** It equals $1 - (1-p)^n$, which bends. When $p$ is small, $(1-p)^n$ stays close to $1$ even for moderately large $n$. The failures compound in a way that addition does not capture.
-
-De Méré assumed that scaling trials and scaling probabilities would cancel out. They do for expectation. They do not for the probability of winning.
-
----
-
 ## The Same Trap Today
 
 The confusion between expectation and probability appears far beyond dice.
 
-**Lotteries.** A ticket costing \$2 with a 1-in-10-million chance at \$10 million has an expected value near \$1. Buy a million tickets and your expected return is about \$1 million. But your probability of winning the jackpot even once is still only about 10%. Expectation scales; probability does not.
+**Lotteries.** A ticket costing \$2 with a 1-in-10-million chance at \$10 million has expected value near \$1. Buy a million tickets and your expected return is about \$1 million. But your probability of winning even once is still only about 10%. Expectation scales; probability does not.
 
-**Medical screening.** A test with 99% sensitivity and 1% false positive rate sounds reliable. But if the disease prevalence is 0.1%, most positive results are false. The expected number of true positives per thousand tests is about 1. The probability that *your* positive result is correct is only about 9%. Doctors routinely confuse these.
+**Medical screening.** A test with 99% sensitivity and 1% false positive rate sounds reliable. If the disease prevalence is 0.1%, most positive results are false positives. The expected number of true positives per thousand tests is about 1. The probability that *your* positive result is correct is only about 9%. Doctors routinely confuse these.
 
-**Rare risks.** The expected number of fatal accidents on a commute might be 0.0001 per trip. Over 10,000 trips, the expectation is 1. But the probability of at least one fatal accident is not 100%, it is about 63% (by $1 - e^{-1}$). Expectation and probability diverge most sharply for rare events repeated many times.
+**Rare risks.** The expected number of fatal accidents on a commute might be 0.0001 per trip. Over 10,000 trips, the expectation is 1. But the probability of at least one fatal accident is about 63% (by $1 - e^{-1}$), not 100%. Expectation and probability diverge most sharply for rare events repeated many times.
 
-In each case, the linear intuition that works for averages misleads when applied to probabilities. De Méré stumbled on this in 1654. We still stumble on it today.
+The linear intuition that works for averages misleads when applied to probabilities. De Méré stumbled on this in 1654. We still stumble on it today.
 
 ---
 
 ## The Letters That Changed Mathematics
 
-Pascal's correspondence with Fermat did more than resolve a gambling puzzle. The letters introduced the idea that uncertainty could be quantified and computed. They developed methods for counting arrangements, dividing stakes fairly in interrupted games, and reasoning about future outcomes.
+Pascal's correspondence with Fermat did more than resolve a gambling puzzle. The letters introduced the idea that uncertainty itself could be quantified and computed. They developed methods for counting arrangements, dividing stakes fairly, and reasoning about future outcomes.
 
 Within a generation, Christiaan Huygens published the first textbook on probability. Jacob Bernoulli proved the law of large numbers. By the eighteenth century, Laplace had extended these ideas to astronomy, insurance, and the theory of errors.
 
-All of it traces back to a gambler's complaint about two wagers that should have been the same but were not. De Méré never understood the mathematics, but his confusion launched a field.
+All of it traces back to a gambler who noticed two wagers that should have been the same but weren't.
+
+De Méré never understood the mathematics. But his confusion launched a field.

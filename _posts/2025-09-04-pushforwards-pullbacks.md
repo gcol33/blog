@@ -12,15 +12,15 @@ Roll a die. You get a 4.
 
 Now I ask: "Is it even?"
 
-Something just happened that's easy to miss. The randomness *moved*. It started in a space of six faces, then traveled to a space of two labels: odd and even. The uniform distribution on faces became the fair coin on parity.
+Something just happened that's easy to miss. The randomness *moved*. It started in a space of six faces, then traveled to a space of two labels: odd and even. The uniform distribution on faces became a fair coin on parity.
 
-This movement has a direction. The die doesn't care about parity — parity is something we impose *after* the roll. But once we ask the question, probability flows forward through our question, landing in a simpler space.
+This movement has a direction. The die doesn't care about parity—parity is something we impose *after* the roll. But once we ask the question, probability flows forward through our question, landing in a simpler space.
 
-What if we go the other way? Suppose I define a reward: \$1 if even, \$0 if odd. That function lives in parity-space. But to compute your expected winnings, you need to pull it back to die-space, where the probability lives.
+What if we reverse direction? Suppose I define a reward: \$1 if even, \$0 if odd. That function lives in parity-space. But to compute your expected winnings, you need to pull it back to die-space, where the probability lives.
 
-Two directions. Measures go forward. Functions go backward.
+Two directions. Measures push forward. Functions pull back.
 
-This is not a trick specific to dice. It is the grammar of how mathematics moves structure from one space to another.
+This isn't a trick specific to dice. It's the grammar of how mathematics moves structure from one space to another.
 
 ---
 
@@ -164,7 +164,7 @@ In the nineteenth century, Bernhard Riemann studied how geometric objects behave
 
 This duality appeared again in physics (contravariant vs. covariant tensors), in algebra (homomorphisms vs. cohomomorphisms), and eventually in probability.
 
-The pattern is universal: whenever you have a map between spaces, two operations arise. One follows the map. One opposes it. And something deep holds them together.
+The pattern is universal: whenever you have a map between spaces, two operations arise. One follows the map. One opposes it.
 
 ---
 
@@ -192,11 +192,11 @@ The notation reflects the direction. Subscript $*$ for pushforward (following th
 
 ---
 
-## Why Not Direct Images?
+## Why Inverse Images?
 
 A natural question: why define pushforward using *inverse* images? Why not just push sets forward directly?
 
-The answer is measure theory's demand for additivity. If $A_1, A_2, \dots$ are disjoint sets in $X$, their direct images $f(A_1), f(A_2), \dots$ need not be disjoint in $Y$. Two different points in $X$ might land on the same point in $Y$.
+Measure theory demands additivity. If $A_1, A_2, \dots$ are disjoint sets in $X$, their direct images $f(A_1), f(A_2), \dots$ need not be disjoint in $Y$. Two different points in $X$ might land on the same point in $Y$.
 
 But inverse images behave perfectly:
 
@@ -204,13 +204,13 @@ $$
 f^{-1}(B_1 \cup B_2) = f^{-1}(B_1) \cup f^{-1}(B_2), \qquad f^{-1}(B^c) = f^{-1}(B)^c.
 $$
 
-Inverse images preserve the set operations that σ-algebras need. That's why pushforward uses inverse images even though the measure moves "forward."
+Inverse images preserve the set operations that σ-algebras need. Pushforward uses inverse images even though the measure moves "forward."
 
 ---
 
 ## The Adjunction: Where the Two Directions Meet
 
-Pushforward and pullback are not independent tricks. They are married by the integral.
+Pushforward and pullback aren't independent tricks. They're married by the integral.
 
 For a measure $\mu$ on $X$ and a function $g$ on $Y$:
 
@@ -220,9 +220,9 @@ $$
 
 On the left, the measure moves forward to $Y$, where $g$ lives. On the right, the function moves backward to $X$, where $\mu$ lives. Both integrals compute the same number.
 
-This is the change-of-variables formula. But seen through the lens of category theory, it's something more: an **adjunction**. The integral defines a pairing between functions and measures, and pushforward/pullback preserve that pairing.
+This is the change-of-variables formula. But seen through category theory, it's something more: an **adjunction**. The integral defines a pairing between functions and measures, and pushforward/pullback preserve that pairing.
 
-Written symbolically: $f^* \dashv f_*$, meaning pullback is left adjoint to pushforward.
+Written symbolically: $f^* \dashv f_*$. Pullback is left adjoint to pushforward.
 
 ---
 
@@ -231,7 +231,7 @@ Written symbolically: $f^* \dashv f_*$, meaning pullback is left adjoint to push
 The pattern of pushforwards and pullbacks is captured by category theory's language of functors.
 
 A **category** consists of:
-- **Objects**: the spaces (sets, measurable spaces, manifolds, etc.)
+- **Objects**: the spaces (sets, measurable spaces, manifolds)
 - **Morphisms**: the maps between them
 - **Composition**: maps can be chained, and identity maps exist
 
@@ -243,7 +243,7 @@ In probability:
 - Sending each space $X$ to its measures, and each map $f$ to $f_*$, is a covariant functor.
 - Sending each space $Y$ to its observables, and each map $f$ to $f^*$, is a contravariant functor.
 
-The integral formula is the **adjunction** that ties them together.
+The integral formula is the adjunction that ties them together.
 
 This abstraction earns its keep. Once you see the pattern, you recognize it everywhere: in topology (homology vs. cohomology), in algebra (extension vs. restriction of scalars), in logic (existential vs. universal quantifiers).
 
@@ -313,7 +313,7 @@ $$
 (\pi_X)_* \mu (A) = \mu(A \times Y).
 $$
 
-Distributions, marginals, transformations — all pushforwards of the same base measure through different maps.
+Distributions, marginals, transformations—all pushforwards of the same base measure through different maps.
 
 ---
 
@@ -327,11 +327,11 @@ $$
 P(A \mid B) = \frac{P(A \cap B)}{P(B)}.
 $$
 
-This is *not* transport along a map. It is restriction to a slice, followed by renormalization.
+This is *not* transport along a map. It's restriction to a slice, followed by renormalization.
 
 Pushforwards move probability between spaces. Conditioning reshapes probability within a single space. Both matter, but they are different operations.
 
-(There are ways to encode conditioning using pushforwards — disintegration theory makes this precise — but the naive picture of "just push through a map" doesn't capture what conditioning does.)
+(Disintegration theory can encode conditioning using pushforwards, but the naive picture of "push through a map" doesn't capture what conditioning does.)
 
 ---
 
@@ -339,9 +339,7 @@ Pushforwards move probability between spaces. Conditioning reshapes probability 
 
 The abstract pattern reappears wherever models transform probability.
 
-**Frequentist statistics.** A model maps parameters $\boldsymbol{\beta}$ and covariates $\mathbf{x}$ to a predicted outcome. Frequentists fix $\hat{\boldsymbol{\beta}}$ at a point estimate and examine how the prediction varies across the sampling distribution of $\hat{\boldsymbol{\beta}}$.
-
-**Bayesian statistics.** The entire posterior over $\boldsymbol{\beta}$ is pushed through the model:
+**Bayesian inference.** The entire posterior over parameters $\boldsymbol{\beta}$ is pushed through the model:
 
 $$
 p(y^* \mid \text{data}) = \int p(y^* \mid \boldsymbol{\beta}) \, p(\boldsymbol{\beta} \mid \text{data}) \, d\boldsymbol{\beta}.
@@ -363,20 +361,18 @@ $$
 p_X(x) = p_Z(G^{-1}(x)) \cdot |\det \nabla G^{-1}(x)|.
 $$
 
-The Jacobian is the trace of the pushforward — Riemann's insight, now running on GPUs.
+The Jacobian is the trace of the pushforward—Riemann's insight, now running on GPUs.
 
 ---
 
 ## The Grammar of Structure
 
-The pattern is older than probability and broader than statistics.
+In the nineteenth century, Gauss and Riemann studied how curvature behaves under maps between surfaces. Pullbacks carried differential forms; pushforwards carried tangent vectors. The change-of-variables formula, with its Jacobian determinant, was the integral adjunction in differential form.
 
-In the nineteenth century, Gauss and Riemann studied how curvature behaves under maps between surfaces. Pullbacks carried differential forms; pushforwards carried tangent vectors. The change-of-variables formula, with its Jacobian determinant, is the integral adjunction in differential form.
-
-In the twentieth century, category theory gave the pattern a name and a home. Functors, natural transformations, adjunctions — the vocabulary exists precisely to capture what pushforwards and pullbacks do.
+In the twentieth century, category theory gave the pattern a name and a home. Functors, natural transformations, adjunctions—vocabulary that exists precisely to capture what pushforwards and pullbacks do.
 
 In the twenty-first century, the same structure powers machine learning. Monte Carlo methods push simple randomness into complex simulations. Variational inference pulls expectations back through intractable models. Generative AI pushes latent noise into images and text.
 
 A single map gives rise to two operations. One moves mass forward. The other moves questions back. Integration holds them in balance.
 
-From Riemann's surfaces to Kolmogorov's probability to modern neural networks, this is how mathematics moves structure from one space to another.
+Roll a die. Ask a question. The answer depends on which direction you choose to travel.

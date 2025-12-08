@@ -10,25 +10,27 @@ toc: true
 
 In 1943, the telephone in Winston Churchill's war room was a problem.
 
-The transatlantic calls to Roosevelt were encrypted by a system called SIGSALY, fifty tons of equipment that digitized speech, scrambled it with one-time pads, and reassembled it on the other end. The voice channel was mathematically unbreakable. The Germans couldn't decode a single word.
+Transatlantic calls to Roosevelt were encrypted by SIGSALY, fifty tons of equipment that digitized speech, scrambled it with one-time pads, and reassembled it on the other end. The voice channel was mathematically unbreakable. The Germans couldn't decode a single word.
 
-But Bell Labs engineer A.B. Clark noticed something troubling. The encryption scrambled the *content* of Churchill's speech. It didn't scramble the *rhythm*. The timing of syllables, the cadence of sentences, the patterns of pauses: all of it passed through intact.
+But Bell Labs engineer A.B. Clark noticed something troubling. The encryption scrambled the *content* of Churchill's speech. It didn't scramble the *rhythm*. The timing of syllables, the cadence of sentences, the patterns of pauses—all passed through intact.
 
 Clark realized that rhythm alone might be enough to reconstruct words. He was right. The phenomenon would later be called "residual intelligibility."
 
-SIGSALY was redesigned to mask timing patterns. The fix added more equipment. More weight. More complexity. All to hide something no one had thought to protect: the rhythm.
+SIGSALY was redesigned to mask timing patterns. The fix added more equipment. More weight. More complexity. All to hide something no one had thought to protect.
 
 ---
 
 ## The Beeping Safe
 
-In the 1980s, hotel room safes used a simple four-digit code. Guests would set their own combination, and the safe would beep once for each correct digit as you entered it.
+In the 1980s, hotel room safes used a simple four-digit code. Guests would set their own combination. The safe beeped once for each correct digit as you entered it.
 
-Thieves figured it out immediately. Start with 0000. If the safe beeps once, the first digit is 0. If not, try 1000. Work through 0-9 until you hear a beep. Then move to the second digit.
+Thieves figured it out immediately.
+
+Start with 0000. If the safe beeps once, the first digit is 0. If not, try 1000. Work through 0-9 until you hear a beep. Then move to the second digit.
 
 A four-digit safe has 10,000 combinations. These safes fell in 40 tries.
 
-The safe protected the code. It didn't protect *information about* the code: how many digits were correct. That distinction cost everything.
+The safe protected the code. It didn't protect *information about* the code. That distinction cost everything.
 
 ---
 
@@ -163,7 +165,7 @@ The longer the secret, the more catastrophic the leak.
     const rect = svg.getBoundingClientRect();
     const W = rect.width, H = rect.height;
     const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
-    const pad = 0.875 * rem;  // constant border padding on all sides
+    const pad = 0.875 * rem;
     const innerW = W - pad * 2;
     const innerH = H - pad * 2;
     const labelMargin = innerW * 0.12;
@@ -174,7 +176,6 @@ The longer the secret, the more catastrophic the leak.
 
     let html = '';
 
-    // Inner border
     html += `<rect x="${pad}" y="${pad}" width="${innerW}" height="${innerH}" fill="none" stroke="#000"/>`;
 
     const barLeft = pad + labelMargin;
@@ -207,7 +208,6 @@ The longer the secret, the more catastrophic the leak.
 
   kSlider.addEventListener('input', draw);
   nSlider.addEventListener('input', draw);
-  // viewBox set dynamically in draw()
   svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
   draw();
 })();
@@ -218,7 +218,7 @@ The longer the secret, the more catastrophic the leak.
 
 ## Paul Kocher's Discovery
 
-For decades after the beeping safe, cryptographers believed they had learned the lesson. Don't leak partial information. Make verification all-or-nothing.
+For decades, cryptographers believed they had learned the lesson. Don't leak partial information. Make verification all-or-nothing.
 
 In 1996, a twenty-three-year-old cryptographer named Paul Kocher published a paper that redrew the boundaries of information security. He showed that even when software reveals nothing explicitly, the *time it takes to compute* is itself a channel.
 
@@ -252,11 +252,11 @@ If timing is information, what else might be?
 
 **2003: Cache timing.** Modern CPUs have memory caches. Accessing cached data is fast; uncached data is slow. An attacker who shares your CPU can deduce what memory addresses you're touching, including cryptographic key material.
 
-**2018: Spectre and Meltdown.** Modern CPUs don't wait. When they hit a conditional branch, they guess which way it will go and start executing instructions down that path. If the guess is wrong, they roll back and pretend it never happened. This is speculative execution, and it makes processors fast.
+**2018: Spectre and Meltdown.** Modern CPUs speculate. When they hit a conditional branch, they guess which way it will go and start executing down that path. If the guess is wrong, they roll back. This is speculative execution, and it makes processors fast.
 
-Meltdown exploited the fact that Intel chips performed speculative memory accesses before checking permissions. A user program could speculatively read kernel memory. The CPU would eventually realize the access was forbidden and discard the result—but not before the data had touched the cache. By measuring which cache lines were now fast to access, an attacker could reconstruct the forbidden bytes.
+Meltdown exploited the fact that Intel chips performed speculative memory accesses before checking permissions. A user program could speculatively read kernel memory. The CPU would eventually realize the access was forbidden and discard the result—but not before the data had touched the cache. By measuring which cache lines were now fast to access, attackers could reconstruct the forbidden bytes.
 
-Spectre was subtler. It trained the branch predictor to mispredict, then used that misprediction to speculatively access memory through the victim's own code. The victim's program would briefly touch memory it shouldn't, leaving cache traces the attacker could read. Spectre affected nearly every processor made in the last twenty years.
+Spectre was subtler. It trained the branch predictor to mispredict, then used that misprediction to speculatively access memory through the victim's own code. The victim's program would briefly touch memory it shouldn't, leaving cache traces the attacker could read.
 
 Both attacks crossed boundaries that were supposed to be inviolable: user to kernel, guest to host, process to process. The CPU's architecture guaranteed isolation. The CPU's microarchitecture leaked it away.
 
@@ -264,7 +264,9 @@ Both attacks crossed boundaries that were supposed to be inviolable: user to ker
 
 ## Shannon's Definition
 
-Shannon defined information as reduction in uncertainty. A message conveys information because it tells you something you didn't know. By this definition, *anything* that reduces uncertainty is information, whether or not it was intended to communicate.
+Shannon defined information as reduction in uncertainty. A message conveys information because it tells you something you didn't know.
+
+By this definition, *anything* that reduces uncertainty is information, whether or not it was intended to communicate.
 
 The safe's beep reduces uncertainty about which digit is correct. The computation's timing reduces uncertainty about which branch was taken. The chip's power draw reduces uncertainty about which operations occurred. The radiation from a cable reduces uncertainty about what it's carrying.
 
@@ -272,9 +274,9 @@ The safe's beep reduces uncertainty about which digit is correct. The computatio
 
 ## The Shape of Everything
 
-**Netflix and traffic analysis.** Your video stream is encrypted. An eavesdropper sees only noise. But the *pattern* of the traffic (packet sizes, timing, bitrate changes) correlates with what you're watching. Researchers have identified specific movies from encrypted Netflix streams with over 99% accuracy.
+**Netflix and traffic analysis.** Your video stream is encrypted. An eavesdropper sees only noise. But the *pattern* of the traffic—packet sizes, timing, bitrate changes—correlates with what you're watching. Researchers have identified specific movies from encrypted Netflix streams with over 99% accuracy.
 
-**Keystroke dynamics.** The rhythm of your typing (how long you hold each key, the gaps between keystrokes) identifies you as reliably as a fingerprint. This works through encryption, through Tor, through any anonymizing layer.
+**Keystroke dynamics.** The rhythm of your typing—how long you hold each key, the gaps between keystrokes—identifies you as reliably as a fingerprint. This works through encryption, through Tor, through any anonymizing layer.
 
 **Website fingerprinting.** HTTPS hides which page you're viewing but not the pattern of requests: how many resources, what sizes, what timing. The pattern is enough to identify the site with high accuracy.
 
@@ -338,7 +340,6 @@ The safe's beep reduces uncertainty about which digit is correct. The computatio
     const pad = 0.875 * rem;
     ctx.clearRect(0, 0, W, H);
 
-    // Inner border
     ctx.strokeStyle = '#000';
     ctx.lineWidth = 1;
     ctx.strokeRect(pad, pad, W - pad*2, H - pad*2);
@@ -388,17 +389,17 @@ Different people produce different patterns. The text vanishes into encryption. 
 
 ---
 
-## The Arms Race Has No End
+## The Arms Race
 
-The natural response is: fix the leaks. And cryptographers have tried.
+The natural response: fix the leaks. Cryptographers have tried.
 
 **Constant-time code.** Compare all characters, even after finding a mismatch. Make every branch take the same time. Never let computation depend on secret data.
 
-**Blinding.** Add random noise to inputs. The answer is the same, but the intermediate steps are randomized, masking power and timing patterns.
+**Blinding.** Add random noise to inputs. The answer is the same, but intermediate steps are randomized, masking power and timing patterns.
 
 **Shielding.** Faraday cages block electromagnetic radiation. Expensive. Imperfect. A well-funded adversary can still get through.
 
-Each fix addresses one channel. But physics guarantees there are always more.
+Each fix addresses one channel. Physics guarantees there are always more.
 
 Computation requires energy. Energy dissipates as heat, radiation, vibration. Any physical process leaves traces. The question is not whether information leaks, but whether an adversary can detect it.
 
@@ -406,7 +407,7 @@ For the NSA, the threshold is low. For a random thief, high. But the threshold k
 
 ---
 
-## The Moving Boundary
+## The Lesson
 
 Here is what the twentieth century taught us:
 
@@ -416,7 +417,7 @@ The boundary between "the secret" and "information about the secret" is not fixe
 
 Churchill's engineers thought they were protecting speech. They were forced to protect rhythm. Cryptographers thought they were protecting keys. They were forced to protect timing, power, radiation, cache access, and speculative execution.
 
-Each generation discovers that the last generation's definition of "the secret" was too narrow.
+Each generation discovers that the last generation's definition was too narrow.
 
 ---
 
@@ -424,7 +425,7 @@ Each generation discovers that the last generation's definition of "the secret" 
 
 **Privacy.** Every digital action has a shape: timing, size, frequency. Encryption hides content but not shape. Metadata is data.
 
-**Anonymity.** Behavioral patterns are signatures. How you type, how you move your mouse, how you browse. These patterns persist across contexts. True anonymity requires suppressing not just identity but behavior, and behavior is hard to fake.
+**Anonymity.** Behavioral patterns are signatures. How you type, how you move your mouse, how you browse—these persist across contexts. True anonymity requires suppressing not just identity but behavior, and behavior is hard to fake.
 
 **AI.** Machine learning excels at finding patterns humans miss. The leaks that were too subtle to exploit manually become tractable with enough data and compute. The attacker's threshold keeps dropping.
 
