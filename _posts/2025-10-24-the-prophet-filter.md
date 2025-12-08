@@ -356,6 +356,4 @@ A track record of ten correct predictions is genuinely impressive—if you know 
 
 The evidence that would update your beliefs is not "I saw ten correct predictions" but "Ten correct predictions, and I know no one else was receiving different predictions."
 
-The scam works precisely because you cannot see the counterfactual. The failed recipients don't complain—they simply stopped receiving emails. From your vantage point, the prophet has always been right.
-
-Selection doesn't just hide failures. It makes success look like proof.
+The scam works because you cannot see the counterfactual. The failed recipients don't complain—they simply stopped receiving emails. From your vantage point, the prophet has always been right.

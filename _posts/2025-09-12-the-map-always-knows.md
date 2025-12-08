@@ -13,7 +13,7 @@ What looks like a children's puzzle is one of the oldest problems in graph theor
 
 The story begins in 1736, when Leonhard Euler tackled the bridges of Königsberg. The city was built across two islands connected by seven bridges. Residents wondered: could you stroll across each bridge exactly once and return home?
 
-Euler's answer was groundbreaking in its simplicity. The possibility depends only on the number of "odd" intersections—nodes with an odd number of edges. A connected graph has a trail using every edge exactly once if and only if the number of odd-degree nodes is $0$ or $2$. Counting degrees takes seconds. A centuries-old riddle suddenly had a crisp mathematical rule.
+Euler's answer reduced the problem to counting. The possibility depends only on the number of "odd" intersections—nodes with an odd number of edges. A connected graph has a trail using every edge exactly once if and only if the number of odd-degree nodes is $0$ or $2$. Counting degrees takes seconds.
 
 ---
 
@@ -337,4 +337,4 @@ Another challenge: traffic that must visit a particular set of machines in seque
 
 At the level of everyday internet traffic, packets follow Euler-style edges with polynomial-time algorithms. At the level of distribution and control, networks face Hamiltonian-style vertex constraints, where NP-hardness takes over and heuristics become the only workable approach.
 
-Your navigation app finds the fastest route in milliseconds. Planning a delivery sequence through twenty stops could take millennia to optimize exactly. The map always knows—but sometimes, knowing takes longer than the universe has existed.
+Your navigation app finds the fastest route in milliseconds. Planning an optimal delivery sequence through twenty stops would take longer than the age of the universe.

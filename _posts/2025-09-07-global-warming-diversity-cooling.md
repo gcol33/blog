@@ -443,8 +443,6 @@ The mathematics doesn't know the difference. It counts possibilities, wherever t
 
 When we burn fossil fuels and heat the planet, we trigger a cascade that runs through physics, chemistry, and biology. Temperatures rise. Species shift and vanish. Communities simplify. The number of possible configurations—the entropy of the living world—falls.
 
-Boltzmann saw that entropy measures how many ways a system can be arranged. He was right. The living world is losing its arrangements, one species at a time.
+Boltzmann saw that entropy measures how many ways a system can be arranged. The living world is losing its arrangements, one species at a time.
 
-Global warming and biodiversity loss are not two crises. They are one crisis, measured in two currencies. The same equation sits on Boltzmann's tombstone and in every ecology textbook.
-
-The planet is heating up. Life is cooling down.
+Global warming and biodiversity loss are connected through the same mathematics. Physical entropy and ecological entropy measure different quantities, but both track the number of possible configurations. The formula on Boltzmann's tombstone appears in ecology textbooks for a reason.

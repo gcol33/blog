@@ -14,7 +14,7 @@ De Méré was no mathematician. But he knew someone who was. He brought the puzz
 
 Pascal took the problem seriously. He wrote to Pierre de Fermat, a magistrate in Toulouse who pursued mathematics in his spare time. Over several months, the two exchanged letters dissecting de Méré's wagers.
 
-That correspondence is now remembered as the birth of probability theory. What began as a question about dice became a new branch of mathematics.
+That correspondence laid the foundations of probability theory.
 
 ---
 
@@ -305,12 +305,10 @@ The linear intuition that works for averages misleads when applied to probabilit
 
 ---
 
-## The Letters That Changed Mathematics
+## The Pascal-Fermat Correspondence
 
-Pascal's correspondence with Fermat did more than resolve a gambling puzzle. The letters introduced the idea that uncertainty itself could be quantified and computed. They developed methods for counting arrangements, dividing stakes fairly, and reasoning about future outcomes.
+Pascal's letters to Fermat did more than resolve a gambling puzzle. They introduced methods for counting arrangements, dividing stakes fairly, and reasoning systematically about future outcomes.
 
 Within a generation, Christiaan Huygens published the first textbook on probability. Jacob Bernoulli proved the law of large numbers. By the eighteenth century, Laplace had extended these ideas to astronomy, insurance, and the theory of errors.
 
-All of it traces back to a gambler who noticed two wagers that should have been the same but weren't.
-
-De Méré never understood the mathematics. But his confusion launched a field.
+De Méré never understood the mathematics. But his confusion started the correspondence.

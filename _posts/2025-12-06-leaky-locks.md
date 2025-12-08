@@ -30,7 +30,7 @@ Start with 0000. If the safe beeps once, the first digit is 0. If not, try 1000.
 
 A four-digit safe has 10,000 combinations. These safes fell in 40 tries.
 
-The safe protected the code. It didn't protect *information about* the code. That distinction cost everything.
+The safe protected the code. It didn't protect *information about* the code.
 
 ---
 
