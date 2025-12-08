@@ -167,7 +167,7 @@ const pad = 0.875 * rem;  // 0.875rem ≈ 14px at default 16px font
 ctx.strokeRect(pad, pad, W - pad*2, H - pad*2);
 ```
 
-For SVG (with fixed viewBox, get actual dimensions first):
+For SVG (get actual dimensions, use proportional positioning):
 ```js
 const rect = svg.getBoundingClientRect();
 const W = rect.width, H = rect.height;
@@ -176,10 +176,22 @@ const pad = 0.875 * rem;
 const innerW = W - pad * 2;
 const innerH = H - pad * 2;
 
+// Inner border
 html += `<rect x="${pad}" y="${pad}" width="${innerW}" height="${innerH}" fill="none" stroke="#000"/>`;
+
+// Position content as percentages of innerW/innerH, NOT fixed pixels
+const barH = innerH * 0.18;
+const y1 = pad + innerH * 0.08;
+const labelMargin = innerW * 0.12;
+const fontSize = Math.min(13, innerH * 0.065);
+
+svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
 ```
 
-**Key rule**: Always use rem units for padding (`0.875 * rem` for standard spacing). Never use raw pixel values. This ensures consistent spacing across all screen sizes and respects user font size preferences.
+**Key rules**:
+- Always use rem units for padding (`0.875 * rem` for standard spacing)
+- For SVG: position all content (bars, text, axes) as **percentages of innerW/innerH**, not fixed pixel values
+- This ensures consistent spacing on all screen sizes since SVG height is fixed but width is responsive
 
 ## Common Patterns
 
