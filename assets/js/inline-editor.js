@@ -332,23 +332,23 @@
     // Only run on post pages
     if (!document.querySelector('.post')) return;
 
-    const isAuthenticated = await authManager.checkAuth();
+    // Check for ?edit parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const editMode = urlParams.has('edit');
+
+    if (!editMode) return; // Don't show anything if not in edit mode
+
+    // Check if already authenticated
+    let isAuthenticated = await authManager.checkAuth();
 
     if (!isAuthenticated) {
-      // Show subtle login link
-      const article = document.querySelector('.post');
-      if (article) {
-        const loginLink = document.createElement('div');
-        loginLink.id = 'inline-editor-login';
-        loginLink.innerHTML = '<a href="#" id="login-link">Admin Login</a>';
-        article.insertBefore(loginLink, article.firstChild);
+      // Not authenticated - prompt for token
+      authManager.showAuthPrompt();
+      // Re-check after user enters token
+      isAuthenticated = await authManager.checkAuth();
+    }
 
-        document.getElementById('login-link').addEventListener('click', (e) => {
-          e.preventDefault();
-          authManager.showAuthPrompt();
-        });
-      }
-    } else {
+    if (isAuthenticated) {
       // Authenticated - show editor controls
       editorManager.init();
     }

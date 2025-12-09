@@ -8,24 +8,6 @@
   border-bottom: 1px solid #ddd;
 }
 
-#inline-editor-login {
-  text-align: right;
-  margin-bottom: 1em;
-  padding-bottom: 0.5em;
-  border-bottom: 1px solid #eee;
-}
-
-#inline-editor-login a {
-  font-size: 0.85em;
-  color: #666;
-  text-decoration: none;
-}
-
-#inline-editor-login a:hover {
-  color: #000;
-  text-decoration: underline;
-}
-
 .inline-editor-btn {
   padding: 0.5em 1em;
   font-size: 0.9em;
