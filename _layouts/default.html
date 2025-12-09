@@ -32,6 +32,12 @@
     <link href="https://fonts.googleapis.com/css?family=Cousine:400,700,400italic,700italic&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
+    <!-- Inline Editor (only on post pages) -->
+    {% if page.layout == 'post' %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <link rel="stylesheet" href="{{ '/assets/css/inline-editor.css' | relative_url }}">
+    {% endif %}
+
     <!-- Favicon (works with baseurl) -->
     <link rel="icon" href="{{ '/favicon.ico' | relative_url }}" type="image/x-icon">
 
@@ -154,6 +160,12 @@
         }
       })();
     </script>
+    {% endif %}
+
+    {% if page.layout == 'post' %}
+    <!-- Inline Editor -->
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script src="{{ '/assets/js/inline-editor.js' | relative_url }}"></script>
     {% endif %}
   </body>
 </html>
