@@ -101,12 +101,12 @@ This is the shadow—the full uncertainty of the parameter mountain, projected o
 
 Both approaches produce a curve with a band. The visual similarity obscures a deep difference.
 
-| | Frequentist | Bayesian |
-|---|---|---|
-| Parameters | Fixed unknowns | Random variables |
-| Band meaning | Coverage under repetition | Direct probability |
-| Uncertainty source | Sampling variability | Posterior distribution |
-| Metaphor | Slice | Shadow |
+|   | Frequentist | Bayesian |
+|:--|:--|:--|
+| **Parameters** | Fixed unknowns | Random variables |
+| **Band meaning** | Coverage under repetition | Direct probability |
+| **Uncertainty source** | Sampling variability | Posterior distribution |
+| **Metaphor** | Slice | Shadow |
 
 The frequentist slices through the mountain at a single point, then asks how that slice might wobble across repeated samples. The Bayesian lets the whole mountain cast its shadow, incorporating every plausible parameter combination.
 
