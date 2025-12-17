@@ -444,8 +444,6 @@ A low-entropy ecosystem is like a language with only a few words. You can still 
 
 Boltzmann's formula links microscopic chaos to macroscopic order. Shannon's formula links symbol frequencies to information content. The same formula, applied to species abundances, links community structure to ecological complexity.
 
-The mathematics doesn't know the difference. It counts possibilities, wherever they arise.
-
 When we burn fossil fuels and heat the planet, we trigger a cascade that runs through physics, chemistry, and biology. Temperatures rise. Species shift and vanish. Communities simplify. The number of possible configurations—the entropy of the living world—falls.
 
 Boltzmann saw that entropy measures how many ways a system can be arranged. The living world is losing its arrangements, one species at a time.
