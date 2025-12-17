@@ -13,7 +13,7 @@ But the street is empty. Five minutes pass. Seven. A distant growl—just a truc
 
 It feels like you always catch the long gaps. Bad luck, you think.
 
-But the buses really do average 10 minutes apart. The problem isn't your luck. It's statistics. A phenomenon called the **inspection paradox**: whenever arrivals are irregular, the gaps you land in tend to be longer than average.
+But the buses really do average 10 minutes apart. The problem is statistical, not personal. A phenomenon called the **inspection paradox**: whenever arrivals are irregular, the gaps you land in tend to be longer than average.
 
 The more variability, the longer the wait.
 
@@ -65,7 +65,7 @@ $$
 
 This reveals why variance matters. If gaps never vary ($\mathrm{Var}(S) = 0$), the mean wait is $T/2$. As variability increases, so does the wait. For exponential gaps with $\mathrm{Var}(S) = T^2$, the mean wait reaches $T$.
 
-Variance isn't just noise. It's time stolen from passengers.
+Variance costs passengers time.
 
 ---
 
@@ -134,4 +134,4 @@ In every case, individuals are more likely to land in bigger or longer groups. T
 
 The schedule average and the passenger average measure different things. Schedules average over intervals. Passengers average over time spent inside them.
 
-That's why standing at the bus stop feels worse than the timetable suggests. You're not sampling buses. You're sampling the gaps between them—and long gaps, by definition, take up more of your time.
+That's why standing at the bus stop feels worse than the timetable suggests. You sample the gaps between buses, not the buses themselves—and long gaps, by definition, take up more of your time.

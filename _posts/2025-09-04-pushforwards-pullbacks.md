@@ -20,7 +20,7 @@ What if we reverse direction? Suppose I define a reward: \$1 if even, \$0 if odd
 
 Two directions. Measures push forward. Functions pull back.
 
-This isn't a trick specific to dice. It's the grammar of how mathematics moves structure from one space to another.
+The pattern extends far beyond dice—it's the grammar of how mathematics moves structure from one space to another.
 
 ---
 
@@ -91,8 +91,8 @@ This isn't a trick specific to dice. It's the grammar of how mathematics moves s
     </g>
 
     <!-- Explanation box -->
-    <text x="350" y="280" text-anchor="middle" font-size="14" id="explanation" fill="#333">Click a button to see how structure moves.</text>
-    <text x="350" y="300" text-anchor="middle" font-size="13" id="explanation2" fill="#666"></text>
+    <text x="350" y="280" text-anchor="middle" font-size="14" id="explanation" fill="#000">Click a button to see how structure moves.</text>
+    <text x="350" y="300" text-anchor="middle" font-size="13" id="explanation2" fill="#000"></text>
   </svg>
 </div>
 
@@ -115,13 +115,13 @@ This isn't a trick specific to dice. It's the grammar of how mathematics moves s
 
   btnPush.addEventListener('click', function(){
     reset();
-    // Highlight odd faces (1,3,5) and even faces (2,4,6)
-    [0, 2, 4].forEach(i => dieFaces[i].setAttribute('fill', '#fdd')); // odd - red tint
-    [1, 3, 5].forEach(i => dieFaces[i].setAttribute('fill', '#ddf')); // even - blue tint
+    // Highlight odd faces (1,3,5) with diagonal lines, even faces (2,4,6) solid
+    [0, 2, 4].forEach(i => dieFaces[i].setAttribute('fill', '#fff'));
+    [1, 3, 5].forEach(i => dieFaces[i].setAttribute('fill', '#ccc'));
 
     // Highlight parity space
-    parityCircles[0].setAttribute('fill', '#fdd'); // odd
-    parityCircles[1].setAttribute('fill', '#ddf'); // even
+    parityCircles[0].setAttribute('fill', '#fff'); // odd
+    parityCircles[1].setAttribute('fill', '#ccc'); // even
 
     explanation.textContent = 'Pushforward: The measure moves forward through f.';
     explanation2.textContent = 'P({odd}) = P({1,3,5}) = 1/2, P({even}) = P({2,4,6}) = 1/2';
@@ -131,11 +131,11 @@ This isn't a trick specific to dice. It's the grammar of how mathematics moves s
     reset();
     // Define g(even)=1, g(odd)=0, show it pulled back
     parityCircles[0].setAttribute('fill', '#fff'); // odd = 0
-    parityCircles[1].setAttribute('fill', '#9d9'); // even = 1 (green for reward)
+    parityCircles[1].setAttribute('fill', '#ccc'); // even = 1
 
     // Pull back to die space
     [0, 2, 4].forEach(i => dieFaces[i].setAttribute('fill', '#fff')); // odd faces get 0
-    [1, 3, 5].forEach(i => dieFaces[i].setAttribute('fill', '#9d9')); // even faces get 1
+    [1, 3, 5].forEach(i => dieFaces[i].setAttribute('fill', '#ccc')); // even faces get 1
 
     explanation.textContent = 'Pullback: The function g moves backward through f.';
     explanation2.textContent = 'g(even)=1, g(odd)=0 pulls back to the indicator of {2,4,6}';

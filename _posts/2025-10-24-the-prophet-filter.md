@@ -6,7 +6,7 @@ categories: probability perception history
 toc: true
 ---
 
-## The Email That Knew Tomorrow
+## Ten Correct Predictions
 
 You receive an email from someone you've never heard of. The subject line: "The market will close up tomorrow."
 
@@ -87,62 +87,68 @@ Before you answer, try the simulation below. You are one of a million people rec
   function draw(){
     const W = canvas.clientWidth, H = canvas.clientHeight;
     const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
-    const pad = 2.5 * rem, innerW = W - pad * 2, innerH = H - pad * 2;
+    const pad = 0.875 * rem;
+    const leftMargin = 3.5 * rem;
+    const bottomMargin = 1.25 * rem;
+    const innerW = W - pad * 2;
+    const innerH = H - pad * 2;
 
     ctx.clearRect(0, 0, W, H);
 
+    // Double border: inner rect
     ctx.strokeStyle = '#000';
     ctx.lineWidth = 1;
     ctx.strokeRect(pad, pad, innerW, innerH);
 
-    ctx.strokeStyle = '#000';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(pad, pad);
-    ctx.lineTo(pad, pad + innerH);
-    ctx.lineTo(pad + innerW, pad + innerH);
-    ctx.stroke();
+    // Chart area
+    const chartLeft = pad + leftMargin;
+    const chartRight = pad + innerW - pad;
+    const chartTop = pad + pad;
+    const chartBottom = pad + innerH - bottomMargin;
+    const chartW = chartRight - chartLeft;
+    const chartH = chartBottom - chartTop;
 
+    // Y-axis labels
     ctx.fillStyle = '#000';
     ctx.font = '11px system-ui, sans-serif';
     ctx.textAlign = 'right';
     const yLabels = [1000000, 100000, 10000, 1000, 100];
     yLabels.forEach(v => {
-      const y = pad + innerH * (1 - (Math.log10(v) - 2) / 4);
-      ctx.fillText(v.toLocaleString(), pad - 5, y + 4);
-      ctx.strokeStyle = '#eee';
-      ctx.beginPath();
-      ctx.moveTo(pad, y);
-      ctx.lineTo(pad + innerW, y);
-      ctx.stroke();
+      const yFrac = (Math.log10(v) - 2) / 4;
+      const y = chartBottom - yFrac * chartH;
+      ctx.fillText(v.toLocaleString(), chartLeft - 6, y + 4);
     });
 
+    // X-axis labels
     ctx.textAlign = 'center';
-    ctx.strokeStyle = '#000';
     for(let i = 0; i <= 10; i++){
-      const x = pad + (i / 10) * innerW;
-      ctx.fillText(i.toString(), x, pad + innerH + 15);
+      const x = chartLeft + (i / 10) * chartW;
+      ctx.fillText(i.toString(), x, chartBottom + 14);
     }
 
     if(history.length < 2) return;
 
+    // Line
     ctx.strokeStyle = '#000';
     ctx.lineWidth = 2;
     ctx.beginPath();
     for(let i = 0; i < history.length; i++){
-      const x = pad + (i / 10) * innerW;
+      const x = chartLeft + (i / 10) * chartW;
       const logVal = Math.log10(Math.max(history[i], 100));
-      const y = pad + innerH * (1 - (logVal - 2) / 4);
+      const yFrac = (logVal - 2) / 4;
+      const y = chartBottom - yFrac * chartH;
       if(i === 0) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
     }
     ctx.stroke();
 
+    // Points
     ctx.fillStyle = '#000';
     for(let i = 0; i < history.length; i++){
-      const x = pad + (i / 10) * innerW;
+      const x = chartLeft + (i / 10) * chartW;
       const logVal = Math.log10(Math.max(history[i], 100));
-      const y = pad + innerH * (1 - (logVal - 2) / 4);
+      const yFrac = (logVal - 2) / 4;
+      const y = chartBottom - yFrac * chartH;
       ctx.beginPath();
       ctx.arc(x, y, 4, 0, Math.PI * 2);
       ctx.fill();
@@ -330,7 +336,7 @@ $$
 1 - e^{-8000} \approx 1
 $$
 
-Every day, things happen to people that had a one-in-a-million chance of happening to them. That is not remarkable. It is required.
+Every day, things happen to people that had a one-in-a-million chance of happening to them. Given the scale, such occurrences are inevitable.
 
 ---
 

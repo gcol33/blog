@@ -224,7 +224,7 @@ In 1996, a twenty-three-year-old cryptographer named Paul Kocher published a pap
 
 Consider password verification:
 
-```python
+```
 def check(input, stored):
     for i in range(len(stored)):
         if input[i] != stored[i]:
@@ -411,7 +411,7 @@ For the NSA, the threshold is low. For a random thief, high. But the threshold k
 
 Here is what the twentieth century taught us:
 
-**Information is not what you intend to reveal. It is what can be inferred from what you do.**
+**Information is whatever can be inferred from what you do—regardless of what you intended to reveal.**
 
 The boundary between "the secret" and "information about the secret" is not fixed. It moves as our ability to measure improves. What leaked undetectably in 1980 leaks detectably in 2000. What seems safe today will leak tomorrow.
 
@@ -439,6 +439,6 @@ The fix seems obvious: remove the beep. But the beep was not the problem. The pr
 
 Make the electronics silent and the timing still differs. Equalize the timing and the power draw still differs. Shield the power and the EM radiation still differs. Shield everything and the fact that you're standing in front of the safe still reveals something.
 
-Every physical process is a broadcast. Security is not about stopping the broadcast. It is about ensuring the broadcast conveys nothing useful.
+Every physical process is a broadcast. Security requires ensuring that any broadcast conveys nothing useful—the broadcast itself cannot be stopped.
 
 This is hard. It requires understanding what information is: not what you intend to transmit, but what can be received.

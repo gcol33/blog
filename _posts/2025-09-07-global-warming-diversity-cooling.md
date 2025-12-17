@@ -8,13 +8,11 @@ toc: true
 
 ## The Same Collapse, Twice
 
-Here is a strange fact: the mathematics of a cooling gas and the mathematics of a dying ecosystem are identical.
-
 When a gas cools, its molecules slow down. They explore fewer states. The number of possible configurations drops. Entropy decreases.
 
 When an ecosystem collapses, species vanish. The community becomes dominated by a few survivors. The number of possible configurations drops. Entropy decreases.
 
-This is not a metaphor. The same equation describes both:
+One equation describes both:
 
 $$
 H = -\sum_i p_i \log p_i
@@ -28,9 +26,9 @@ Thermodynamically, it's getting colder.
 
 ---
 
-## See It Happen
+## Simulation
 
-The simulation below shows how diversity entropy changes as species disappear. Start with a balanced ecosystem, then remove species one by one. Watch the entropy drop.
+Remove species one by one. Entropy drops.
 
 <div id="diversity-sim" style="max-width: 720px; margin: 1.5em auto;">
   <div style="display: flex; gap: 1em; flex-wrap: wrap; margin-bottom: 1em;">
@@ -40,19 +38,19 @@ The simulation below shows how diversity entropy changes as species disappear. S
   </div>
 
   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1em;">
-    <div style="border: 1px solid #000; padding: 1em; background: #fafafa;">
+    <div>
       <strong>Community composition</strong>
-      <canvas id="div-bars" style="width: 100%; height: 180px; margin-top: 0.5em;"></canvas>
+      <canvas id="div-bars" style="width: 100%; height: 180px; margin-top: 0.5em; background: #fff; border: 1px solid #000;"></canvas>
       <div class="lightText" style="margin-top: 0.5em;">Species abundance (each bar = one species)</div>
     </div>
-    <div style="border: 1px solid #000; padding: 1em; background: #fafafa;">
+    <div>
       <strong>Entropy over time</strong>
-      <canvas id="div-entropy" style="width: 100%; height: 180px; margin-top: 0.5em;"></canvas>
+      <canvas id="div-entropy" style="width: 100%; height: 180px; margin-top: 0.5em; background: #fff; border: 1px solid #000;"></canvas>
       <div class="lightText" style="margin-top: 0.5em;">Shannon entropy H</div>
     </div>
   </div>
 
-  <div style="margin-top: 1em; border: 1px solid #000; padding: 1em; background: #fff;">
+  <div style="margin-top: 1em;">
     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1em; text-align: center;">
       <div>
         <div class="lightText">Species count</div>
@@ -171,21 +169,25 @@ The simulation below shows how diversity entropy changes as species disappear. S
   function drawBars(){
     const W = barsCanvas.clientWidth, H = barsCanvas.clientHeight;
     const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
-    const pad = 0.625 * rem;
+    const pad = 0.875 * rem;
     barsCtx.clearRect(0, 0, W, H);
+
+    // Double border
+    barsCtx.strokeStyle = '#000';
+    barsCtx.lineWidth = 1;
+    barsCtx.strokeRect(pad, pad, W - pad * 2, H - pad * 2);
 
     if(abundances.length === 0) return;
 
-    const barW = (W - pad * 2) / abundances.length - 2;
+    const innerPad = pad * 1.5;
+    const barW = (W - innerPad * 2) / abundances.length - 2;
     const maxP = Math.max(...abundances);
 
-    const colors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf','#999999','#66c2a5'];
-
     for(let i = 0; i < abundances.length; i++){
-      const barH = (abundances[i] / maxP) * (H - pad * 2);
-      const x = pad + i * (barW + 2);
-      const y = H - pad - barH;
-      barsCtx.fillStyle = colors[i % colors.length];
+      const barH = (abundances[i] / maxP) * (H - innerPad * 2);
+      const x = innerPad + i * (barW + 2);
+      const y = H - innerPad - barH;
+      barsCtx.fillStyle = '#fff';
       barsCtx.fillRect(x, y, barW, barH);
       barsCtx.strokeStyle = '#000';
       barsCtx.strokeRect(x, y, barW, barH);
@@ -194,44 +196,49 @@ The simulation below shows how diversity entropy changes as species disappear. S
 
   function drawEntropy(){
     const W = entropyCanvas.clientWidth, H = entropyCanvas.clientHeight;
-    const rem2 = parseFloat(getComputedStyle(document.documentElement).fontSize);
-    const pad = 1.875 * rem2;
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const pad = 0.875 * rem;
+    const leftMargin = 2 * rem;
+    const bottomMargin = 0.5 * rem;
     entropyCtx.clearRect(0, 0, W, H);
 
+    // Double border
     entropyCtx.strokeStyle = '#000';
     entropyCtx.lineWidth = 1;
-    entropyCtx.beginPath();
-    entropyCtx.moveTo(pad, pad);
-    entropyCtx.lineTo(pad, H - pad);
-    entropyCtx.lineTo(W - pad, H - pad);
-    entropyCtx.stroke();
+    entropyCtx.strokeRect(pad, pad, W - pad * 2, H - pad * 2);
 
+    const chartLeft = pad + leftMargin;
+    const chartRight = W - pad - pad;
+    const chartTop = pad + pad;
+    const chartBottom = H - pad - bottomMargin;
+    const chartW = chartRight - chartLeft;
+    const chartH = chartBottom - chartTop;
+
+    // Y-axis labels
     entropyCtx.fillStyle = '#000';
     entropyCtx.font = '11px system-ui, sans-serif';
     entropyCtx.textAlign = 'right';
     const maxH = Math.log(10) + 0.1;
-    entropyCtx.fillText('2.3', pad - 5, pad + 5);
-    entropyCtx.fillText('0', pad - 5, H - pad + 5);
+    entropyCtx.fillText('2.3', chartLeft - 4, chartTop + 4);
+    entropyCtx.fillText('0', chartLeft - 4, chartBottom + 4);
 
     if(entropyHistory.length < 1) return;
 
-    entropyCtx.strokeStyle = '#2266cc';
+    entropyCtx.strokeStyle = '#000';
     entropyCtx.lineWidth = 2;
     entropyCtx.beginPath();
-    const innerW = W - pad * 2;
-    const innerH = H - pad * 2;
     for(let i = 0; i < entropyHistory.length; i++){
-      const x = pad + (i / Math.max(entropyHistory.length - 1, 1)) * innerW;
-      const y = H - pad - (entropyHistory[i] / maxH) * innerH;
+      const x = chartLeft + (i / Math.max(entropyHistory.length - 1, 1)) * chartW;
+      const y = chartBottom - (entropyHistory[i] / maxH) * chartH;
       if(i === 0) entropyCtx.moveTo(x, y);
       else entropyCtx.lineTo(x, y);
     }
     entropyCtx.stroke();
 
-    entropyCtx.fillStyle = '#2266cc';
+    entropyCtx.fillStyle = '#000';
     for(let i = 0; i < entropyHistory.length; i++){
-      const x = pad + (i / Math.max(entropyHistory.length - 1, 1)) * innerW;
-      const y = H - pad - (entropyHistory[i] / maxH) * innerH;
+      const x = chartLeft + (i / Math.max(entropyHistory.length - 1, 1)) * chartW;
+      const y = chartBottom - (entropyHistory[i] / maxH) * chartH;
       entropyCtx.beginPath();
       entropyCtx.arc(x, y, 4, 0, Math.PI * 2);
       entropyCtx.fill();
@@ -317,9 +324,7 @@ In a message, $p_i$ is the probability of symbol $i$. Entropy measures average s
 
 In an ecosystem, $p_i$ is the fraction of individuals belonging to species $i$. Entropy measures how evenly distributed the community is.
 
-Same formula. Same mathematics. Different interpretations.
-
-This is not coincidence or loose analogy. Entropy measures *counting*—specifically, how many equivalent configurations produce the same observable outcome. The subject matter is irrelevant to the mathematics.
+Same formula in each case. Entropy measures *counting*—specifically, how many equivalent configurations produce the same observable outcome. The subject matter is irrelevant to the mathematics.
 
 ---
 

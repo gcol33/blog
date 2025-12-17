@@ -108,7 +108,7 @@ The difference between 51.8% and 49.1% is small. Over a few games, luck dominate
   </div>
 
   <div class="sim-results" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5em;">
-    <div class="wager-box" style="border: 1px solid #000; padding: 1em; background: #fafafa;">
+    <div class="wager-box">
       <strong>Wager 1: One die, 4 rolls</strong><br>
       <span class="lightText">Target: at least one 6</span>
       <div style="margin-top: 0.5em;">
@@ -119,7 +119,7 @@ The difference between 51.8% and 49.1% is small. Over a few games, luck dominate
         True probability: 51.77%
       </div>
     </div>
-    <div class="wager-box" style="border: 1px solid #000; padding: 1em; background: #fafafa;">
+    <div class="wager-box">
       <strong>Wager 2: Two dice, 24 rolls</strong><br>
       <span class="lightText">Target: at least one double-6</span>
       <div style="margin-top: 0.5em;">
@@ -134,7 +134,7 @@ The difference between 51.8% and 49.1% is small. Over a few games, luck dominate
 
   <div style="margin-top: 1em; text-align: center;">
     <canvas id="demere-chart" style="width: 100%; height: 200px; border: 1px solid #000; background: #fff;"></canvas>
-    <div class="lightText" style="margin-top: 0.5em;">Win rate over time (blue = Wager 1, red = Wager 2, dashed = true values)</div>
+    <div class="lightText" style="margin-top: 0.5em;">Win rate over time (solid = Wager 1, dashed = Wager 2, horizontal = true values)</div>
   </div>
 </div>
 
@@ -200,63 +200,70 @@ The difference between 51.8% and 49.1% is small. Over a few games, luck dominate
   function draw(){
     const W = canvas.clientWidth, H = canvas.clientHeight;
     const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
-    const pad = 1.875 * rem, innerW = W - pad * 2, innerH = H - pad * 2;
+    const pad = 0.875 * rem;
+    const leftMargin = 2.5 * rem;
+    const bottomMargin = 0.5 * rem;
 
     ctx.clearRect(0, 0, W, H);
+
+    // Double border
     ctx.strokeStyle = '#000';
     ctx.lineWidth = 1;
+    ctx.strokeRect(pad, pad, W - pad * 2, H - pad * 2);
 
-    // Axes
-    ctx.beginPath();
-    ctx.moveTo(pad, pad);
-    ctx.lineTo(pad, pad + innerH);
-    ctx.lineTo(pad + innerW, pad + innerH);
-    ctx.stroke();
+    const chartLeft = pad + leftMargin;
+    const chartRight = W - pad - pad;
+    const chartTop = pad + pad;
+    const chartBottom = H - pad - bottomMargin;
+    const chartW = chartRight - chartLeft;
+    const chartH = chartBottom - chartTop;
 
     // Y-axis labels
     ctx.fillStyle = '#000';
     ctx.font = '11px system-ui, sans-serif';
     ctx.textAlign = 'right';
-    ctx.fillText('100%', pad - 5, pad + 4);
-    ctx.fillText('50%', pad - 5, pad + innerH/2 + 4);
-    ctx.fillText('0%', pad - 5, pad + innerH + 4);
+    ctx.fillText('100%', chartLeft - 4, chartTop + 4);
+    ctx.fillText('50%', chartLeft - 4, chartTop + chartH/2 + 4);
+    ctx.fillText('0%', chartLeft - 4, chartBottom + 4);
 
     if(w1.history.length === 0) return;
 
     const n = w1.history.length;
-    const xScale = innerW / Math.max(n - 1, 1);
+    const xScale = chartW / Math.max(n - 1, 1);
 
-    function drawLine(history, color){
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      for(let i = 0; i < history.length; i++){
-        const x = pad + i * xScale;
-        const y = pad + innerH * (1 - history[i]);
-        if(i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      }
-      ctx.stroke();
-    }
-
-    // True probability lines (dashed)
-    ctx.setLineDash([4, 4]);
-    ctx.strokeStyle = '#66a';
+    // True probability lines (thin)
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1;
+    const y1 = chartBottom - 0.5177 * chartH;
+    const y2 = chartBottom - 0.4914 * chartH;
     ctx.beginPath();
-    const y1 = pad + innerH * (1 - 0.5177);
-    ctx.moveTo(pad, y1); ctx.lineTo(pad + innerW, y1);
+    ctx.moveTo(chartLeft, y1); ctx.lineTo(chartRight, y1);
+    ctx.moveTo(chartLeft, y2); ctx.lineTo(chartRight, y2);
     ctx.stroke();
 
-    ctx.strokeStyle = '#a66';
+    // Wager 1 line (solid, thick)
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 2;
     ctx.beginPath();
-    const y2 = pad + innerH * (1 - 0.4914);
-    ctx.moveTo(pad, y2); ctx.lineTo(pad + innerW, y2);
+    for(let i = 0; i < w1.history.length; i++){
+      const x = chartLeft + i * xScale;
+      const y = chartBottom - w1.history[i] * chartH;
+      if(i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Wager 2 line (dashed)
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    for(let i = 0; i < w2.history.length; i++){
+      const x = chartLeft + i * xScale;
+      const y = chartBottom - w2.history[i] * chartH;
+      if(i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
     ctx.stroke();
     ctx.setLineDash([]);
-
-    // Actual lines
-    drawLine(w1.history, '#2266cc');
-    drawLine(w2.history, '#cc4444');
   }
 
   function reset(){

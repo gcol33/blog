@@ -100,7 +100,7 @@ The postman covers every road with only $6$ units of extra distance.
       <rect x="14" y="14" width="672" height="392" fill="url(#grid)"></rect>
       <rect id="inner-frame" x="14" y="14" width="672" height="392" fill="none" stroke="#000" stroke-width="1"></rect>
 
-      <g id="edges" stroke="#bbb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <g id="edges" stroke="#999" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <line id="e-ab" />
         <line id="e-ac" />
         <line id="e-bd" />
@@ -140,8 +140,9 @@ The postman covers every road with only $6$ units of extra distance.
   transition: stroke 120ms ease, stroke-width 120ms ease, opacity 120ms ease;
 }
 #cpp-visual #edges line:hover{
-  stroke: #0a7;
-  opacity: 0.9;
+  stroke: #000;
+  stroke-width: 5;
+  opacity: 1;
 }
 #cpp-visual text{ user-select: none; }
 </style>
@@ -219,15 +220,15 @@ The postman covers every road with only $6$ units of extra distance.
     });
   })();
 
-  const accent='#0a7', base=42;
+  const accent='#000', base=42;
   function resetEdges(){
     document.querySelectorAll('#edges line').forEach(e=>{
-      e.setAttribute('stroke','#bbb'); e.setAttribute('stroke-width',3); e.setAttribute('opacity',1);
+      e.setAttribute('stroke','#999'); e.setAttribute('stroke-width',3); e.setAttribute('opacity',1);
     });
   }
   function mark(id){
     const e=document.getElementById(id);
-    e.setAttribute('stroke',accent); e.setAttribute('stroke-width',5); e.setAttribute('opacity',0.95);
+    e.setAttribute('stroke',accent); e.setAttribute('stroke-width',5); e.setAttribute('opacity',1);
     return +e.dataset.weight;
   }
   function update(){
