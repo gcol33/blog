@@ -18,7 +18,7 @@ This movement has a direction. The die doesn't care about parity—parity is som
 
 What if we reverse direction? Suppose I define a reward: \$1 if even, \$0 if odd. That function lives in parity-space. But to compute your expected winnings, you need to pull it back to die-space, where the probability lives.
 
-Two directions. Measures push forward. Functions pull back.
+These are the two directions of mathematical transport: measures push forward through a map, while functions pull back against it.
 
 The pattern extends far beyond dice—it's the grammar of how mathematics moves structure from one space to another.
 
@@ -373,6 +373,4 @@ In the twentieth century, category theory gave the pattern a name and a home. Fu
 
 In the twenty-first century, the same structure powers machine learning. Monte Carlo methods push simple randomness into complex simulations. Variational inference pulls expectations back through intractable models. Generative AI pushes latent noise into images and text.
 
-A single map gives rise to two operations. One moves mass forward. The other moves questions back. Integration holds them in balance.
-
-Roll a die. Ask a question. The answer depends on which direction you choose to travel.
+A single map gives rise to two operations—one moving mass forward, the other moving questions back—and the integral holds them in balance.

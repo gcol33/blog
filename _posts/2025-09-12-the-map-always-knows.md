@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The Map Always Knows… Or Does It?"
+title: "Edges, Vertices, and the Limits of Routing"
 date: 2025-09-12
 categories: algorithms networks
 ---

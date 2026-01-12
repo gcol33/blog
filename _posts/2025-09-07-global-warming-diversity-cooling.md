@@ -399,9 +399,7 @@ In the physical sense, global warming adds heat to the Earth system. Temperature
 
 But in the biological sense, the opposite happens. Ecosystems become simpler. Communities lose species. The number of possible ecological configurations shrinks. Shannon entropy—applied to species abundances—decreases.
 
-**Global warming causes diversity cooling.**
-
-The planet heats up. Life cools down.
+**Global warming causes diversity cooling.** The planet heats up while life, in the entropic sense, cools down.
 
 This is not a contradiction. Physical entropy and ecological entropy measure different things. But the parallel is instructive. Both measure possibilities. A loss of possibilities means a loss of structure, complexity, and resilience.
 

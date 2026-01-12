@@ -431,14 +431,14 @@ Each generation discovers that the last generation's definition was too narrow.
 
 ---
 
-## The Lock Will Always Talk
+## Why Leaks Persist
 
 Return to the beeping safe.
 
 The fix seems obvious: remove the beep. But the beep was not the problem. The problem was that the mechanism processed each digit separately, and that separation was detectable.
 
-Make the electronics silent and the timing still differs. Equalize the timing and the power draw still differs. Shield the power and the EM radiation still differs. Shield everything and the fact that you're standing in front of the safe still reveals something.
+Silence the electronics—timing still leaks. Equalize timing, and power consumption gives you away. Shield power, and electromagnetic radiation escapes. Even fully shielded, the fact that you're standing in front of the safe reveals something.
 
-Every physical process is a broadcast. Security requires ensuring that any broadcast conveys nothing useful—the broadcast itself cannot be stopped.
+Every physical process is a broadcast. Security requires ensuring that the broadcast conveys nothing useful. The broadcast itself cannot be stopped.
 
-This is hard. It requires understanding what information is: not what you intend to transmit, but what can be received.
+Understanding what information is—what can be received, regardless of what you intended to transmit—turns out to be the hard part.
