@@ -11,15 +11,13 @@ Can you draw this figure in one continuous stroke without lifting your pen, and 
 
 What looks like a children's puzzle is one of the oldest problems in graph theory. It's also the question facing every street sweeper, snowplow driver, and mail carrier: how do you cover every road at least once, with the fewest repeated stretches?
 
-The story begins in 1736, when Leonhard Euler tackled the bridges of Königsberg. The city was built across two islands connected by seven bridges. Residents wondered: could you stroll across each bridge exactly once and return home?
-
-Euler's answer reduced the problem to counting. The possibility depends only on the number of "odd" intersections—nodes with an odd number of edges. A connected graph has a trail using every edge exactly once if and only if the number of odd-degree nodes is $0$ or $2$. Counting degrees takes seconds.
+The city of Königsberg was built across two islands connected by seven bridges, and its residents had a puzzle: could you walk across each bridge exactly once and return home? In 1736, Leonhard Euler answered the question. Euler's answer reduced the problem to counting. The possibility depends only on the number of "odd" intersections—nodes with an odd number of edges. A connected graph has a trail using every edge exactly once if and only if the number of odd-degree nodes is $0$ or $2$. Counting degrees takes seconds.
 
 ---
 
 ## The Chinese Postman
 
-More than two centuries later, in 1962, Chinese mathematician Mei-Ko Kwan extended Euler's idea to practical routing.
+Euler's result was elegant but limited: it tells you whether a perfect route exists, not what to do when one doesn't. In 1962, Mei-Ko Kwan extended the idea to practical routing.
 
 He asked: what if a network has many odd intersections? Instead of giving up, you can "fix" the graph by pairing odd nodes and adding the cheapest extra links until every degree becomes even. The result is an Eulerian tour in the augmented graph—a walk covering every street exactly once, with repeats chosen as efficiently as possible.
 
@@ -308,7 +306,7 @@ Heuristics help on real maps. But the worst case remains enormous.
 
 ## One Stroke versus One Visit
 
-Two classic ways to walk a graph. One focuses on edges. The other on vertices.
+Two classic ways to walk a graph, and they differ enormously in difficulty.
 
 **Eulerian path**: use every *edge* exactly once. The rule is precise: a connected graph has such a path only when the number of odd-degree nodes is $0$ or $2$. This is the world of street sweepers and snowplows. If more intersections are odd, the Chinese Postman approach fixes it by pairing them with the cheapest extra links.
 
@@ -332,10 +330,10 @@ The importance of these ideas became obvious in the early days of ARPANET. In 19
 
 Not all communication is one-to-one. A video stream or software update may need to reach thousands of recipients. Sending packets separately would be wasteful, so networks build shared delivery structures.
 
-The problem shifts from finding the shortest path between two machines to finding the cheapest tree connecting many machines. This is the **Steiner Tree Problem**—and it's NP-hard. No fast exact solution exists for large networks, so engineers use heuristics that work well enough in practice.
+The problem shifts from finding the shortest path between two machines to finding the cheapest tree connecting many machines. This is the **Steiner Tree Problem**, and it's NP-hard. No fast exact solution exists for large networks, so engineers use heuristics that work well enough in practice.
 
 Another challenge: traffic that must visit a particular set of machines in sequence, forcing packets through firewalls or content filters. This begins to resemble Hamiltonian tours, where each required stop must be visited exactly once. These variants inherit the hardness of the Traveling Salesman Problem.
 
 At the level of everyday internet traffic, packets follow Euler-style edges with polynomial-time algorithms. At the level of distribution and control, networks face Hamiltonian-style vertex constraints, where NP-hardness takes over and heuristics become the only workable approach.
 
-Your navigation app finds the fastest route in milliseconds. Planning an optimal delivery sequence through twenty stops would take longer than the age of the universe.
+A navigation app finds the fastest route between two points in milliseconds because shortest-path algorithms run in polynomial time. Planning an optimal delivery sequence through twenty stops is a different problem entirely: $(n-1)!$ grows so fast that brute-force search becomes intractable around $n = 20$.

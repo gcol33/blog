@@ -59,7 +59,7 @@ The aggregate reverses the subgroup pattern because severity—which affects bot
 Drag patients between groups. Watch the aggregate rates shift.
 
 <div id="simpson-demo" style="max-width: 720px; margin: 0 auto;">
-  <svg id="simpson-svg" style="width:100%; height:340px; background:#fff; border:1px solid #000;"></svg>
+  <svg id="simpson-svg" style="width:100%; height:340px; background:#fff; border:1px solid #000;" class="simpson-svg"></svg>
 
   <div class="simpson-controls">
     <button id="simpson-reset">Reset</button>
@@ -122,6 +122,7 @@ Drag patients between groups. Watch the aggregate rates shift.
 }
 @media (max-width: 500px) {
   #simpson-demo .simpson-stats { grid-template-columns: 1fr; }
+  #simpson-demo .simpson-svg { height: 420px !important; }
 }
 
 #simpson-demo .simpson-stat-row {
@@ -178,7 +179,7 @@ Drag patients between groups. Watch the aggregate rates shift.
     const drugX = pad + pad;
     const ctrlX = pad + innerW / 2 + pad / 2;
 
-    const fontSize = Math.min(14, innerW * 0.025);
+    const fontSize = Math.max(11, Math.min(14, innerW * 0.035));
     const titleY = pad + pad + fontSize;
 
     html += `<text x="${drugX + colW/2}" y="${titleY}" text-anchor="middle" font-size="${fontSize + 2}" font-weight="bold">Drug Group</text>`;
@@ -312,13 +313,19 @@ In the drug example, severity determines both which treatment patients receive (
 
 Graphically:
 
-```
-Severity ──────► Treatment
-    │                │
-    │                │
-    ▼                ▼
-         Recovery
-```
+<svg viewBox="0 0 340 160" style="display:block; max-width:340px; margin:1.5em auto;" role="img" aria-label="Causal diagram: Severity causes both Treatment and Recovery; Treatment causes Recovery.">
+  <defs>
+    <marker id="dag-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#000"/>
+    </marker>
+  </defs>
+  <text x="170" y="24" text-anchor="middle" font-size="15" font-family="inherit" font-weight="600">Severity</text>
+  <text x="50" y="144" text-anchor="middle" font-size="15" font-family="inherit" font-weight="600">Treatment</text>
+  <text x="290" y="144" text-anchor="middle" font-size="15" font-family="inherit" font-weight="600">Recovery</text>
+  <line x1="145" y1="32" x2="65" y2="120" stroke="#000" stroke-width="1.5" marker-end="url(#dag-arrow)"/>
+  <line x1="195" y1="32" x2="275" y2="120" stroke="#000" stroke-width="1.5" marker-end="url(#dag-arrow)"/>
+  <line x1="90" y1="140" x2="248" y2="140" stroke="#000" stroke-width="1.5" marker-end="url(#dag-arrow)"/>
+</svg>
 
 Severity affects treatment assignment. Severity affects recovery. If you ignore severity, you conflate its effect with the treatment's effect.
 
@@ -344,7 +351,7 @@ The Berkeley case is instructive. Should we pool across departments or not? It d
 
 The paradox carries Edward Simpson's name from his 1951 paper, but the phenomenon was known earlier.
 
-In 1903, Udny Yule noted that correlations could reverse when populations were combined. Karl Pearson described similar reversals around the same time. Some call it the Yule-Simpson effect.
+Udny Yule noted in 1903 that correlations could reverse when populations were combined, and Karl Pearson described similar reversals around the same time. Some call it the Yule-Simpson effect.
 
 The name "paradox" overstates the case. Once you understand confounding, the reversal is arithmetically inevitable under certain conditions. The surprise comes from expecting aggregates to preserve subgroup relationships—an expectation that probability doesn't guarantee.
 
@@ -352,8 +359,4 @@ The name "paradox" overstates the case. Once you understand confounding, the rev
 
 ## Aggregation and Interpretation
 
-Averages are summaries, and summaries discard information. When the discarded information matters, the summary misleads.
-
-Simpson's Paradox is a reminder that data doesn't interpret itself. The same numbers support opposite conclusions depending on which comparisons you make. Choosing the right comparison requires understanding the causal structure—what causes what, and what you're trying to learn.
-
-A drug can work for everyone and help no one, if "everyone" hides the populations where it's tested.
+Averages are summaries, and summaries discard information. When the discarded information matters, the summary misleads. The same numbers support opposite conclusions depending on which comparisons you make, and choosing the right comparison requires understanding the causal structure: what causes what, and what you're trying to learn.

@@ -65,7 +65,7 @@ $$
 
 This reveals why variance matters. If gaps never vary ($\mathrm{Var}(S) = 0$), the mean wait is $T/2$. As variability increases, so does the wait. For exponential gaps with $\mathrm{Var}(S) = T^2$, the mean wait reaches $T$.
 
-Variance costs passengers time.
+The more variable the schedule, the longer the average wait.
 
 ---
 
@@ -120,7 +120,7 @@ The same effect appears wherever people sample processes by being inside them.
 
 **Server response times.** A website responds in milliseconds most of the time, but occasionally takes 30 seconds. The average response time might be 2 seconds. But most users experience slow periods, because slow periods last longer.
 
-In every case, individuals are more likely to land in bigger or longer groups. The experienced average exceeds the scheduled average.
+The experienced average exceeds the scheduled average whenever individuals are more likely to land in bigger or longer groups.
 
 ---
 

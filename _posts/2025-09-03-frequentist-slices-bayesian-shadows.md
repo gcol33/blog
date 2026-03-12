@@ -118,4 +118,4 @@ Seen through measure theory, both traditions construct pushforwards. The differe
 
 Frequentists push a single slice of parameter space—estimates held fixed—into the outcome space. Bayesians push the entire posterior, letting its uncertainty propagate into predictions.
 
-The regression line you plot, whether adorned with confidence or credible bands, traces the image of this pushforward. The question is whether you sliced first, or let the shadow fall.
+The regression line you plot, whether adorned with confidence or credible bands, traces the image of this pushforward. The difference between the two traditions reduces to what gets pushed: a point estimate, or the full posterior.

@@ -10,7 +10,7 @@ toc: true
 
 You receive an email from someone you've never heard of. The subject line: "The market will close up tomorrow."
 
-You ignore it. But the next day, you check—and it did close up.
+You ignore it. But the next day, you check, and it did close up.
 
 A week later, another email: "Tech stocks will drop on Friday." You're skeptical. Friday comes. Tech stocks drop.
 
@@ -280,8 +280,6 @@ Nearly a thousand people witness a perfect streak. Not because the prophet knows
 
 ## The Scam in the Wild
 
-This is not hypothetical.
-
 In the 1990s and 2000s, "stock-picking" newsletters ran exactly this scheme. Some were prosecuted; many were not. The scheme works because victims never see the full picture. They see only their own experience of ten correct predictions.
 
 Variations appear everywhere:
@@ -290,15 +288,13 @@ Variations appear everywhere:
 
 **Sports tipsters.** Betting services send different picks to different subscribers. After a few weeks, a subset has received only winners. Those are the ones who pay for the premium tier.
 
-**Hedge fund incubation.** A firm launches twenty funds with different strategies. After five years, most have failed. The survivors are marketed based on their "track record," even though selection—not skill—explains the performance.
+**Hedge fund incubation.** A firm launches twenty funds with different strategies. After five years, most have failed. The survivors are marketed based on their "track record," even though selection, not skill, explains the performance.
 
-The prophet filter is survivorship bias weaponized.
+The mechanism is survivorship bias, applied deliberately.
 
 ---
 
 ## Aristotle Saw It First
-
-The insight is ancient.
 
 In *On Divination in Sleep*, Aristotle observed that people who dream of disasters and later learn of matching events believe they foresaw them. They forget the thousands of dreams that matched nothing.
 
@@ -356,10 +352,8 @@ The second question has an easy answer: near certainty.
 
 ## The Meaning of Evidence
 
-The prophet filter reveals something uncomfortable about evidence itself.
-
-A track record of ten correct predictions is genuinely impressive—if you know you were the only recipient. But if a million people received the first email, your experience proves nothing.
+A track record of ten correct predictions is genuinely impressive if you know you were the only recipient. But if a million people received the first email, your experience proves nothing.
 
 The evidence that would update your beliefs is not "I saw ten correct predictions" but "Ten correct predictions, and I know no one else was receiving different predictions."
 
-The scam works because you cannot see the counterfactual. The failed recipients don't complain—they simply stopped receiving emails. From your vantage point, the prophet has always been right.
+The scam works because you cannot see the counterfactual. The failed recipients don't complain; they simply stopped receiving emails. From your vantage point, the prophet has always been right, and that is exactly the problem with evaluating evidence when you don't know the selection process that produced it.

@@ -16,7 +16,7 @@ Something just happened that's easy to miss. The randomness *moved*. It started 
 
 This movement has a direction. The die doesn't care about parity—parity is something we impose *after* the roll. But once we ask the question, probability flows forward through our question, landing in a simpler space.
 
-What if we reverse direction? Suppose I define a reward: \$1 if even, \$0 if odd. That function lives in parity-space. But to compute your expected winnings, you need to pull it back to die-space, where the probability lives.
+What if we reverse direction? Suppose I define a reward: &#36;1 if even, &#36;0 if odd. That function lives in parity-space. But to compute your expected winnings, you need to pull it back to die-space, where the probability lives.
 
 These are the two directions of mathematical transport: measures push forward through a map, while functions pull back against it.
 
@@ -27,12 +27,11 @@ The pattern extends far beyond dice—it's the grammar of how mathematics moves 
 ## See It Happen
 
 <div id="transport-demo" style="max-width: 720px; margin: 1.5em auto;">
-  <svg id="transport-svg" viewBox="0 0 700 320" style="width: 100%; height: auto; border: 1px solid #000; background: #fff;">
+  <svg id="transport-svg" viewBox="0 0 700 190" style="width: 100%; height: auto; border: 1px solid #000; background: #fff;">
     <!-- Left space: Die faces -->
     <g id="die-space">
-      <text x="120" y="30" text-anchor="middle" font-size="16" font-weight="bold">Die Faces (Ω)</text>
+      <text x="120" y="30" text-anchor="middle" font-size="16" font-weight="bold">Die Faces (&Omega;)</text>
       <g id="die-faces" transform="translate(60, 50)">
-        <!-- Six circles for faces -->
         <circle cx="0" cy="0" r="22" fill="#fff" stroke="#000" stroke-width="2"/>
         <text x="0" y="6" text-anchor="middle" font-size="16">1</text>
 
@@ -73,37 +72,54 @@ The pattern extends far beyond dice—it's the grammar of how mathematics moves 
         <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
           <polygon points="0 0, 10 3.5, 0 7" fill="#000"/>
         </marker>
-        <marker id="arrowhead-back" markerWidth="10" markerHeight="7" refX="1" refY="3.5" orient="auto">
-          <polygon points="10 0, 0 3.5, 10 7" fill="#000"/>
-        </marker>
       </defs>
       <line x1="250" y1="90" x2="450" y2="90" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)" id="forward-arrow"/>
-      <text x="350" y="75" text-anchor="middle" font-size="14" id="arrow-label">f: face → parity</text>
+      <text x="350" y="75" text-anchor="middle" font-size="14" id="arrow-label">f: face &rarr; parity</text>
     </g>
-
-    <!-- Controls -->
-    <g transform="translate(180, 210)">
-      <rect x="0" y="0" width="150" height="36" rx="4" fill="#fff" stroke="#000" stroke-width="1" style="cursor:pointer" id="btn-push"/>
-      <text x="75" y="24" text-anchor="middle" font-size="14" style="pointer-events:none">Push measure →</text>
-
-      <rect x="170" y="0" width="150" height="36" rx="4" fill="#fff" stroke="#000" stroke-width="1" style="cursor:pointer" id="btn-pull"/>
-      <text x="245" y="24" text-anchor="middle" font-size="14" style="pointer-events:none">← Pull function</text>
-    </g>
-
-    <!-- Explanation box -->
-    <text x="350" y="280" text-anchor="middle" font-size="14" id="explanation" fill="#000">Click a button to see how structure moves.</text>
-    <text x="350" y="300" text-anchor="middle" font-size="13" id="explanation2" fill="#000"></text>
   </svg>
+
+  <div class="transport-controls">
+    <button id="btn-push">Push measure &rarr;</button>
+    <button id="btn-pull">&larr; Pull function</button>
+  </div>
+
+  <div id="transport-narrative" class="transport-narrative">Click a button to see how structure moves.</div>
 </div>
 
 {% raw %}
+<style>
+#transport-demo * { box-sizing: border-box; }
+
+#transport-demo .transport-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+#transport-demo button {
+  padding: 0.5em 1em;
+  font-size: 0.95em;
+  cursor: pointer;
+  border: 1px solid #000;
+  background: #fff;
+}
+#transport-demo button:hover {
+  background: #eee;
+}
+
+#transport-demo .transport-narrative {
+  border-top: 1px solid #000;
+  padding: 10px 0;
+  font-size: 0.95em;
+}
+</style>
+
 <script>
 (function(){
-  const svg = document.getElementById('transport-svg');
   const btnPush = document.getElementById('btn-push');
   const btnPull = document.getElementById('btn-pull');
-  const explanation = document.getElementById('explanation');
-  const explanation2 = document.getElementById('explanation2');
+  const narrative = document.getElementById('transport-narrative');
 
   const dieFaces = document.querySelectorAll('#die-faces circle');
   const parityCircles = document.querySelectorAll('#parity-space circle');
@@ -115,36 +131,24 @@ The pattern extends far beyond dice—it's the grammar of how mathematics moves 
 
   btnPush.addEventListener('click', function(){
     reset();
-    // Highlight odd faces (1,3,5) with diagonal lines, even faces (2,4,6) solid
     [0, 2, 4].forEach(i => dieFaces[i].setAttribute('fill', '#fff'));
     [1, 3, 5].forEach(i => dieFaces[i].setAttribute('fill', '#ccc'));
 
-    // Highlight parity space
-    parityCircles[0].setAttribute('fill', '#fff'); // odd
-    parityCircles[1].setAttribute('fill', '#ccc'); // even
+    parityCircles[0].setAttribute('fill', '#fff');
+    parityCircles[1].setAttribute('fill', '#ccc');
 
-    explanation.textContent = 'Pushforward: The measure moves forward through f.';
-    explanation2.textContent = 'P({odd}) = P({1,3,5}) = 1/2, P({even}) = P({2,4,6}) = 1/2';
+    narrative.innerHTML = '<strong>Pushforward:</strong> The measure moves forward through f.<br>P({odd}) = P({1,3,5}) = 1/2, P({even}) = P({2,4,6}) = 1/2';
   });
 
   btnPull.addEventListener('click', function(){
     reset();
-    // Define g(even)=1, g(odd)=0, show it pulled back
-    parityCircles[0].setAttribute('fill', '#fff'); // odd = 0
-    parityCircles[1].setAttribute('fill', '#ccc'); // even = 1
+    parityCircles[0].setAttribute('fill', '#fff');
+    parityCircles[1].setAttribute('fill', '#ccc');
 
-    // Pull back to die space
-    [0, 2, 4].forEach(i => dieFaces[i].setAttribute('fill', '#fff')); // odd faces get 0
-    [1, 3, 5].forEach(i => dieFaces[i].setAttribute('fill', '#ccc')); // even faces get 1
+    [0, 2, 4].forEach(i => dieFaces[i].setAttribute('fill', '#fff'));
+    [1, 3, 5].forEach(i => dieFaces[i].setAttribute('fill', '#ccc'));
 
-    explanation.textContent = 'Pullback: The function g moves backward through f.';
-    explanation2.textContent = 'g(even)=1, g(odd)=0 pulls back to the indicator of {2,4,6}';
-  });
-
-  // Hover effects
-  [btnPush, btnPull].forEach(btn => {
-    btn.addEventListener('mouseenter', () => btn.setAttribute('fill', '#eee'));
-    btn.addEventListener('mouseleave', () => btn.setAttribute('fill', '#fff'));
+    narrative.innerHTML = '<strong>Pullback:</strong> The function g moves backward through f.<br>g(even)=1, g(odd)=0 pulls back to the indicator of {2,4,6}';
   });
 })();
 </script>
@@ -156,7 +160,7 @@ The pattern extends far beyond dice—it's the grammar of how mathematics moves 
 
 This asymmetry puzzled mathematicians long before probability theory existed.
 
-In the nineteenth century, Bernhard Riemann studied how geometric objects behave when you stretch or bend a surface. He noticed something curious: when you map one surface to another, certain quantities move *with* the map, while others move *against* it.
+The question goes back to the study of curved surfaces. When you stretch or bend a surface and map it onto another, certain quantities move *with* the map, while others move *against* it. Bernhard Riemann spent years working out the details.
 
 **Tangent vectors push forward.** If you have a direction at a point and you stretch the surface, the direction stretches along with it. Vectors ride the map.
 
@@ -164,7 +168,7 @@ In the nineteenth century, Bernhard Riemann studied how geometric objects behave
 
 This duality appeared again in physics (contravariant vs. covariant tensors), in algebra (homomorphisms vs. cohomomorphisms), and eventually in probability.
 
-The pattern is universal: whenever you have a map between spaces, two operations arise. One follows the map. One opposes it.
+The pattern is universal: whenever you have a map between spaces, two operations arise, one following the map and one opposing it.
 
 ---
 
@@ -239,9 +243,7 @@ A **functor** assigns objects to objects and morphisms to morphisms, respecting 
 - **Covariant** functors preserve direction: $F(g \circ f) = F(g) \circ F(f)$
 - **Contravariant** functors reverse direction: $F(g \circ f) = F(f) \circ F(g)$
 
-In probability:
-- Sending each space $X$ to its measures, and each map $f$ to $f_*$, is a covariant functor.
-- Sending each space $Y$ to its observables, and each map $f$ to $f^*$, is a contravariant functor.
+In probability, sending each space $X$ to its measures and each map $f$ to $f_*$ gives a covariant functor; sending each space to its observables and each map to $f^*$ gives a contravariant one.
 
 The integral formula is the adjunction that ties them together.
 
@@ -367,10 +369,6 @@ The Jacobian is the trace of the pushforward—Riemann's insight, now running on
 
 ## The Grammar of Structure
 
-In the nineteenth century, Gauss and Riemann studied how curvature behaves under maps between surfaces. Pullbacks carried differential forms; pushforwards carried tangent vectors. The change-of-variables formula, with its Jacobian determinant, was the integral adjunction in differential form.
+Gauss and Riemann studied how curvature behaves under maps between surfaces: pullbacks carrying differential forms, pushforwards carrying tangent vectors, the Jacobian determinant holding them together. Category theory later gave this pattern a formal home with functors and adjunctions.
 
-In the twentieth century, category theory gave the pattern a name and a home. Functors, natural transformations, adjunctions—vocabulary that exists precisely to capture what pushforwards and pullbacks do.
-
-In the twenty-first century, the same structure powers machine learning. Monte Carlo methods push simple randomness into complex simulations. Variational inference pulls expectations back through intractable models. Generative AI pushes latent noise into images and text.
-
-A single map gives rise to two operations—one moving mass forward, the other moving questions back—and the integral holds them in balance.
+The same structure now powers machine learning. Monte Carlo methods push simple randomness into complex simulations. Variational inference pulls expectations back through intractable models. Generative AI pushes latent noise into images and text. In each case, a single map gives rise to two operations, one moving mass forward, the other moving questions back, and the integral formula is the bridge between them.

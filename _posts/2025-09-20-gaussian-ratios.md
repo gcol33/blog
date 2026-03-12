@@ -15,7 +15,7 @@ Now average the results.
 
 Does the number settle down?
 
-No matter how many times you repeat the experiment, the mean refuses to converge. And hidden inside that chaos is something stranger still, surfacing in a place that seems to have nothing to do with circles.
+No matter how many times you repeat the experiment, the mean refuses to converge. And hidden inside that chaos is something stranger still.
 
 Try it yourself: collect the slopes, count how many land in a narrow strip around horizontal, then scale by the strip's width. A circle's number quietly emerges.
 
@@ -293,7 +293,7 @@ To find out, we need to go back to Gauss, to Cauchy, and to a curve first drawn 
 
 Gauss believed in certainty through numbers. His bell curve promised that measurement errors were well-behaved: they came from many small independent causes, variance was finite, and averages converged to the truth. The law of large numbers guaranteed stability. The central limit theorem explained the bell shape. With more data, you approached certainty.
 
-Cauchy broke that faith.
+Cauchy challenged that entire framework.
 
 In 1853, before the Académie des Sciences in Paris, he presented a rival law of errors in which variance was infinite and averages refused to settle. Joseph Bienaymé rose to defend Gauss, warning that least squares collapsed without finite variance. Cauchy insisted that mathematics itself admitted such laws, and that in their presence the Gaussian guarantees failed.
 
@@ -345,7 +345,7 @@ $$
 
 Truncating at $R$ gives $\frac{2}{\pi}(R-\arctan R)$, which grows without bound.
 
-Cauchy's conclusion was devastating. Here was a legitimate law of errors with no mean and no variance. Averages wandered instead of converging. The method of least squares lost its justification. The central limit theorem did not apply. The Gaussian promise was not universal.
+Cauchy's conclusion was devastating. Here was a legitimate law of errors with no mean and no variance. Averages wandered instead of converging. The method of least squares lost its justification. The central limit theorem did not apply. Gauss's guarantees did not apply to every law of errors.
 
 Only later did mathematicians discover a simpler route to the same law: take two independent Gaussians, divide one by the other, and Cauchy's distribution reappears.
 
@@ -389,7 +389,7 @@ $$
 f_Z(z) = \frac{1}{\pi}\cdot \frac{1}{1+z^2}
 $$
 
-The heavy tails have a simple explanation. As $\theta$ approaches $\pm\tfrac{\pi}{2}$, the slope shoots to infinity. Vertical directions are not rare—they have the same chance as any other angle—so extreme ratios appear often. Steep slopes keep intruding. That's why averages fail to settle.
+The heavy tails have a simple explanation. As $\theta$ approaches $\pm\tfrac{\pi}{2}$, the slope shoots to infinity. Vertical directions are not rare (they have the same chance as any other angle), so extreme ratios appear often. Steep slopes keep intruding. That's why averages fail to settle.
 
 ---
 
@@ -455,4 +455,4 @@ The Cauchy law breaks every Gaussian intuition:
 - **Stable**: sums of Cauchy variables stay Cauchy, but without narrowing
 - **CLT fails**: with infinite variance, the central limit theorem gives no refuge; more samples bring no certainty
 
-In 1908, William Sealy Gosset introduced the $t$-distribution while working at Guinness. With one degree of freedom, the $t$ reduces exactly to the Cauchy. Among all $t$-distributions, it is the simplest—and the only one without an average.
+Half a century later, a statistician at the Guinness brewery needed a distribution for small samples. William Sealy Gosset published it in 1908 under the pseudonym "Student." His $t$-distribution with one degree of freedom reduces exactly to the Cauchy, the simplest member of the family and the only one without an average.

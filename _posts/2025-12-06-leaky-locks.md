@@ -16,7 +16,7 @@ But Bell Labs engineer A.B. Clark noticed something troubling. The encryption sc
 
 Clark realized that rhythm alone might be enough to reconstruct words. He was right. The phenomenon would later be called "residual intelligibility."
 
-SIGSALY was redesigned to mask timing patterns. The fix added more equipment. More weight. More complexity. All to hide something no one had thought to protect.
+SIGSALY was redesigned to mask timing patterns. The fix added more equipment. More weight. More complexity. All to hide the rhythm of Churchill's speech.
 
 ---
 
@@ -168,7 +168,7 @@ The longer the secret, the more catastrophic the leak.
     const pad = 0.875 * rem;
     const innerW = W - pad * 2;
     const innerH = H - pad * 2;
-    const labelMargin = innerW * 0.12;
+    const labelMargin = Math.max(3.5 * rem, innerW * 0.12);
     const expLog = Math.log10(exp);
     const linLog = Math.log10(lin);
     const maxLog = Math.ceil(expLog);
@@ -220,7 +220,7 @@ The longer the secret, the more catastrophic the leak.
 
 For decades, cryptographers believed they had learned the lesson. Don't leak partial information. Make verification all-or-nothing.
 
-In 1996, a twenty-three-year-old cryptographer named Paul Kocher published a paper that redrew the boundaries of information security. He showed that even when software reveals nothing explicitly, the *time it takes to compute* is itself a channel.
+For decades, cryptographers assumed side channels meant things like beeps and blinking lights. Then Paul Kocher, twenty-three years old and fresh from his Stanford thesis, published a 1996 paper showing that even when software reveals nothing explicitly, the *time it takes to compute* is itself a channel.
 
 Consider password verification:
 
@@ -232,9 +232,7 @@ def check(input, stored):
     return True
 ```
 
-This code returns as soon as it finds a mismatch. A wrong first character fails in one microsecond. A wrong last character takes eight microseconds.
-
-The timing *is* the beep.
+This code returns as soon as it finds a mismatch. A wrong first character fails in one microsecond. A wrong last character takes eight microseconds, and that timing difference plays the same role as the beeping safe.
 
 Kocher demonstrated the attack against RSA implementations. By measuring how long decryption took for different inputs, he could extract private keys bit by bit. The attack worked remotely. It worked through noise. It worked against code that had been audited for security and revealed nothing through any official channel.
 
@@ -258,7 +256,7 @@ Meltdown exploited the fact that Intel chips performed speculative memory access
 
 Spectre was subtler. It trained the branch predictor to mispredict, then used that misprediction to speculatively access memory through the victim's own code. The victim's program would briefly touch memory it shouldn't, leaving cache traces the attacker could read.
 
-Both attacks crossed boundaries that were supposed to be inviolable: user to kernel, guest to host, process to process. The CPU's architecture guaranteed isolation. The CPU's microarchitecture leaked it away.
+Both attacks crossed boundaries that were supposed to be inviolable: user to kernel, guest to host, process to process. The CPU's architecture guaranteed isolation, but its microarchitecture leaked it through timing, cache state, and speculative execution.
 
 ---
 
@@ -268,15 +266,15 @@ Shannon defined information as reduction in uncertainty. A message conveys infor
 
 By this definition, *anything* that reduces uncertainty is information, whether or not it was intended to communicate.
 
-The safe's beep reduces uncertainty about which digit is correct. The computation's timing reduces uncertainty about which branch was taken. The chip's power draw reduces uncertainty about which operations occurred. The radiation from a cable reduces uncertainty about what it's carrying.
+The safe's beep narrows down which digit is correct. Computation timing reveals which code branch was taken, and a chip's power draw tells you which operations occurred. Even the radiation from a cable carries information about what flows through it.
 
 ---
 
 ## The Shape of Everything
 
-**Netflix and traffic analysis.** Your video stream is encrypted. An eavesdropper sees only noise. But the *pattern* of the traffic—packet sizes, timing, bitrate changes—correlates with what you're watching. Researchers have identified specific movies from encrypted Netflix streams with over 99% accuracy.
+**Netflix and traffic analysis.** Your video stream is encrypted. An eavesdropper sees only noise. But the *pattern* of the traffic (packet sizes, timing, bitrate changes) correlates with what you're watching. Researchers have identified specific movies from encrypted Netflix streams with over 99% accuracy.
 
-**Keystroke dynamics.** The rhythm of your typing—how long you hold each key, the gaps between keystrokes—identifies you as reliably as a fingerprint. This works through encryption, through Tor, through any anonymizing layer.
+**Keystroke dynamics.** The rhythm of your typing (how long you hold each key, the gaps between keystrokes) identifies you as reliably as a fingerprint. This works through encryption, through Tor, through any anonymizing layer.
 
 **Website fingerprinting.** HTTPS hides which page you're viewing but not the pattern of requests: how many resources, what sizes, what timing. The pattern is enough to identify the site with high accuracy.
 
@@ -393,11 +391,11 @@ Different people produce different patterns. The text vanishes into encryption. 
 
 The natural response: fix the leaks. Cryptographers have tried.
 
-**Constant-time code.** Compare all characters, even after finding a mismatch. Make every branch take the same time. Never let computation depend on secret data.
+**Constant-time code.** Compare all characters, even after finding a mismatch. Make every branch take the same time. Never let computation depend on secret data. This is surprisingly hard to get right; optimizing compilers routinely reintroduce the very branches that constant-time code tries to eliminate.
 
-**Blinding.** Add random noise to inputs. The answer is the same, but intermediate steps are randomized, masking power and timing patterns.
+**Blinding.** Add random noise to inputs before computing. The answer is the same, but intermediate steps are randomized, masking power and timing patterns.
 
-**Shielding.** Faraday cages block electromagnetic radiation. Expensive. Imperfect. A well-funded adversary can still get through.
+**Shielding.** Faraday cages block electromagnetic radiation. The NSA calls their standard TEMPEST and has classified its specifications since the 1960s. Even with shielding, a well-funded adversary can still get through.
 
 Each fix addresses one channel. Physics guarantees there are always more.
 
@@ -409,36 +407,28 @@ For the NSA, the threshold is low. For a random thief, high. But the threshold k
 
 ## The Lesson
 
-Here is what the twentieth century taught us:
-
-**Information is whatever can be inferred from what you do—regardless of what you intended to reveal.**
+The twentieth century forced a definition: **information is whatever can be inferred from what you do, regardless of what you intended to reveal.**
 
 The boundary between "the secret" and "information about the secret" is not fixed. It moves as our ability to measure improves. What leaked undetectably in 1980 leaks detectably in 2000. What seems safe today will leak tomorrow.
 
 Churchill's engineers thought they were protecting speech. They were forced to protect rhythm. Cryptographers thought they were protecting keys. They were forced to protect timing, power, radiation, cache access, and speculative execution.
 
-Each generation discovers that the last generation's definition was too narrow.
+What counts as "information about the secret" keeps expanding as measurement tools improve.
 
 ---
 
 ## Privacy, Anonymity, AI
 
-**Privacy.** Every digital action has a shape: timing, size, frequency. Encryption hides content but not shape. Metadata is data.
+Every digital action has a shape: timing, size, frequency. Encryption hides content but not shape, which is why metadata analysis has become as valuable to intelligence agencies as content interception.
 
-**Anonymity.** Behavioral patterns are signatures. How you type, how you move your mouse, how you browse—these persist across contexts. True anonymity requires suppressing not just identity but behavior, and behavior is hard to fake.
-
-**AI.** Machine learning excels at finding patterns humans miss. The leaks that were too subtle to exploit manually become tractable with enough data and compute. The attacker's threshold keeps dropping.
+Behavioral patterns compound the problem. How you type, how you move your mouse, how you browse; these persist across contexts and serve as fingerprints. True anonymity requires suppressing not just identity but behavior, and behavior is hard to fake. Machine learning has made this worse: patterns too subtle for a human analyst to spot become tractable with enough data and compute. The attacker's threshold keeps dropping.
 
 ---
 
 ## Why Leaks Persist
 
-Return to the beeping safe.
+The beeping safe from the 1980s had an obvious fix: remove the beep. But the beep was not the problem. The problem was that the mechanism processed each digit separately, and that separation was detectable.
 
-The fix seems obvious: remove the beep. But the beep was not the problem. The problem was that the mechanism processed each digit separately, and that separation was detectable.
+Silence the electronics and timing still leaks. Equalize timing, and power consumption gives you away. Shield power, and electromagnetic radiation escapes. Even fully shielded, the fact that you're standing in front of the safe reveals something.
 
-Silence the electronics—timing still leaks. Equalize timing, and power consumption gives you away. Shield power, and electromagnetic radiation escapes. Even fully shielded, the fact that you're standing in front of the safe reveals something.
-
-Every physical process is a broadcast. Security requires ensuring that the broadcast conveys nothing useful. The broadcast itself cannot be stopped.
-
-Understanding what information is—what can be received, regardless of what you intended to transmit—turns out to be the hard part.
+Every physical process is a broadcast, and security requires ensuring that the broadcast conveys nothing useful. You cannot stop the broadcast; you can only try to make it uninformative, and that has turned out to be harder than any cryptographic problem.
