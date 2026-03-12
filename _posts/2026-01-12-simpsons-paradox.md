@@ -8,7 +8,7 @@ toc: true
 
 ## A Drug Trial Gone Wrong
 
-A hospital tests a new drug. Among patients who received it, 78% recovered. Among those who didn't, 83% recovered. The drug appears harmful.
+A hospital tests a new drug. Among patients who received it, 78% recovered. Among those who didn't, 82.6% recovered. The drug appears harmful.
 
 But look at the breakdown by severity:
 
@@ -34,7 +34,7 @@ The numbers aren't a trick of rounding. They follow from how the patients were d
 |--|------|---------|
 | Mild | 81 of 87 (93%) | 234 of 270 (87%) |
 | Severe | 192 of 263 (73%) | 55 of 80 (69%) |
-| **Total** | **273 of 350 (78%)** | **289 of 350 (83%)** |
+| **Total** | **273 of 350 (78%)** | **289 of 350 (82.6%)** |
 
 The drug wins in both subgroups but loses overall.
 

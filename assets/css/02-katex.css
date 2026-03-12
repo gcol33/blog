@@ -1182,7 +1182,7 @@ body {
 /* Display equations: keep them intact, scroll if too wide */
 .katex-display {
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: visible;
   -webkit-overflow-scrolling: touch;
 }
 
