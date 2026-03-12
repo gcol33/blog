@@ -4,6 +4,7 @@ title: "The Dark Forest"
 date: 2026-03-12
 categories: probability paradox
 toc: true
+excerpt: "In 1950, a physicist asked why the galaxy is silent. The answer may be game theory: when the cost of contact is extinction and every encounter is one-shot, silence is the only rational strategy."
 ---
 
 ## Where Is Everybody?

@@ -4,6 +4,7 @@ title: "De Méré's Dice Paradox"
 date: 2025-09-06
 categories: probability paradox history
 toc: true
+excerpt: "In 1654, a French nobleman had a problem. Two gambling wagers that seemed identical by his reasoning behaved differently at the tables. One made money over time. The other slowly drained it."
 ---
 
 ## When $1+1$ Is Not $2$
