@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The Quiet Sky"
+title: "The Dark Forest"
 date: 2026-03-12
 categories: probability paradox
 toc: true
