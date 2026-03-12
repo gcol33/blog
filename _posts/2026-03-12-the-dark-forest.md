@@ -9,7 +9,7 @@ excerpt: "In 1950, a physicist asked why the galaxy is silent. The answer may be
 
 ## Where Is Everybody?
 
-In the summer of 1950, four physicists at Los Alamos walked to lunch. The conversation drifted to a recent New Yorker cartoon about flying saucers, and someone joked about aliens stealing trash cans. Then, mid-meal, one of them asked a question that silenced the table: "Where is everybody?"
+In the summer of 1950, four physicists at Los Alamos walked to lunch. The conversation drifted to a recent New Yorker cartoon about flying saucers, and someone joked about aliens stealing trash cans. Mid-meal, one of them turned serious: "Where is everybody?"
 
 It was a simple calculation. The Milky Way contains roughly $10^{11}$ stars. A conservative fraction have planets. Life has had billions of years to arise and spread. Even if interstellar travel is slow, a single civilization expanding at a fraction of the speed of light would colonize the entire galaxy in a few million years, a blink on cosmic timescales.
 
