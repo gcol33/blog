@@ -1,168 +1,170 @@
 ---
 layout: post
-title: "Removing the Steering Wheel"
+title: "The Quiet Sky"
 date: 2026-03-12
-categories: algorithms paradox
+categories: probability paradox
 toc: true
 ---
 
-## Two Cars, One Road
+## Where Is Everybody?
 
-Two cars face each other on a narrow road. Both drivers accelerate. The first to swerve loses face; the one who holds steady wins. If neither swerves, they crash.
+In the summer of 1950, four physicists at Los Alamos walked to lunch. The conversation drifted to a recent New Yorker cartoon about flying saucers, and someone joked about aliens stealing trash cans. Then, mid-meal, one of them asked a question that silenced the table: "Where is everybody?"
 
-Game theorists call this Chicken. Each player chooses simultaneously: swerve or hold steady. The payoffs depend on what both players do.
+It was a simple calculation. The Milky Way contains roughly $10^{11}$ stars. A conservative fraction have planets. Life has had billions of years to arise and spread. Even if interstellar travel is slow, a single civilization expanding at a fraction of the speed of light would colonize the entire galaxy in a few million years, a blink on cosmic timescales.
 
-Assign numbers. Holding steady while the other swerves pays $+1$. Swerving while the other holds steady pays $-1$. Both swerving is a draw: $0$ each. Both holding steady means a crash, costing $-C$ for some large number $C$.
-
-$$
-\begin{array}{c|cc}
- & \text{Swerve} & \text{Straight} \\
-\hline
-\text{Swerve} & 0,\; 0 & -1,\; +1 \\
-\text{Straight} & +1,\; -1 & -C,\; -C
-\end{array}
-$$
-
-Two outcomes are stable. If you know your opponent will hold steady, you should swerve (getting $-1$ beats $-C$). If you know your opponent will swerve, you should hold steady (getting $+1$ beats $0$). These are the game's two pure Nash equilibria.
-
-The problem is symmetry. Nothing in the rules says who should swerve. Each player prefers the equilibrium where the *other* backs down, and there is no mechanism to coordinate.
+The galaxy should be teeming. But no signal, no probe, no artifact, nothing. The physicist who asked was Enrico Fermi, and the question outlived the lunch by decades, because every proposed answer forces you to state what you believe about the nature of life and what happens to civilizations that survive long enough to be visible.
 
 ---
 
-## The Mixed Equilibrium
+## The Arithmetic of Contact
 
-When neither pure equilibrium is reachable by agreement, both players randomize.
-
-Let each player hold steady with probability $q$. For the randomization to be stable, each player must be indifferent between swerving and holding steady.
-
-The expected payoff from swerving:
+Fermi's question stayed in the air. Over the next decade, radio astronomy matured, and the search for extraterrestrial intelligence became something that could be funded rather than joked about. By 1961, enough serious people cared that the National Academy of Sciences sponsored a small meeting at Green Bank, West Virginia, to discuss how one might detect alien civilizations. An astronomer at the meeting tried to organize the guesswork by breaking the question into a chain of factors: how many stars form per year, what fraction have planets, how often life arises, how often it becomes intelligent, how often it builds radios, and how long such civilizations last. He wrote the product on a blackboard.
 
 $$
-0 \cdot (1-q) + (-1) \cdot q = -q
+N = R_* \cdot f_p \cdot n_e \cdot f_l \cdot f_i \cdot f_c \cdot L
 $$
 
-The expected payoff from holding steady:
+His name was Frank Drake, and the equation bears his name, though he would be the first to say that none of the values on the right side are known. Plug in pessimistic estimates ($R_* = 1$, $f_p = 0.2$, $n_e = 1$, $f_l = 0.1$, $f_i = 0.1$, $f_c = 0.1$, $L = 10{,}000$ years) and you get $N = 2$. We are one. There should be at least one other.
+
+With optimistic estimates ($f_l = 0.5$, $f_i = 0.5$, $L = 10^6$), $N$ reaches into the tens of thousands, and yet every radio telescope ever built has recorded nothing but static, which brings us back to the question Fermi asked at lunch.
+
+---
+
+## The Contact Game
+
+Suppose two civilizations discover each other across interstellar space. Each faces a choice: **signal** (reveal yourself, attempt communication) or **stay silent** (hide, observe, do nothing).
+
+If both signal and both are peaceful, they trade knowledge, share science, and both gain. Call this payoff $V$. But if you signal and the other civilization turns out to be hostile, you have revealed your location to something that wants you gone, and the cost of that mistake is extinction: $-C$. Staying silent guarantees a payoff of $0$ regardless of what the other side does or is.
+
+The expected value of signaling depends on the probability $p$ that the other civilization is hostile:
 
 $$
-1 \cdot (1-q) + (-C) \cdot q = 1 - (1+C)q
+\mathbb{E}[\text{signal}] = (1-p) \cdot V - p \cdot C
 $$
 
-Setting these equal:
-
 $$
--q = 1 - (1+C)q \implies Cq = 1 \implies q = \frac{1}{C}
+\mathbb{E}[\text{silent}] = 0
 $$
 
-Both players hold steady with probability $1/C$. At $C = 10$ each driver holds steady 10% of the time; at $C = 100$, just 1%.
+Signaling is rational only when $(1-p) \cdot V > p \cdot C$, which gives:
 
-The probability of a crash is $q^2 = 1/C^2$. Making the crash worse reduces the frequency of crashes, but never eliminates them. At $C = 10$, the crash probability per round is 1%. At $C = 100$, it drops to 0.01%, but it never reaches zero.
+$$
+p < \frac{V}{V + C}
+$$
 
-The expected payoff for each player is $-1/C$. Both expect to lose, on average. The mixed equilibrium is worse for both sides than coordinating on either pure equilibrium, but coordination requires trust, and Chicken is a game built on the absence of it.
+When the benefit of contact is modest ($V = 1$, say, representing scientific exchange) and the cost of being wrong is extinction ($C = 1000$), the threshold is $p < 0.001$. You need better than 99.9% confidence that the other civilization is peaceful before signaling makes sense.
+
+And you have no data. You have never met an alien civilization. Your prior on $p$ comes from nothing but your own speculation.
 
 ---
 
 ## Play the Game
 
-<div id="chicken-sim" style="max-width: 720px; margin: 0 auto;">
-  <canvas id="chicken-canvas" style="width: 100%; height: 260px; background: #fff; border: 1px solid #000;"></canvas>
+<div id="contact-sim" style="max-width: 720px; margin: 0 auto;">
+  <canvas id="contact-canvas" style="width: 100%; height: 260px; background: #fff; border: 1px solid #000;"></canvas>
 
-  <div class="chicken-controls">
-    <label>Crash cost C = <strong id="c-display">10</strong>
-      <input type="range" id="c-slider" min="2" max="50" value="10" />
+  <div class="contact-controls">
+    <label>Hostility probability p = <strong id="p-display">5%</strong>
+      <input type="range" id="p-slider" min="1" max="50" value="5" />
     </label>
-    <label style="display:flex; align-items:center; gap:6px;">
-      <input type="checkbox" id="remove-wheel" /> Remove steering wheel
+    <label>Extinction cost C = <strong id="c-display">100</strong>
+      <input type="range" id="c-slider" min="2" max="500" value="100" />
     </label>
   </div>
 
-  <div class="chicken-actions">
-    <button id="btn-swerve">Swerve</button>
-    <button id="btn-straight">Straight</button>
-    <button id="btn-auto">Run 100 rounds (both Nash)</button>
+  <div class="contact-mode">
+    <label><input type="radio" name="contact-mode" value="repeated" checked /> Same civilization (repeated)</label>
+    <label><input type="radio" name="contact-mode" value="oneshot" /> New civilization each round (one-shot)</label>
+  </div>
+
+  <div class="contact-actions">
+    <button id="btn-signal">Signal</button>
+    <button id="btn-hide">Stay Silent</button>
+    <button id="btn-auto">Auto-run 100 rounds</button>
     <button id="btn-reset">Reset</button>
   </div>
 
-  <div class="chicken-stats">
-    <div class="chicken-stat-row"><span>Round:</span><strong id="ch-round">0</strong></div>
-    <div class="chicken-stat-row"><span>Your score:</span><strong id="ch-your-score">0</strong></div>
-    <div class="chicken-stat-row"><span>Opponent score:</span><strong id="ch-opp-score">0</strong></div>
-    <div class="chicken-stat-row"><span>Crashes:</span><strong id="ch-crashes">0</strong></div>
-    <div class="chicken-stat-row"><span>Nash P(Straight):</span><strong id="ch-nash">10.0%</strong></div>
+  <div class="contact-stats">
+    <div class="contact-stat-row"><span>Round:</span><strong id="ct-round">0</strong></div>
+    <div class="contact-stat-row"><span>Your score:</span><strong id="ct-score">0</strong></div>
+    <div class="contact-stat-row"><span>Contacts made:</span><strong id="ct-contacts">0</strong></div>
+    <div class="contact-stat-row"><span>Extinctions:</span><strong id="ct-extinct">0</strong></div>
+    <div class="contact-stat-row"><span>Signal threshold:</span><strong id="ct-threshold">p &lt; 0.99%</strong></div>
   </div>
 
-  <div id="chicken-narrative" class="chicken-narrative">
-    Choose Swerve or Straight. Your opponent plays the Nash mixed strategy.
+  <div id="contact-narrative" class="contact-narrative">
+    You have detected a signal from another star system. Do you respond?
   </div>
 </div>
 
 {% raw %}
 <style>
-#chicken-sim { font-variant-numeric: tabular-nums; }
-#chicken-sim * { box-sizing: border-box; }
+#contact-sim { font-variant-numeric: tabular-nums; }
+#contact-sim * { box-sizing: border-box; }
 
-#chicken-sim .chicken-controls {
+#contact-sim .contact-controls {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-top: 10px;
-  align-items: center;
 }
 @media (max-width: 560px) {
-  #chicken-sim .chicken-controls { grid-template-columns: 1fr; }
+  #contact-sim .contact-controls { grid-template-columns: 1fr; }
 }
 
-#chicken-sim label {
+#contact-sim label {
   font-size: 0.95em;
 }
 
-#chicken-sim input[type="range"] {
+#contact-sim input[type="range"] {
   width: 100%;
   appearance: none;
   height: 6px;
   background: #eee;
   outline: none;
 }
-#chicken-sim input[type="range"]::-webkit-slider-thumb {
+#contact-sim input[type="range"]::-webkit-slider-thumb {
   appearance: none; width: 14px; height: 14px;
   border-radius: 50%; background: #000; cursor: pointer;
 }
-#chicken-sim input[type="range"]::-moz-range-thumb {
+#contact-sim input[type="range"]::-moz-range-thumb {
   width: 14px; height: 14px; border: none;
   border-radius: 50%; background: #000; cursor: pointer;
 }
 
-#chicken-sim .chicken-actions {
+#contact-sim .contact-mode {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  font-size: 0.95em;
+}
+
+#contact-sim .contact-actions {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
   margin-top: 10px;
 }
 
-#chicken-sim button {
+#contact-sim button {
   padding: 0.5em 1em;
   font-size: 0.95em;
   cursor: pointer;
   border: 1px solid #000;
   background: #fff;
 }
-#chicken-sim button:hover {
+#contact-sim button:hover {
   background: #eee;
 }
-#chicken-sim button:disabled {
-  opacity: 0.3;
-  cursor: default;
-}
-#chicken-sim button:disabled:hover {
-  background: #fff;
-}
 
-#chicken-sim .chicken-stats {
+#contact-sim .contact-stats {
   display: grid;
   grid-template-columns: 1fr;
   gap: 4px;
   margin-top: 10px;
 }
-#chicken-sim .chicken-stat-row {
+#contact-sim .contact-stat-row {
   border-top: 1px solid #000;
   padding: 6px 0;
   font-size: 0.95em;
@@ -170,7 +172,7 @@ The expected payoff for each player is $-1/C$. Both expect to lose, on average. 
   gap: 6px;
 }
 
-#chicken-sim .chicken-narrative {
+#contact-sim .contact-narrative {
   border-top: 1px solid #000;
   padding: 10px 0;
   font-size: 0.95em;
@@ -179,12 +181,13 @@ The expected payoff for each player is $-1/C$. Both expect to lose, on average. 
 
 <script>
 (function(){
-  var C = 10;
-  var round = 0, yourScore = 0, oppScore = 0, crashes = 0;
-  var yourHist = [0], oppHist = [0];
-  var wheelRemoved = false;
+  var pPct = 5, C = 100, V = 1;
+  var round = 0, score = 0, contacts = 0, extinctions = 0;
+  var hist = [0];
+  var mode = 'repeated';
+  var partnerHostile = null;
 
-  var canvas = document.getElementById('chicken-canvas');
+  var canvas = document.getElementById('contact-canvas');
   var ctx = canvas.getContext('2d');
 
   function resizeCanvas() {
@@ -197,56 +200,74 @@ The expected payoff for each player is $-1/C$. Both expect to lose, on average. 
   }
   window.addEventListener('resize', resizeCanvas);
 
-  function nashProb() { return 1 / C; }
+  function p() { return pPct / 100; }
 
-  function oppMove() {
-    if (wheelRemoved) return 'swerve';
-    return Math.random() < nashProb() ? 'straight' : 'swerve';
+  function newPartner() {
+    partnerHostile = Math.random() < p();
   }
 
-  function playRound(yourMove) {
-    var opp = oppMove();
+  function playRound(move) {
+    if (mode === 'oneshot' || partnerHostile === null) newPartner();
     round++;
-    var yP = 0, oP = 0, crashed = false;
-    if (yourMove === 'swerve' && opp === 'swerve') { yP = 0; oP = 0; }
-    else if (yourMove === 'swerve' && opp === 'straight') { yP = -1; oP = 1; }
-    else if (yourMove === 'straight' && opp === 'swerve') { yP = 1; oP = -1; }
-    else { yP = -C; oP = -C; crashes++; crashed = true; }
-
-    yourScore += yP; oppScore += oP;
-    yourHist.push(yourScore); oppHist.push(oppScore);
-    updateUI(yourMove, opp, yP, oP, crashed);
+    var delta = 0, msg = '';
+    if (move === 'hide') {
+      msg = 'You stayed silent. Nothing happens.';
+    } else {
+      if (partnerHostile) {
+        delta = -C;
+        extinctions++;
+        msg = 'You signaled. They were hostile. Extinction. (' + delta + ')';
+        if (mode === 'repeated') newPartner();
+      } else {
+        delta = V;
+        contacts++;
+        msg = 'You signaled. They were peaceful. Contact established. (+' + V + ')';
+      }
+    }
+    score += delta;
+    hist.push(score);
+    if (mode === 'repeated' && move === 'signal' && !partnerHostile) {
+      msg += ' (Same partner next round)';
+    }
+    if (mode === 'oneshot') {
+      msg += ' (New civilization next round)';
+    }
+    document.getElementById('ct-round').textContent = round;
+    document.getElementById('ct-score').textContent = score;
+    document.getElementById('ct-contacts').textContent = contacts;
+    document.getElementById('ct-extinct').textContent = extinctions;
+    document.getElementById('contact-narrative').textContent = msg;
     draw();
   }
 
   function autoRun(n) {
+    var thresh = V / (V + C);
     for (var i = 0; i < n; i++) {
-      var ym = wheelRemoved ? 'straight' : (Math.random() < nashProb() ? 'straight' : 'swerve');
-      playRound(ym);
+      if (mode === 'repeated' && partnerHostile === false) {
+        playRound('signal');
+      } else if (p() < thresh) {
+        playRound('signal');
+      } else {
+        playRound('hide');
+      }
     }
   }
 
-  function updateUI(ym, om, yp, op, crashed) {
-    document.getElementById('ch-round').textContent = round;
-    document.getElementById('ch-your-score').textContent = yourScore;
-    document.getElementById('ch-opp-score').textContent = oppScore;
-    document.getElementById('ch-crashes').textContent = crashes;
-    document.getElementById('ch-nash').textContent = (100 / C).toFixed(1) + '%';
+  function resetGame() {
+    round = 0; score = 0; contacts = 0; extinctions = 0;
+    hist = [0]; partnerHostile = null;
+    document.getElementById('ct-round').textContent = '0';
+    document.getElementById('ct-score').textContent = '0';
+    document.getElementById('ct-contacts').textContent = '0';
+    document.getElementById('ct-extinct').textContent = '0';
+    document.getElementById('contact-narrative').textContent =
+      'You have detected a signal from another star system. Do you respond?';
+    draw();
+  }
 
-    var narr = document.getElementById('chicken-narrative');
-    if (round === 0) {
-      narr.textContent = 'Choose Swerve or Straight. Your opponent plays the Nash mixed strategy.';
-      return;
-    }
-    var ymLabel = ym === 'swerve' ? 'swerved' : 'held steady';
-    var omLabel = om === 'swerve' ? 'swerved' : 'held steady';
-    var msg = 'You ' + ymLabel + ', opponent ' + omLabel + '. ';
-    if (crashed) msg += 'Crash! (' + yp + ', ' + op + ')';
-    else if (yp > 0) msg += 'You win. (+' + yp + ', ' + op + ')';
-    else if (yp < 0) msg += 'You lose. (' + yp + ', +' + op + ')';
-    else msg += 'Draw. (0, 0)';
-    if (wheelRemoved && round > 0) msg += ' [Steering wheel removed]';
-    narr.textContent = msg;
+  function updateThreshold() {
+    var thresh = (V / (V + C) * 100).toFixed(2);
+    document.getElementById('ct-threshold').textContent = 'p < ' + thresh + '%';
   }
 
   function draw() {
@@ -261,7 +282,7 @@ The expected payoff for each player is $-1/C$. Both expect to lose, on average. 
     ctx.strokeStyle = '#000'; ctx.lineWidth = 1;
     ctx.strokeRect(pad, pad, innerW, innerH);
 
-    if (yourHist.length < 2) return;
+    if (hist.length < 2) return;
 
     var chartLeft = pad + leftMargin;
     var chartRight = pad + innerW - pad;
@@ -270,18 +291,14 @@ The expected payoff for each player is $-1/C$. Both expect to lose, on average. 
     var chartW = chartRight - chartLeft;
     var chartH = chartBottom - chartTop;
 
-    var allVals = yourHist.concat(oppHist);
-    var minV = Math.min.apply(null, allVals);
-    var maxV = Math.max.apply(null, allVals);
+    var minV = Math.min.apply(null, hist);
+    var maxV = Math.max.apply(null, hist);
     if (minV === maxV) { minV -= 1; maxV += 1; }
     var range = maxV - minV;
-
-    var n = yourHist.length;
-    var xScale = chartW / Math.max(n - 1, 1);
+    var xScale = chartW / Math.max(hist.length - 1, 1);
 
     function yPos(v) { return chartBottom - ((v - minV) / range) * chartH; }
 
-    // Zero line
     if (minV < 0 && maxV > 0) {
       ctx.strokeStyle = '#ccc'; ctx.lineWidth = 1;
       ctx.beginPath();
@@ -290,7 +307,6 @@ The expected payoff for each player is $-1/C$. Both expect to lose, on average. 
       ctx.stroke();
     }
 
-    // Y-axis labels
     var font = fontSize + 'px system-ui, sans-serif';
     ctx.fillStyle = '#000'; ctx.font = font; ctx.textAlign = 'right';
     ctx.fillText(maxV.toString(), chartLeft - 6, chartTop + fontSize * 0.4);
@@ -299,155 +315,116 @@ The expected payoff for each player is $-1/C$. Both expect to lose, on average. 
       ctx.fillText('0', chartLeft - 6, yPos(0) + fontSize * 0.4);
     }
 
-    // Your score (solid)
     ctx.strokeStyle = '#000'; ctx.lineWidth = 2;
     ctx.beginPath();
-    for (var i = 0; i < yourHist.length; i++) {
-      var x = chartLeft + i * xScale, y = yPos(yourHist[i]);
+    for (var i = 0; i < hist.length; i++) {
+      var x = chartLeft + i * xScale, y = yPos(hist[i]);
       if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
     }
     ctx.stroke();
 
-    // Opponent score (dashed)
-    ctx.setLineDash([6, 4]);
-    ctx.beginPath();
-    for (var i = 0; i < oppHist.length; i++) {
-      var x = chartLeft + i * xScale, y = yPos(oppHist[i]);
-      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-    }
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    // Legend
-    var legY = chartTop + fontSize * 0.4;
-    var lineLen = 1.5 * rem;
-    var legGap = 0.4 * rem;
-    var legX = chartRight - 6.5 * rem;
-    ctx.fillStyle = '#000'; ctx.textAlign = 'left'; ctx.font = font;
-    ctx.strokeStyle = '#000'; ctx.lineWidth = 2;
-    ctx.setLineDash([]);
-    ctx.beginPath(); ctx.moveTo(legX, legY); ctx.lineTo(legX + lineLen, legY); ctx.stroke();
-    ctx.fillText('You', legX + lineLen + legGap, legY + fontSize * 0.35);
-
-    var legY2 = legY + fontSize * 1.4;
-    ctx.setLineDash([6, 4]);
-    ctx.beginPath(); ctx.moveTo(legX, legY2); ctx.lineTo(legX + lineLen, legY2); ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillText('Opponent', legX + lineLen + legGap, legY2 + fontSize * 0.35);
+    // Label
+    ctx.textAlign = 'left'; ctx.font = font;
+    ctx.fillText('Score', chartLeft + 4, chartTop + fontSize);
   }
 
-  function resetGame() {
-    round = 0; yourScore = 0; oppScore = 0; crashes = 0;
-    yourHist = [0]; oppHist = [0];
-    updateUI('', '', 0, 0, false);
-    draw();
-  }
-
+  document.getElementById('p-slider').addEventListener('input', function() {
+    pPct = parseInt(this.value);
+    document.getElementById('p-display').textContent = pPct + '%';
+    updateThreshold();
+  });
   document.getElementById('c-slider').addEventListener('input', function() {
     C = parseInt(this.value);
     document.getElementById('c-display').textContent = C;
-    document.getElementById('ch-nash').textContent = (100 / C).toFixed(1) + '%';
+    updateThreshold();
   });
-
-  document.getElementById('remove-wheel').addEventListener('change', function() {
-    wheelRemoved = this.checked;
-    document.getElementById('btn-swerve').disabled = wheelRemoved;
-    var narr = document.getElementById('chicken-narrative');
-    if (wheelRemoved) {
-      narr.textContent = 'Steering wheel removed. You always hold steady. Opponent always swerves.';
-    } else {
-      narr.textContent = 'Steering wheel restored. Opponent returns to Nash mixed strategy.';
-    }
+  document.querySelectorAll('input[name="contact-mode"]').forEach(function(el) {
+    el.addEventListener('change', function() {
+      mode = this.value;
+      resetGame();
+    });
   });
-
-  document.getElementById('btn-swerve').addEventListener('click', function() { playRound('swerve'); });
-  document.getElementById('btn-straight').addEventListener('click', function() { playRound('straight'); });
+  document.getElementById('btn-signal').addEventListener('click', function() { playRound('signal'); });
+  document.getElementById('btn-hide').addEventListener('click', function() { playRound('hide'); });
   document.getElementById('btn-auto').addEventListener('click', function() { autoRun(100); });
   document.getElementById('btn-reset').addEventListener('click', resetGame);
 
+  updateThreshold();
   resizeCanvas();
 })();
 </script>
 {% endraw %}
 
-Try playing a few rounds manually, then click "Run 100 rounds" to watch the scores accumulate under the mixed equilibrium. Both lines drift downward; the expected payoff is negative for both players. Now check "Remove steering wheel" and run another 100 rounds. Your score climbs; the opponent's falls. Zero crashes.
+Set the hostility probability to 5% and the extinction cost to 100. The signal threshold reads $p < 0.99\%$: signaling is irrational because 5% far exceeds 0.99%. Click "Auto-run 100 rounds" and watch the score sit flat at zero. Nothing happens. Silence is the equilibrium.
+
+Now lower $C$ to 2 (contact is risky but not existential). The threshold jumps to $p < 33\%$. Run another 100 rounds. The score climbs; contact pays off. The difference between a quiet universe and a noisy one is the ratio of what you stand to lose versus what you stand to gain.
+
+Switch to "Same civilization (repeated)" mode and run 100 rounds with moderate settings. Once you survive the first signal with a peaceful partner, every subsequent round is safe; repetition allows trust to form. Switch back to "New civilization each round" and the extinctions return. The simulation assumes you know $p$, but a real civilization facing a real signal has no way to look up the hostility rate.
 
 ---
 
-## Commitment
+## The Chain of Suspicion
 
-The steering wheel trick works because it changes the game's structure, not just the strategy within it.
+The calculation above assumes you know $p$. In practice, you know nothing.
 
-With the wheel intact, the game has two pure equilibria and one mixed equilibrium, all three of them accessible. Remove the wheel, and only one outcome survives: you hold steady, the opponent swerves. The opponent's rational response to your irrevocable commitment is capitulation.
+Even a civilization that is peaceful today might not be peaceful tomorrow. Technology grows exponentially. A species that poses no threat at your current level of development might surpass you in a thousand years, and a thousand years is nothing on galactic timescales. You cannot verify intentions across interstellar distances, and you cannot monitor compliance with any agreement.
 
-By destroying your own ability to back down, your payoff jumps from $-1/C$ (the mixed equilibrium average) to $+1$ (a guaranteed win), precisely because the opponent knows you have no choice left.
+This creates what game theorists call a chain of suspicion. Even if you are peaceful and they are peaceful, you cannot be sure they know you are peaceful. And even if they know, you cannot be sure they know that you know. The uncertainty propagates: each level of "I think they think I think..." adds doubt, and the doubt compounds.
 
-The commitment must be visible and irreversible. A steering wheel hidden under the seat changes nothing; what matters is not whether you *can* swerve but whether the other driver *believes* you can. And the most convincing way to signal that you won't back down is to make backing down physically impossible.
-
-This is the logic that a game theorist at the RAND Corporation spent the late 1950s formalizing. He was working on nuclear deterrence, and the question he kept returning to was whether the United States *would* retaliate with nuclear weapons, given that retaliation meant self-destruction. A threat to destroy the enemy is only useful if the enemy believes you'll follow through, and following through means destroying yourself in the process.
-
-The strategist realized that governments face the same dilemma as the two drivers. The side that could most convincingly eliminate its own ability to retreat would force the other side to be the one that compromised. His name was Thomas Schelling, and his 1960 book *The Strategy of Conflict* became the intellectual foundation of Cold War deterrence theory. Its central argument was uncomfortable: the rational actor, the one who correctly calculates that retaliation is suicidal and therefore backs down, is the one who gets exploited.
+In a one-shot game with no communication channel and existential stakes, the chain of suspicion drives $p$ upward regardless of anyone's actual intentions. A civilization that would cooperate if it could verify the other's nature stays silent because verification is impossible.
 
 ---
 
 ## Once Versus a Thousand Times
 
-A single round of Chicken is terrifying because there is no history to consult and no future to protect. Each player randomizes, and crashes happen with probability $1/C^2$ per round. Over many rounds, those small probabilities accumulate.
+The distinction between one-shot and repeated games changes everything.
 
-In $n$ rounds of the mixed equilibrium, the expected number of crashes is $n/C^2$. The probability of *at least one* crash:
+In the Cold War, the United States and Soviet Union played a deterrence game repeatedly over four decades. They built channels: the hotline between Washington and Moscow, arms control treaties, summit meetings, the informal rules of engagement that developed after each crisis. Each peaceful resolution added evidence that the other side preferred survival over victory. Reputation accumulated. Trust, or at least predictability, emerged.
+
+The folk theorem of repeated games formalizes this. When two players expect to interact indefinitely and value future payoffs enough, cooperation can be sustained as an equilibrium. Strategies like tit-for-tat (cooperate until the other defects, then punish, then forgive) stabilize cooperation because the future cost of losing a cooperative partner exceeds the one-time gain from defection.
+
+Cosmic contact has none of these features. The distances are measured in light-years, a signal takes decades or centuries to cross the gap, and the civilizations on either end may not even exist in the same millennium. Iteration requires proximity, and proximity is exactly what interstellar space denies. Each contact event is, for practical purposes, a one-shot game with a stranger.
+
+In a one-shot Prisoner's Dilemma, the dominant strategy is to defect. In the contact game, where the cost of being wrong is extinction and the benefit of being right is modest, the one-shot version collapses to silence for any civilization that has done the arithmetic. The Fermi Paradox may be what a universe of such civilizations looks like from the outside.
+
+---
+
+## The Dark Forest
+
+The game-theoretic reasoning above was not new when a Chinese science fiction writer gave it its most vivid image in 2008. But nobody had dramatized it at planetary scale before. The universe, in his telling, is a dark forest. Every civilization is a hunter moving through the trees, unable to know whether the shadow ahead is a deer or another hunter with a rifle. Revealing your position, by signaling, by broadcasting, by doing anything that makes you visible, invites destruction from anyone who has done the expected-value calculation and drawn the rational conclusion.
+
+The writer was Liu Cixin, and his novel *The Dark Forest* gave the idea its name.
+
+Liu grounded the metaphor in two axioms: survival is the primary need of every civilization, and civilizations grow continuously while the total matter in the universe does not. Under these conditions, any other civilization is a potential competitor for finite resources, and the safest response to detection is a preemptive strike.
+
+The civilizations that broadcast were eliminated by natural selection operating at a cosmic scale. The ones that survived learned to hide. What we observe as silence is the equilibrium state of this process, and it raises an immediate question about what humans have already done.
+
+---
+
+## What METI Risks
+
+When the Arecibo radio telescope in Puerto Rico was upgraded in 1974, a group of astronomers celebrated by aiming it at the globular cluster M13 and transmitting a three-minute encoded message. It was a symbolic gesture; M13 is 25,000 light-years away. But the precedent was set: humans had deliberately announced their presence.
+
+More recently, a project called METI (Messaging Extraterrestrial Intelligence) has advocated sending targeted signals to nearby star systems, which are close enough that a reply could arrive within a human lifetime. If the contact game is a reasonable model, this is a decision with asymmetric consequences. The benefit of a response is scientific knowledge. The cost of attracting the wrong attention is unbounded. And the decision is being made by a handful of people on behalf of every human who has ever lived or ever will.
+
+One of the most vocal advocates for transmission, a Russian physicist named Alexander Zaitsev who spent decades operating the Evpatoria planetary radar, has argued that a civilization advanced enough to threaten us would already know we are here from our television signals, our radar emissions, the atmospheric composition of our planet. Deliberate transmission adds little to what we already leak. The counter-argument: leaked signals are faint and transient, while a targeted transmission at high power toward a specific star is a qualitatively different act, one that says "we are here and we want to be found."
+
+No treaty governs interstellar transmission. Any individual with access to a sufficiently powerful transmitter can make the bet on behalf of eight billion people who were never consulted.
+
+---
+
+## The Uncomfortable Ratio
+
+Return to the threshold:
 
 $$
-1 - \left(1 - \frac{1}{C^2}\right)^n
+p < \frac{V}{V + C}
 $$
 
-At $C = 10$, a single round carries 1% crash risk. After 100 rounds, the probability of at least one crash rises to 63%. After 1000 rounds, it is 99.995%. Given enough repetitions, a crash is virtually certain.
+For signaling to be rational, the probability of hostility must be less than $V/(V+C)$. When $C$ is large relative to $V$, this threshold is tiny.
 
-This is the arithmetic that haunted Cold War strategists. If the United States and Soviet Union played nuclear Chicken every few years during crises (Berlin 1948, Korea 1950, Cuba 1962, the Yom Kippur War 1973), each individual crisis might carry low risk. But the cumulative probability of catastrophe grows with each confrontation, and there is no mechanism to reset the counter.
+The formula encodes a deep asymmetry. Contact with a peaceful civilization yields knowledge, trade, cultural exchange, all finite goods. Getting it wrong yields extinction, which is permanent and total. When one side of a bet is finite and the other is unbounded, the expected-value calculation is dominated by the unbounded side regardless of how small its probability.
 
-Repetition changes the strategy in a second way. In a one-shot game, reputation is irrelevant; there is no future for your reputation to influence. In a repeated game, what you did last time shapes what the opponent expects you to do next time.
+This is the same structure that makes Pascal's Wager compelling and simultaneously suspicious. The argument works whenever $C$ can be made arbitrarily large. And in the contact game, $C$ is not a rhetorical device; it is a physical fact. Civilizations that bet wrong on contact do not get a second chance.
 
-A player who swerved in round one will be expected to swerve in round two. A player who held steady and survived has demonstrated a willingness to accept risk, making the opponent more likely to swerve next time. This feedback loop creates a premium on early aggression: establish a reputation for toughness in the first few rounds, and the opponent may swerve for the rest of the game.
-
-The formal result, due to the folk theorem of repeated games, is that repetition expands the set of sustainable outcomes. Strategies like "hold steady until the opponent holds steady, then punish by holding steady for the next $k$ rounds" can sustain cooperation (mutual swerving) as an equilibrium, provided both players value future rounds enough. The discount factor $\delta$ measures this patience: when $\delta$ is close to 1, cooperation is sustainable; when $\delta$ is close to 0, each round is effectively a one-shot game.
-
-The catch: punishment in Chicken means crashing. Unlike the Prisoner's Dilemma, where punishment is merely mutual defection, punishment in Chicken is mutual destruction. This makes credible punishment strategies harder to sustain. A threat to crash if the opponent doesn't cooperate is only credible if the threatener has reason to follow through, and following through is always the worst outcome.
-
----
-
-## Thirteen Days
-
-In October 1962, American reconnaissance flights discovered Soviet nuclear missiles under construction in Cuba, 90 miles from Florida. President Kennedy assembled his Executive Committee to decide on a response.
-
-The options mapped onto the Chicken matrix. Do nothing (swerve): the missiles stay, Soviet influence expands, Kennedy faces political collapse. Launch airstrikes or invade (hold steady): risk Soviet retaliation and a nuclear exchange.
-
-Kennedy chose a naval blockade, which worked as a partial commitment device. It drew a visible line (Soviet ships approaching Cuba would be stopped) without committing to the irreversible step of a military attack. The burden of the next escalation fell on Khrushchev: Soviet ships were approaching the blockade line, and he had to decide whether to challenge it or turn back.
-
-Kennedy told his brother Robert that he estimated the probability of nuclear war at "between one in three and even." The crisis lasted 13 days. Khrushchev agreed to withdraw the missiles; Kennedy privately removed American missiles from Turkey and pledged not to invade Cuba. Both sides swerved, partially, in a negotiated outcome that the simple payoff matrix cannot express.
-
-The resolution reveals a limitation of the model. Real crises are not simultaneous one-shot games. They unfold over days and weeks, with private channels, partial signals, and the possibility of compromise. But the logic of the standoff is genuine: each side was searching for a way to commit credibly, and each side feared that looking too willing to compromise would invite exploitation.
-
----
-
-## The Doomsday Machine
-
-Schelling's framework points toward a disturbing endpoint. If credible commitment makes deterrence work, the most effective nuclear posture is to automate retaliation entirely. Remove human judgment from the decision. If the enemy knows that a first strike will trigger unstoppable, automatic retaliation, the deterrent becomes perfectly credible because no one can choose restraint.
-
-Stanley Kubrick dramatized this in *Dr. Strangelove* (1964). The film's Soviet Doomsday Machine automatically destroys all life on Earth if a nuclear attack is detected. Kubrick's punchline: the Soviets built it but forgot to announce it. A commitment device that the opponent doesn't know about is strategically worthless.
-
-The Soviet Union came closer to building a real version than most people realize. Their Perimeter system, operational since the 1980s and known in the West as "Dead Hand," could authorize a retaliatory nuclear launch if it detected the Soviet leadership had been destroyed. The system preserved a thin layer of human judgment rather than being fully automatic, a compromise between strategic credibility and the fear of accidental annihilation.
-
-A fully automated Doomsday Machine is the logical limit of commitment: it removes all possibility of mercy, making the threat as credible as physics allows, and as incapable of restraint as the two-car game with a welded steering column.
-
----
-
-## Hawks and Doves
-
-The same payoff matrix appears in evolutionary biology under a different name.
-
-Animals competing for territory or mates face the same structure. An individual can escalate (fight) or concede (retreat). If both escalate, both are injured. If one concedes, the other takes the resource.
-
-In the early 1970s, two researchers at the University of Sussex asked what happens when animals playing this game cannot choose strategies at all but simply inherit behavioral tendencies from their parents. John Maynard Smith and George Price showed that natural selection drives the population to a stable mix: a fraction $1/C$ of individuals play Hawk (where $C$ is injury cost relative to resource value), matching the mixed Nash equilibrium exactly. Thousands of generations of differential reproduction, with no strategic reasoning anywhere, arrive at the same probabilities a game theorist would calculate.
-
-Animals cannot remove their steering wheels. They cannot make binding commitments or signal future intentions with certainty. Instead, evolution produces a stable distribution of aggressive and submissive phenotypes, and the population settles into an equilibrium where fights happen at a predictable frequency. Individual animals have no strategy; the population has an equilibrium.
-
-Deterrence in human affairs is built on the assumption that rational agents can choose commitment, choose restraint, choose to signal. Evolutionary Chicken suggests that even without choice, even without intention, conflict at a rate of $1/C^2$ per interaction is the mathematical baseline. Below that rate, aggression pays; above it, concession pays. The equilibrium sits at the boundary where the two pressures cancel, and it is set by the cost of conflict alone.
+Every proposed resolution to the Fermi Paradox encodes an assumption about what civilizations value and what they fear. The contact game encodes one specific assumption: that extinction is permanent and cooperation with strangers is unverifiable. Under those conditions, the expected-value calculation points toward silence for any $C$ large enough relative to $V$, and the threshold is low enough that most reasonable priors on hostility exceed it. Whether the universe actually works this way depends on quantities we cannot measure from a single data point, which is all we have.
