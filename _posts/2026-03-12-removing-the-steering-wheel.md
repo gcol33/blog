@@ -64,7 +64,7 @@ The expected payoff for each player is $-1/C$. Both expect to lose, on average. 
 ## Play the Game
 
 <div id="chicken-sim" style="max-width: 720px; margin: 0 auto;">
-  <canvas id="chicken-canvas" style="width: 100%; height: 220px; background: #fff; border: 1px solid #000;"></canvas>
+  <canvas id="chicken-canvas" style="width: 100%; height: 260px; background: #fff; border: 1px solid #000;"></canvas>
 
   <div class="chicken-controls">
     <label>Crash cost C = <strong id="c-display">10</strong>
@@ -254,7 +254,8 @@ The expected payoff for each player is $-1/C$. Both expect to lose, on average. 
     var rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
     var pad = 0.875 * rem;
     var innerW = W - pad * 2, innerH = H - pad * 2;
-    var leftMargin = 2.5 * rem, bottomMargin = 0.5 * rem;
+    var fontSize = Math.max(13, Math.round(rem * 0.85));
+    var leftMargin = 3.5 * rem, bottomMargin = 1.25 * rem;
 
     ctx.clearRect(0, 0, W, H);
     ctx.strokeStyle = '#000'; ctx.lineWidth = 1;
@@ -290,9 +291,13 @@ The expected payoff for each player is $-1/C$. Both expect to lose, on average. 
     }
 
     // Y-axis labels
-    ctx.fillStyle = '#000'; ctx.font = '11px system-ui, sans-serif'; ctx.textAlign = 'right';
-    ctx.fillText(maxV.toString(), chartLeft - 4, chartTop + 4);
-    ctx.fillText(minV.toString(), chartLeft - 4, chartBottom + 4);
+    var font = fontSize + 'px system-ui, sans-serif';
+    ctx.fillStyle = '#000'; ctx.font = font; ctx.textAlign = 'right';
+    ctx.fillText(maxV.toString(), chartLeft - 6, chartTop + fontSize * 0.4);
+    ctx.fillText(minV.toString(), chartLeft - 6, chartBottom + fontSize * 0.4);
+    if (minV < 0 && maxV > 0) {
+      ctx.fillText('0', chartLeft - 6, yPos(0) + fontSize * 0.4);
+    }
 
     // Your score (solid)
     ctx.strokeStyle = '#000'; ctx.lineWidth = 2;
@@ -314,16 +319,21 @@ The expected payoff for each player is $-1/C$. Both expect to lose, on average. 
     ctx.setLineDash([]);
 
     // Legend
-    var legY = chartTop + 4;
-    ctx.fillStyle = '#000'; ctx.textAlign = 'left'; ctx.font = '11px system-ui, sans-serif';
-    ctx.beginPath(); ctx.moveTo(chartRight - 6 * rem, legY); ctx.lineTo(chartRight - 4.5 * rem, legY);
-    ctx.strokeStyle = '#000'; ctx.lineWidth = 2; ctx.stroke();
-    ctx.fillText('You', chartRight - 4.2 * rem, legY + 4);
+    var legY = chartTop + fontSize * 0.4;
+    var lineLen = 1.5 * rem;
+    var legGap = 0.4 * rem;
+    var legX = chartRight - 6.5 * rem;
+    ctx.fillStyle = '#000'; ctx.textAlign = 'left'; ctx.font = font;
+    ctx.strokeStyle = '#000'; ctx.lineWidth = 2;
+    ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(legX, legY); ctx.lineTo(legX + lineLen, legY); ctx.stroke();
+    ctx.fillText('You', legX + lineLen + legGap, legY + fontSize * 0.35);
 
-    ctx.setLineDash([6, 4]); ctx.beginPath();
-    ctx.moveTo(chartRight - 6 * rem, legY + 14); ctx.lineTo(chartRight - 4.5 * rem, legY + 14);
-    ctx.stroke(); ctx.setLineDash([]);
-    ctx.fillText('Opponent', chartRight - 4.2 * rem, legY + 18);
+    var legY2 = legY + fontSize * 1.4;
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath(); ctx.moveTo(legX, legY2); ctx.lineTo(legX + lineLen, legY2); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillText('Opponent', legX + lineLen + legGap, legY2 + fontSize * 0.35);
   }
 
   function resetGame() {
