@@ -256,7 +256,30 @@
               'link', 'image', '|',
               'preview', 'side-by-side', 'fullscreen', '|',
               'guide'
-            ]
+            ],
+            previewRender: function(plainText, preview) {
+              // Use SimpleMDE's built-in markdown parser
+              const html = this.parent.markdown(plainText);
+
+              // Create temporary container for rendering
+              const temp = document.createElement('div');
+              temp.innerHTML = html;
+
+              // Render KaTeX if available
+              if (typeof renderMathInElement === 'function') {
+                renderMathInElement(temp, {
+                  delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\(", right: "\\)", display: false},
+                    {left: "\\[", right: "\\]", display: true}
+                  ],
+                  throwOnError: false
+                });
+              }
+
+              return temp.innerHTML;
+            }
           });
         }
 

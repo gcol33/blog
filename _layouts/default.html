@@ -109,14 +109,24 @@
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
+    <nav class="site-nav" aria-label="Main site navigation">
+      <div class="site-nav-inner">
+        <a href="https://gillescolling.com/" class="site-nav-brand">gillescolling.com</a>
+        <div class="site-nav-links">
+          <a href="https://gillescolling.com/publications/">Research</a>
+          <a href="https://gillescolling.com/side-projects/">Projects</a>
+          <a href="https://gillescolling.com/about/">About</a>
+          <a href="https://gillescolling.com/contact/">Contact</a>
+        </div>
+      </div>
+    </nav>
     <div class="container">
       <header id="header">
         <div class="brand">
           <div class="brand-title">{{ site.title }}</div>
           {% if site.tagline %}
             <div class="brand-tagline">
-              {{ site.tagline }} ·
-              <a href="https://gillescolling.com/" target="_blank" rel="noopener">gillescolling.com</a>
+              {{ site.tagline }}
             </div>
           {% endif %}
         </div>
