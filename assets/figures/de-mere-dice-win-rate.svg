@@ -330,7 +330,7 @@ L 0 2
     </g>
     <g id="text_5">
      <!-- rounds played -->
-     <g transform="translate(223.480937 233.67) scale(0.12 -0.12)">
+     <g transform="translate(223.480938 233.67) scale(0.12 -0.12)">
       <defs>
        <path id="Cousine-Regular-72" d="M 3266 2869 
 Q 2916 2928 2603 2928 
@@ -961,12 +961,12 @@ z
    <g id="line2d_33">
     <path d="M 52.431875 72.831515 
 L 488.154375 72.831515 
-" clip-path="url(#pa644d052a9)" style="fill: none; stroke: #999999; stroke-width: 0.8; stroke-linecap: square"/>
+" clip-path="url(#p6b16cb3194)" style="fill: none; stroke: #999999; stroke-width: 0.8; stroke-linecap: square"/>
    </g>
    <g id="line2d_34">
     <path d="M 52.431875 85.617602 
 L 488.154375 85.617602 
-" clip-path="url(#pa644d052a9)" style="fill: none; stroke: #999999; stroke-width: 0.8; stroke-linecap: square"/>
+" clip-path="url(#p6b16cb3194)" style="fill: none; stroke: #999999; stroke-width: 0.8; stroke-linecap: square"/>
    </g>
    <g id="line2d_35">
     <path d="M 45.786019 216.269965 
@@ -3407,7 +3407,7 @@ L 488.103893 70.904378
 L 488.110205 70.881147 
 L 488.154375 71.009884 
 L 488.154375 71.009884 
-" clip-path="url(#pa644d052a9)" style="fill: none; stroke: #000000; stroke-width: 1.4; stroke-linecap: square"/>
+" clip-path="url(#p6b16cb3194)" style="fill: none; stroke: #000000; stroke-width: 1.4; stroke-linecap: square"/>
    </g>
    <g id="line2d_36">
     <path d="M 45.786019 54.480382 
@@ -5811,7 +5811,7 @@ L 488.078637 83.48631
 L 488.103893 83.388342 
 L 488.135449 83.314543 
 L 488.154375 83.386787 
-" clip-path="url(#pa644d052a9)" style="fill: none; stroke-dasharray: 7,4.2; stroke-dashoffset: 0; stroke: #000000; stroke-width: 1.4"/>
+" clip-path="url(#p6b16cb3194)" style="fill: none; stroke-dasharray: 7,4.2; stroke-dashoffset: 0; stroke: #000000; stroke-width: 1.4"/>
    </g>
    <g id="patch_3">
     <path d="M 52.431875 202.7875 
@@ -5996,7 +5996,7 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="pa644d052a9">
+  <clipPath id="p6b16cb3194">
    <rect x="52.431875" y="8.64" width="435.7225" height="194.1475"/>
   </clipPath>
  </defs>

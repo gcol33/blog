@@ -10,7 +10,7 @@ NODES = {"a": (0, 0), "b": (3, 0), "c": (2, 2 * np.sqrt(3)), "d": (5, 2 * np.sqr
 EDGES = ("ab", "cd", "ac", "bd", "ad", "bc")
 LABELS = {"ab": "3", "cd": "3", "ac": "4", "bd": "4", "ad": r"$\sqrt{37}$", "bc": r"$\sqrt{13}$"}
 MATCHINGS = (("ab", "cd"), ("ac", "bd"), ("ad", "bc"))
-ALONG = {"ad": 0.65, "bc": 0.25}
+ALONG = {"ad": 0.72, "bc": 0.25}
 NODE_OFFSET = {"a": (0, -0.2), "b": (0, -0.2), "c": (0, 0.2), "d": (0, 0.2)}
 
 SCALE = 0.4
@@ -36,9 +36,9 @@ def panel(x0, pair):
         if on:
             nx, ny = -(y2 - y1), x2 - x1
             n = np.hypot(nx, ny)
-            side = -1 if e in ("ab", "ad", "bd") else 1
+            side = -1 if e in ("ab", "bd") else 1
             t = ALONG.get(e, 0.5)
-            k = 0.26 if e in ALONG else 0.17
+            k = 0.24 if e in ALONG else 0.17
             ax.text(x1 + t * (x2 - x1) + side * k * nx / n, y1 + t * (y2 - y1) + side * k * ny / n,
                     LABELS[e], ha="center", va="center", fontsize=12)
     for k in NODES:

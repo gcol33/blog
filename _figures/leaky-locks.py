@@ -11,7 +11,7 @@ for k, colour in ((10, style.MID), (26, style.DARK), (62, style.BLACK)):
     ax.plot(n, k * n, color=colour, linestyle=(0, (4, 3)))
     ax.text(n[-1] + 0.3, float(k) ** n[-1], f"k = {k}", va="center")
 ax.text(8.6, 1e17, "without leak: $k^n$", ha="right")
-ax.text(8.5, 1e5, "with leak: $kn$", ha="center")
+ax.text(11.5, 3e4, "with leak: $kn$", ha="center")
 ax.set_yscale("log")
 ax.set_xlim(1, 19.2)
 ax.set_ylim(1, 1e30)

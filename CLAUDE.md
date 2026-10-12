@@ -58,7 +58,7 @@ No animation and no interactivity: no `<script>`, `<canvas>`, buttons, sliders o
 - Every script imports `_figures/style.py`, the single source of the figure style: Cousine font (bundled in `_figures/fonts/`, text written as paths), black/white/gray only, deterministic SVG output.
   - `style.figure(height, ncols, nrows)`: full-width (7.2 in) figure with axes.
   - `style.canvas(height)`: frameless diagram canvas in inch units, origin bottom-left.
-  - `style.save(fig, name)`: writes `assets/figures/<name>.svg`.
+  - `style.save(fig, name)`: checks text clearance, then writes `assets/figures/<name>.svg`. It raises `OverlapError` if any text (tick labels, axis labels, titles, annotations, legends) touches other text, a line, marker, bar or arrow, or the figure edge; text may sit inside a closed shape but not cross its outline. The build exits non-zero and writes nothing for that figure; move the label until it passes.
   - Colours: `style.BLACK`, `DARK`, `MID`, `LIGHT`, `PALE`, `WHITE`; hatching for further distinction.
 - Build: `python _figures/build.py` (all) or `python _figures/build.py <slug>`. Commit the generated SVGs.
 

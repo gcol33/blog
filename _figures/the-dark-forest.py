@@ -32,7 +32,7 @@ ax.text(1.6, 0.25, "signal", fontsize=12)
 ax.text(1.6, 45, "stay silent", fontsize=12)
 for c, p, label in ((100, 5, "p = 5%"), (2, 5, "p = 5%"), (2, 20, "p = 20%")):
     ax.plot([c], [p], "o", color=style.BLACK, markersize=5)
-    ax.text(c * 1.12, p * 0.8, label, fontsize=12, va="top", ha="left")
+    ax.text(c, p * 0.75, label, fontsize=12, va="top", ha="center")
 ax.text(300, 100 * threshold(300) * 1.5, r"$p = V/(V+C)$", fontsize=13, ha="left")
 style.save(fig, "the-dark-forest-threshold")
 
@@ -62,7 +62,7 @@ runs = {
     "oneshot": play(rng, 0.20, 2, False),
     "repeated": play(rng, 0.20, 2, True),
 }
-fig, (a, b) = style.figure(3.4, ncols=2, sharey=True)
+fig, (a, b) = style.figure(4.0, ncols=2, sharey=True)
 t = np.arange(ROUNDS + 1)
 
 
@@ -72,13 +72,14 @@ def line(ax, key, label, dy=0):
     if ext:
         ax.plot(ext, path[ext], "o", markersize=3.5, markerfacecolor=style.WHITE,
                 markeredgecolor=style.BLACK, markeredgewidth=0.9)
-    ax.text(ROUNDS - 2, path[-1] + dy, label, fontsize=12, ha="right", va="bottom")
+    ax.text(ROUNDS - 2, path[-1] + dy, label, fontsize=12, ha="right",
+            va="bottom" if dy >= 0 else "top")
 
 
 line(a, "silent", "C = 100", 3)
 line(a, "low", "C = 2", 3)
 a.set_title("p = 5%, new civilization each round", fontweight="normal", fontsize=12)
-line(b, "oneshot", "new civilization each round", 3)
+line(b, "oneshot", "new civilization\neach round", -23)
 line(b, "repeated", "same civilization", 3)
 b.set_title("p = 20%, C = 2", fontweight="normal", fontsize=12)
 for ax in (a, b):

@@ -24,6 +24,7 @@ ax.set_xlim(-R, R)
 ax.set_ylim(0, 0.36)
 ax.set_xlabel(r"slope $Z = Y/X$")
 ax.set_ylabel("density")
+ax.tick_params(axis="y", pad=7)
 style.save(fig, "gaussian-ratios-histogram")
 
 fig, (left, right) = style.figure(3.0, ncols=2, sharey=True)
