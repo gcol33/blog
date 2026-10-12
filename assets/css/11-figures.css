@@ -1,0 +1,16 @@
+.post-content .plot {
+  box-sizing: border-box;
+  max-width: 720px;
+  margin: 1.5em auto;
+  padding: 0.875rem;
+  border: 1px solid #000;
+  background: #fff;
+}
+
+.post-content .plot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  border: 1px solid #000;
+}

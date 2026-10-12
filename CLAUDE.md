@@ -48,150 +48,34 @@ Let the content speak for itself. End sections naturally without wrapping up wit
 - Provide worked examples with explicit calculations
 - Balance rigor with intuition
 
-## Graphics and Interactive Plots
+## Figures
 
 ### Approach
-Graphics are **inline JavaScript/HTML/CSS** embedded directly in posts using `{% raw %}...{% endraw %}` blocks.
+No animation and no interactivity: no `<script>`, `<canvas>`, buttons, sliders or inline demo markup in posts. Every graphic is a static SVG figure. A simulation becomes its result with a fixed seed; a parameter slider becomes small multiples or a curve over the parameter; scenario buttons become panels side by side.
 
-### Technical Details
-- Use vanilla JavaScript (no frameworks)
-- Canvas API or SVG for visualizations
-- Responsive design with CSS media queries
-- Interactive controls: sliders (`<input type="range">`), radio buttons, etc.
-- Self-contained: all code within the post markdown file
+### Pipeline
+- `_figures/` (underscore: Jekyll does not publish it) holds one Python script per post, named after the post slug, e.g. `_figures/de-mere-dice.py`.
+- Every script imports `_figures/style.py`, the single source of the figure style: Cousine font (bundled in `_figures/fonts/`, text written as paths), black/white/gray only, deterministic SVG output.
+  - `style.figure(height, ncols, nrows)`: full-width (7.2 in) figure with axes.
+  - `style.canvas(height)`: frameless diagram canvas in inch units, origin bottom-left.
+  - `style.save(fig, name)`: writes `assets/figures/<name>.svg`.
+  - Colours: `style.BLACK`, `DARK`, `MID`, `LIGHT`, `PALE`, `WHITE`; hatching for further distinction.
+- Build: `python _figures/build.py` (all) or `python _figures/build.py <slug>`. Commit the generated SVGs.
+
+### In a Post
+```liquid
+{% include figure.html src="<name>.svg" alt="What is plotted." %}
+```
+No captions; the prose around the figure explains it. Alt text states what is plotted.
+
+### Double Border
+Drawn by CSS (`assets/css/11-figures.css`): the `figure.plot` wrapper has `1px solid #000` and `0.875rem` padding, the image inside has its own `1px solid #000`. Figures therefore carry no outer frame of their own.
 
 ### Style Guidelines
-- **Black and white only** - no colored fills, no colored bars, no accent colors. Use `#000` (black), `#fff` (white), and grays (`#fafafa`, `#eee`) only.
-- **Borders: `1px solid #000` only** - never use `#ddd` or other gray borders
-- **No double borders** - outer container has no border, only inner elements (canvas, boxes) have borders
-- Clean, functional UI (no decorative elements)
-- Stats/output displayed in tabular-nums font
-- Responsive: adapt for mobile (smaller canvas, stacked controls)
-- Hover effects for interactive elements
-
-### Standard Layout Pattern
-
-Always use this exact structure for interactive demos:
-
-```html
-<div id="demo-name" style="max-width: 720px; margin: 0 auto;">
-  <canvas id="demo-canvas" style="width: 100%; height: 200px; background: #fff; border: 1px solid #000;"></canvas>
-
-  <div class="demo-controls">
-    <button id="demo-btn">Run</button>
-    <button id="demo-reset">Reset</button>
-  </div>
-
-  <div class="demo-stats">
-    <div class="demo-stat-row"><span>Label:</span><strong id="demo-value">0</strong></div>
-    <div class="demo-stat-row"><span>Another:</span><strong id="demo-value2">—</strong></div>
-  </div>
-
-  <div id="demo-narrative" class="demo-narrative">Initial text...</div>
-</div>
-
-{% raw %}
-<style>
-#demo-name { font-variant-numeric: tabular-nums; }
-#demo-name * { box-sizing: border-box; }
-
-#demo-name .demo-controls {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 10px;
-}
-
-#demo-name button {
-  padding: 0.5em 1em;
-  font-size: 0.95em;
-  cursor: pointer;
-  border: 1px solid #000;
-  background: #fff;
-}
-#demo-name button:hover {
-  background: #eee;
-}
-
-#demo-name .demo-stats {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 4px;
-  margin-top: 10px;
-}
-#demo-name .demo-stat-row {
-  border-top: 1px solid #000;
-  padding: 6px 0;
-  font-size: 0.95em;
-  display: flex;
-  gap: 6px;
-}
-
-#demo-name .demo-narrative {
-  border-top: 1px solid #000;
-  padding: 10px 0;
-  font-size: 0.95em;
-}
-</style>
-
-<script>
-(function(){
-  // Self-executing, no global pollution
-  // DPI-aware canvas rendering
-  // Event listeners for controls
-})();
-</script>
-{% endraw %}
-```
-
-Key points:
-- Outer container: `max-width: 720px; margin: 0 auto;` with **NO border**
-- **Double border effect**: put `border: 1px solid #000` directly on the canvas/SVG element, then draw an inner border inside with 0.875rem padding. Always use rem units for padding, never raw pixels.
-- Stats rows: `border-top: 1px solid #000` (separator lines, not boxes)
-- Always include `font-variant-numeric: tabular-nums` on container
-- Always include `box-sizing: border-box` on all children
-
-### Double Border Pattern
-
-```html
-<svg id="chart" style="width:100%; height:260px; background:#fff; border:1px solid #000;"></svg>
-```
-
-Then inside the JS, draw inner border with **rem-based padding** on all sides:
-
-For canvas:
-```js
-const W = canvas.clientWidth, H = canvas.clientHeight;
-const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
-const pad = 0.875 * rem;  // 0.875rem ≈ 14px at default 16px font
-ctx.strokeRect(pad, pad, W - pad*2, H - pad*2);
-```
-
-For SVG (get actual dimensions, use proportional positioning):
-```js
-const rect = svg.getBoundingClientRect();
-const W = rect.width, H = rect.height;
-const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
-const pad = 0.875 * rem;
-const innerW = W - pad * 2;
-const innerH = H - pad * 2;
-
-// Inner border
-html += `<rect x="${pad}" y="${pad}" width="${innerW}" height="${innerH}" fill="none" stroke="#000"/>`;
-
-// Position content as percentages of innerW/innerH, NOT fixed pixels
-const barH = innerH * 0.18;
-const y1 = pad + innerH * 0.08;
-const labelMargin = innerW * 0.12;
-const fontSize = Math.min(13, innerH * 0.065);
-
-svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-```
-
-**Key rules**:
-- Always use rem units for padding (`0.875 * rem` for standard spacing)
-- For SVG: position all content (bars, text, axes) as **percentages of innerW/innerH**, not fixed pixel values
-- This ensures consistent spacing on all screen sizes since SVG height is fixed but width is responsive
+- Black and white only: `#000`, `#fff` and grays. No colour.
+- Axis labels; panel titles only when panels need distinguishing; direct labels instead of legends where possible.
+- No takeaway text or decorative annotations inside figures.
+- Check every figure in a browser screenshot, also at phone width, before publishing.
 
 ## Common Patterns
 
