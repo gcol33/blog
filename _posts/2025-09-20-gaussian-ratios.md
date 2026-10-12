@@ -15,7 +15,7 @@ Now average the results.
 
 Does the number settle down?
 
-No matter how many times you repeat the experiment, the mean refuses to converge. Yet the same ratios contain π.
+No matter how many times you repeat the experiment, the mean refuses to converge. And hidden inside that chaos is something stranger still.
 
 Treat each ratio as a slope, count how many land in a narrow strip around horizontal, then scale by the strip's width. The result is close to 3.14.
 
