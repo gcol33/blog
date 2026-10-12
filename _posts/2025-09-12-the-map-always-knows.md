@@ -41,7 +41,7 @@ $$
 a=(0,0),\quad b=(3,0),\quad c=\!\bigl(2,\,2\sqrt{3}\bigr),\quad d=\!\bigl(5,\,2\sqrt{3}\bigr)
 $$
 
-This forms a parallelogram: $|ab|=|cd|=3$ and $|ac|=|bd|=4$.
+This forms a parallelogram: $\lvert ab\rvert=\lvert cd\rvert=3$ and $\lvert ac\rvert=\lvert bd\rvert=4$.
 
 The diagonals differ:
 

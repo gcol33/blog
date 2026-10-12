@@ -15,13 +15,13 @@ Now average the results.
 
 Does the number settle down?
 
-No matter how many times you repeat the experiment, the mean refuses to converge. And hidden inside that chaos is something stranger still.
+No matter how many times you repeat the experiment, the mean refuses to converge. Yet the same ratios contain π.
 
-Collect the slopes, count how many land in a narrow strip around horizontal, then scale by the strip's width. A circle's number quietly emerges.
+Treat each ratio as a slope, count how many land in a narrow strip around horizontal, then scale by the strip's width. The result is close to 3.14.
 
 {% include figure.html src="gaussian-ratios-histogram.svg" alt="Histogram of one million ratios Y/X of independent standard Gaussians on the range -4 to 4, with the band from -0.1 to 0.1 shaded, the density 1/(pi(1+z^2)) drawn over it, and a dashed line at height 1/pi" %}
 
-The histogram holds a million slopes, each the ratio of two independent standard Gaussians. The shaded strip is the band $|Z| \le h$ with $h = 0.1$. Dividing the band's total width $2h$ by the fraction of slopes inside it gives 3.143.
+The histogram holds a million slopes, each the ratio of two independent standard Gaussians. The shaded strip is the band $\lvert Z\rvert \le h$ with $h = 0.1$. Dividing the band's total width $2h$ by the fraction of slopes inside it gives 3.143.
 
 {% include figure.html src="gaussian-ratios-estimate.svg" alt="Left: the estimate 2h divided by the fraction of slopes in the band, for band half-widths h from 0.001 to 1 with one million samples, with the exact expected curve pi h / arctan h and a dashed line at pi. Right: the same estimate at h = 0.01 as the number of samples grows from one thousand to one million." %}
 
@@ -36,15 +36,11 @@ To find out, we need to go back to Gauss, to Cauchy, and to a curve first drawn 
 
 ### How a Simple Curve Defied Gauss
 
-Gauss believed in certainty through numbers. His bell curve promised that measurement errors were well-behaved: they came from many small independent causes, variance was finite, and averages converged to the truth. The law of large numbers guaranteed stability. The central limit theorem explained the bell shape. With more data, you approached certainty.
+Gauss believed in certainty through numbers. His bell curve promised that measurement errors were well-behaved: they came from many small independent causes, variance was finite, and averages converged to the truth. The law of large numbers guaranteed stability, and the central limit theorem explained the bell shape. With more data, you approached certainty.
 
-Cauchy challenged that entire framework.
+In 1853, before the Académie des Sciences in Paris, Cauchy presented a rival law of errors in which variance was infinite and averages refused to settle. Joseph Bienaymé rose to defend Gauss, warning that least squares collapsed without finite variance. Cauchy insisted that mathematics itself admitted such laws, and that in their presence the Gaussian guarantees failed.
 
-In 1853, before the Académie des Sciences in Paris, he presented a rival law of errors in which variance was infinite and averages refused to settle. Joseph Bienaymé rose to defend Gauss, warning that least squares collapsed without finite variance. Cauchy insisted that mathematics itself admitted such laws, and that in their presence the Gaussian guarantees failed.
-
-With more data, you did not get closer to the truth. You only deepened the confusion.
-
-The curve Cauchy used was not obscure. It had been introduced a century earlier, in 1748, by Maria Gaetana Agnesi in her *Instituzioni Analitiche*. Agnesi was not thinking about probability. She worked in the geometric analytic tradition of the 18th century, when curves were defined by geometric constructions and explored with the new tools of calculus.
+The curve Cauchy used had been introduced a century earlier, in 1748, by Maria Gaetana Agnesi in her *Instituzioni Analitiche*. Agnesi worked in the geometric analytic tradition of the 18th century, when curves were defined by geometric constructions and explored with the new tools of calculus.
 
 Agnesi's *Instituzioni* was written in Italian rather than Latin, aimed at students, designed to systematize analysis in a clear, accessible way. Her *versiera* came from a simple construction: a circle, a fixed point on its diameter, a rotating line, and a point tracing where it cut an axis. The resulting curve was bounded, symmetric, and easy to draw. Its equation:
 
@@ -58,9 +54,9 @@ $$
 y=\frac{1}{1+x^2}
 $$
 
-A rational function whose integral was the arctangent, tying it directly back to circle geometry. For Agnesi, an ideal teaching curve. Later, through mistranslation, it would acquire the odd name "Witch of Agnesi."
+Its integral is the arctangent, which ties the curve back to circle geometry. Later, through mistranslation, it acquired the odd name "Witch of Agnesi."
 
-Cauchy saw something different. He turned Agnesi's curve into a probability law—a direct challenge to Gauss. Normalized:
+Normalized to unit area, the same curve is Cauchy's law of errors:
 
 $$
 f(x)=\frac{1}{\pi(1+x^2)}
@@ -73,12 +69,12 @@ $$
 =\frac{1}{\pi}\Big(\tfrac{\pi}{2}-(-\tfrac{\pi}{2})\Big)=1
 $$
 
-It qualifies as a density. But unlike Gauss's bell curve, its tails decay too slowly. The mean diverges. By symmetry the principal value is zero, but the absolute expectation:
+Its tails decay like $1/x^2$, far more slowly than the Gaussian's, and the mean diverges. By symmetry the principal value is zero, but the absolute expectation:
 
 $$
-\int_{-\infty}^{\infty} |x|f(x)\,dx
+\int_{-\infty}^{\infty} \lvert x\rvert f(x)\,dx
 =\frac{2}{\pi}\int_{0}^{\infty}\frac{x}{1+x^2}\,dx
-=\frac{1}{\pi}\ln u\Big|_{1}^{\infty}
+=\frac{1}{\pi}\Big[\ln(1+x^2)\Big]_{0}^{\infty}
 $$
 
 is infinite. The variance fares no better:
@@ -90,7 +86,7 @@ $$
 
 Truncating at $R$ gives $\frac{2}{\pi}(R-\arctan R)$, which grows without bound.
 
-Cauchy's conclusion was devastating. Here was a legitimate law of errors with no mean and no variance. Averages wandered instead of converging. The method of least squares lost its justification. The central limit theorem did not apply. Gauss's guarantees did not apply to every law of errors.
+Here was a legitimate law of errors with no mean and no variance. Averages of such errors wander instead of converging, the central limit theorem does not apply, and the method of least squares loses its justification.
 
 Only later did mathematicians discover a simpler route to the same law: take two independent Gaussians, divide one by the other, and Cauchy's distribution reappears.
 
@@ -98,15 +94,13 @@ Only later did mathematicians discover a simpler route to the same law: take two
 
 ### Geometry of the Slope
 
-The strange behavior of the ratio becomes clear once you look at the geometry.
-
 Start with the pair $(X,Y)$ of independent standard Gaussians. Their joint density:
 
 $$
 g(x,y) = \frac{1}{2\pi} e^{-\tfrac{1}{2}(x^2+y^2)}
 $$
 
-depends only on the radius $r=\sqrt{x^2+y^2}$. Spin the plane and nothing changes. The Gaussian cloud is rotationally symmetric: no direction is special.
+depends only on the radius $r=\sqrt{x^2+y^2}$, so rotating the plane leaves the Gaussian cloud unchanged: no direction is special.
 
 In polar coordinates $(r,\theta)$ with $x=r\cos\theta$ and $y=r\sin\theta$, the density becomes:
 
@@ -134,7 +128,7 @@ $$
 f_Z(z) = \frac{1}{\pi}\cdot \frac{1}{1+z^2}
 $$
 
-The heavy tails have a simple explanation. As $\theta$ approaches $\pm\tfrac{\pi}{2}$, the slope shoots to infinity. Vertical directions are not rare (they have the same chance as any other angle), so extreme ratios appear often. Steep slopes keep intruding. That's why averages fail to settle.
+As $\theta$ approaches $\pm\tfrac{\pi}{2}$, the slope shoots to infinity. Directions near vertical have the same chance as any other angle, so extreme ratios appear regularly, and each one pulls the running average far from where it was.
 
 ---
 
@@ -167,8 +161,6 @@ f_Z(z) = \frac{1}{\pi}\int_{0}^\infty e^{-u}\,\frac{du}{1+z^2}
        = \frac{1}{\pi(1+z^2)}
 $$
 
-The density Cauchy introduced by analytic argument is exactly the one that falls out of this modern calculation.
-
 ---
 
 ### A Law Without an Average
@@ -191,13 +183,13 @@ $$
 \pi = \frac{2h}{\Pr(|Z|\le h)} \quad \text{for small } h
 $$
 
-The number the estimates in the figure converge to is **π**. The constant comes not from circles directly, but from the length of the angle interval: $\theta=\arctan(Y/X)$ is uniform on $(-\tfrac{\pi}{2},\tfrac{\pi}{2})$, an interval of length π. Each slice of angle of width $\varepsilon$ carries probability $\varepsilon/\pi$. Push that uniform angle through the tangent, and π controls the entire distribution of slopes.
+This is the value the estimates in the figures approach. The π comes from the length of the angle interval: $\theta=\arctan(Y/X)$ is uniform on $(-\tfrac{\pi}{2},\tfrac{\pi}{2})$, an interval of length π, so each slice of angle of width $\varepsilon$ carries probability $\varepsilon/\pi$. Push that uniform angle through the tangent, and π sets the height of the whole density of slopes.
 
-The Cauchy law breaks every Gaussian intuition:
+Four properties set the Cauchy law apart from the Gaussian:
 
-- **No mean**: averages drift endlessly, never converging
-- **No variance**: tails are too heavy for second moments
-- **Stable**: sums of Cauchy variables stay Cauchy, but without narrowing
-- **CLT fails**: with infinite variance, the central limit theorem gives no refuge; more samples bring no certainty
+- **No mean**: the integral of $\lvert x\rvert f(x)$ diverges
+- **No variance**: the second moment is infinite
+- **Stable**: the average of $n$ independent standard Cauchy variables is again standard Cauchy, so averaging never narrows it
+- **No central limit theorem**: the theorem needs finite variance, so more samples bring no concentration around a centre
 
 Half a century later, a statistician at the Guinness brewery needed a distribution for small samples. William Sealy Gosset published it in 1908 under the pseudonym "Student." His $t$-distribution with one degree of freedom reduces exactly to the Cauchy, the simplest member of the family and the only one without an average.
