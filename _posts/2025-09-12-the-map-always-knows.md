@@ -131,7 +131,7 @@ At the simplest level, moving a packet from one machine to another is a shortest
 
 Every time you send an email or load a webpage, a shortest-path calculation runs in the background.
 
-The importance of these ideas became obvious in the early days of ARPANET. In 1969 the network launched with four nodes. Routing was done with simple distance tables, and small failures could cause packets to loop endlessly. By the early 1970s, designers adopted shortest-path algorithms to stabilize the network. Without Dijkstra, packet routing would have collapsed as ARPANET grew.
+The importance of these ideas became obvious in the early days of ARPANET. In 1969 the network launched with four nodes. Each node kept a table of distances and swapped it with its neighbours, a distributed form of the Bellman-Ford shortest-path method, and when delays changed quickly, packets could loop. In May 1979 the network switched to a scheme in which every node kept the whole map and ran Dijkstra's algorithm on it, which gave loop-free and more stable routes. Routers running OSPF still work this way.
 
 ---
 

@@ -134,6 +134,6 @@ The experienced average exceeds the scheduled average whenever individuals are m
 |---------------|----------|-----------|
 | Regular (clockwork) | $T$ | $T/2$ |
 | Poisson (random) | $T$ | $T$ |
-| Irregular (variable) | $T$ | between $T/2$ and $T$ |
+| Irregular (variable) | $T$ | at least $T/2$, above $T$ if buses bunch |
 
 The schedule average and the passenger average measure different things. Schedules average over intervals. Passengers average over time spent inside them. That difference is why the long gaps are so hard to avoid.
