@@ -9,6 +9,8 @@ categories: algorithms networks
 
 Can you draw this figure in one continuous stroke without lifting your pen, and without retracing any line?
 
+{% include figure.html src="the-map-always-knows-house.svg" alt="A square with both diagonals and a triangular roof on top: five points joined by eight lines." %}
+
 What looks like a children's puzzle is one of the oldest problems in graph theory. It's also the question facing every street sweeper, snowplow driver, and mail carrier: how do you cover every road at least once, with the fewest repeated stretches?
 
 The city of Königsberg was built across two islands connected by seven bridges, and its residents had a puzzle: could you walk across each bridge exactly once and return home? In 1736, Leonhard Euler answered the question. Euler's answer reduced the problem to counting. The possibility depends only on the number of "odd" intersections, nodes with an odd number of edges. A connected graph has a trail using every edge exactly once if and only if the number of odd-degree nodes is $0$ or $2$. Counting degrees takes seconds.

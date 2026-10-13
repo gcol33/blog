@@ -3,6 +3,18 @@ from matplotlib.patches import Circle
 
 import style
 
+HOUSE = {"p": (0, 0), "q": (1.6, 0), "r": (1.6, 1.6), "s": (0, 1.6), "t": (0.8, 2.5)}
+HX, HY = (style.WIDTH - 1.6) / 2, 0.25
+fig, ax = style.canvas(3.0)
+for e in ("pq", "qr", "rs", "sp", "pr", "qs", "st", "tr"):
+    (x1, y1), (x2, y2) = HOUSE[e[0]], HOUSE[e[1]]
+    ax.plot([HX + x1, HX + x2], [HY + y1, HY + y2], color=style.BLACK, linewidth=2.0,
+            solid_capstyle="round")
+for x, y in HOUSE.values():
+    ax.add_patch(Circle((HX + x, HY + y), 0.06, facecolor=style.BLACK,
+                        edgecolor="none", zorder=3))
+style.save(fig, "the-map-always-knows-house")
+
 H = 3.1
 fig, ax = style.canvas(H)
 
