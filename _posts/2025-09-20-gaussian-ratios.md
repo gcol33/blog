@@ -17,7 +17,7 @@ Does the number settle down?
 
 No matter how many times you repeat the experiment, the mean refuses to converge. And hidden inside that chaos is something stranger still.
 
-Treat each ratio as a slope, count how many land in a narrow strip around horizontal, then scale by the strip's width. The result is close to 3.14.
+Collect the slopes, count how many land in a narrow strip around horizontal, then scale by the strip's width. A circle's number quietly emerges.
 
 {% include figure.html src="gaussian-ratios-histogram.svg" alt="Histogram of one million ratios Y/X of independent standard Gaussians on the range -4 to 4, with the band from -0.1 to 0.1 shaded, the density 1/(pi(1+z^2)) drawn over it, and a dashed line at height 1/pi" %}
 
