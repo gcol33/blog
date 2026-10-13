@@ -9,11 +9,17 @@ excerpt: "In 1950, a physicist asked why the galaxy is silent. The answer may be
 
 ## Where Is Everybody?
 
-In the summer of 1950, four physicists at Los Alamos walked to Fuller Lodge for lunch. The conversation drifted to a recent cartoon about flying saucers stealing trash cans from New York sidewalks. Then, out of nowhere, one of them asked: "Where is everybody?"
+In the summer of 1950, Enrico Fermi and three colleagues at Los Alamos were on their way to lunch. They had been discussing reports of flying saucers and a recent *New Yorker* cartoon showing aliens stealing trash cans from the streets of New York. At lunch, the conversation moved on to other subjects. Fermi then asked: "Where is everybody?" His colleagues understood that he meant extraterrestrial civilizations.
 
-It was a simple calculation. The Milky Way contains roughly $10^{11}$ stars. A conservative fraction have planets. Life has had billions of years to arise and spread. Even if interstellar travel is slow, a single civilization expanding at a fraction of the speed of light would colonize the entire galaxy in a few million years, a blink on cosmic timescales.
+This account rests on recollections that Edward Teller, Emil Konopinski and Herbert York wrote down in 1984, collected in Eric M. Jones's 1985 Los Alamos report [“Where Is Everybody?” An Account of Fermi's Question](https://digital.library.unt.edu/ark:/67531/metadc1096088/). The exact wording is uncertain, and 1950 is the most likely year rather than a documented one.
 
-By that reasoning the galaxy should be full of civilizations, yet no signal, probe or artifact has been found. The physicist who asked was Enrico Fermi, and the question outlived the lunch by decades, because every proposed answer forces you to state what you believe about the nature of life and what happens to civilizations that survive long enough to be visible.
+Fermi reportedly followed his question with rough calculations about the likelihood of life on other planets and the development of technological civilizations. If such civilizations were common, some might have existed long before humanity. And if interstellar travel were possible, at least some might have reached Earth by now. Yet there was no evidence that any had.
+
+Today, we know that the Milky Way contains roughly 100 billion stars and that planets are common. A civilization capable of travelling between stars could, in principle, spread across the galaxy in a few million years, far less than its age. Even if only a small proportion of civilizations attempted this, there has been ample time for some to reach our part of the galaxy.
+
+Yet we have found no confirmed evidence of extraterrestrial technology. Perhaps technological life is extremely rare. Perhaps civilizations rarely survive long enough to spread, or have little reason to do so. It is also possible that evidence exists but that we have not recognized it.
+
+This is the Fermi paradox: given the size and age of the galaxy, why have we found no evidence of other civilizations?
 
 ---
 
