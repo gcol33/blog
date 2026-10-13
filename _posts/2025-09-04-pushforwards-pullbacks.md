@@ -12,15 +12,15 @@ Roll a die. You get a 4.
 
 Now I ask: "Is it even?"
 
-Something just happened that's easy to miss. The randomness *moved*. It started in a space of six faces, then traveled to a space of two labels: odd and even. The uniform distribution on faces became a fair coin on parity.
+Asking the question moved the randomness. It started in a space of six faces, then traveled to a space of two labels: odd and even. The uniform distribution on faces became a fair coin on parity.
 
-This movement has a direction. The die doesn't care about parity—parity is something we impose *after* the roll. But once we ask the question, probability flows forward through our question, landing in a simpler space.
+This movement has a direction. Parity is something we impose *after* the roll, and once we ask the question, probability flows forward through it, landing in a simpler space.
 
 What if we reverse direction? Suppose I define a reward: &#36;1 if even, &#36;0 if odd. That function lives in parity-space. But to compute your expected winnings, you need to pull it back to die-space, where the probability lives.
 
 These are the two directions of mathematical transport: measures push forward through a map, while functions pull back against it.
 
-The pattern extends far beyond dice—it's the grammar of how mathematics moves structure from one space to another.
+The same pattern reaches far beyond dice. It is the grammar by which mathematics moves structure from one space to another.
 
 ---
 
@@ -34,17 +34,15 @@ The measure moves forward through $f$: $P(\{\text{odd}\}) = P(\{1,3,5\}) = 1/2$,
 
 ## Why Two Directions?
 
-This asymmetry puzzled mathematicians long before probability theory existed.
+The two directions appeared in geometry long before probability theory existed. When you stretch or bend a surface and map it onto another, certain quantities move *with* the map, while others move *against* it.
 
-The question goes back to the study of curved surfaces. When you stretch or bend a surface and map it onto another, certain quantities move *with* the map, while others move *against* it. Bernhard Riemann spent years working out the details.
+**Tangent vectors push forward.** If you have a direction at a point and you stretch the surface, the direction stretches along with it.
 
-**Tangent vectors push forward.** If you have a direction at a point and you stretch the surface, the direction stretches along with it. Vectors ride the map.
+**Functions pull back.** If you have a function defined on the target surface (say, temperature), you can read its values on the source by composing with the map.
 
-**Functions pull back.** If you have a function defined on the target surface (say, temperature), you can read its values on the source by composing with the map. Functions resist the map's direction.
+This duality appeared again in physics (contravariant vs. covariant tensors) and eventually in probability.
 
-This duality appeared again in physics (contravariant vs. covariant tensors), in algebra (homomorphisms vs. cohomomorphisms), and eventually in probability.
-
-The pattern is universal: whenever you have a map between spaces, two operations arise, one following the map and one opposing it.
+Whenever you have a map between spaces, two operations arise, one following the map and one opposing it.
 
 ---
 
@@ -90,7 +88,7 @@ Inverse images preserve the set operations that σ-algebras need. Pushforward us
 
 ## The Adjunction: Where the Two Directions Meet
 
-Pushforward and pullback aren't independent tricks. They're married by the integral.
+The integral ties pushforward and pullback together.
 
 For a measure $\mu$ on $X$ and a function $g$ on $Y$:
 
@@ -100,7 +98,7 @@ $$
 
 On the left, the measure moves forward to $Y$, where $g$ lives. On the right, the function moves backward to $X$, where $\mu$ lives. Both integrals compute the same number.
 
-This is the change-of-variables formula. But seen through category theory, it's something more: an **adjunction**. The integral defines a pairing between functions and measures, and pushforward/pullback preserve that pairing.
+This is the change-of-variables formula. In the language of category theory it is an **adjunction**. The integral defines a pairing between functions and measures, and pushforward/pullback preserve that pairing.
 
 Written symbolically: $f^* \dashv f_*$. Pullback is left adjoint to pushforward.
 
@@ -123,7 +121,7 @@ In probability, sending each space $X$ to its measures and each map $f$ to $f_*$
 
 The integral formula is the adjunction that ties them together.
 
-This abstraction earns its keep. Once you see the pattern, you recognize it everywhere: in topology (homology vs. cohomology), in algebra (extension vs. restriction of scalars), in logic (existential vs. universal quantifiers).
+The same pattern appears in topology (homology vs. cohomology), in algebra (extension vs. restriction of scalars), in logic (existential vs. universal quantifiers).
 
 ---
 
@@ -175,8 +173,6 @@ Both integrals agree. The expected reward is 1/2, computed either by pushing the
 
 ## Distributions Are Pushforwards
 
-Every probability distribution is a pushforward in disguise.
-
 A random variable is a measurable map $X: \Omega \to \mathbb{R}$. Its distribution is:
 
 $$
@@ -191,15 +187,13 @@ $$
 (\pi_X)_* \mu (A) = \mu(A \times Y).
 $$
 
-Distributions, marginals, transformations—all pushforwards of the same base measure through different maps.
+Distributions, marginals and transformations are all pushforwards of the same base measure through different maps.
 
 ---
 
 ## What About Conditioning?
 
-Not everything in probability is a pushforward.
-
-Conditioning is fundamental: it describes how beliefs update when information arrives. Given an event $B$ with $P(B) > 0$:
+Conditioning describes how beliefs update when information arrives. Given an event $B$ with $P(B) > 0$:
 
 $$
 P(A \mid B) = \frac{P(A \cap B)}{P(B)}.
@@ -207,7 +201,7 @@ $$
 
 This is *not* transport along a map. It's restriction to a slice, followed by renormalization.
 
-Pushforwards move probability between spaces. Conditioning reshapes probability within a single space. Both matter, but they are different operations.
+Pushforwards move probability between spaces. Conditioning reshapes probability within a single space.
 
 (Disintegration theory can encode conditioning using pushforwards, but the naive picture of "push through a map" doesn't capture what conditioning does.)
 
@@ -239,7 +233,7 @@ $$
 p_X(x) = p_Z(G^{-1}(x)) \cdot |\det \nabla G^{-1}(x)|.
 $$
 
-The Jacobian is the trace of the pushforward—Riemann's insight, now running on GPUs.
+The Jacobian determinant records how the pushforward stretches volume.
 
 ---
 
@@ -247,4 +241,4 @@ The Jacobian is the trace of the pushforward—Riemann's insight, now running on
 
 Gauss and Riemann studied how curvature behaves under maps between surfaces: pullbacks carrying differential forms, pushforwards carrying tangent vectors, the Jacobian determinant holding them together. Category theory later gave this pattern a formal home with functors and adjunctions.
 
-The same structure now powers machine learning. Monte Carlo methods push simple randomness into complex simulations. Variational inference pulls expectations back through intractable models. Generative AI pushes latent noise into images and text. In each case, a single map gives rise to two operations, one moving mass forward, the other moving questions back, and the integral formula is the bridge between them.
+The same structure appears in machine learning. Monte Carlo methods push simple randomness into complex simulations. Variational inference pulls expectations back through intractable models. Generative AI pushes latent noise into images and text. In each case, a single map gives rise to two operations, one moving mass forward, the other moving observables back, and integration holds them in balance.

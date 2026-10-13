@@ -11,7 +11,7 @@ Can you draw this figure in one continuous stroke without lifting your pen, and 
 
 What looks like a children's puzzle is one of the oldest problems in graph theory. It's also the question facing every street sweeper, snowplow driver, and mail carrier: how do you cover every road at least once, with the fewest repeated stretches?
 
-The city of Königsberg was built across two islands connected by seven bridges, and its residents had a puzzle: could you walk across each bridge exactly once and return home? In 1736, Leonhard Euler answered the question. Euler's answer reduced the problem to counting. The possibility depends only on the number of "odd" intersections—nodes with an odd number of edges. A connected graph has a trail using every edge exactly once if and only if the number of odd-degree nodes is $0$ or $2$. Counting degrees takes seconds.
+The city of Königsberg was built across two islands connected by seven bridges, and its residents had a puzzle: could you walk across each bridge exactly once and return home? In 1736, Leonhard Euler answered the question. Euler's answer reduced the problem to counting. The possibility depends only on the number of "odd" intersections, nodes with an odd number of edges. A connected graph has a trail using every edge exactly once if and only if the number of odd-degree nodes is $0$ or $2$. Counting degrees takes seconds.
 
 ---
 
@@ -19,7 +19,7 @@ The city of Königsberg was built across two islands connected by seven bridges,
 
 Euler's result was elegant but limited: it tells you whether a perfect route exists, not what to do when one doesn't. In 1962, Mei-Ko Kwan extended the idea to practical routing.
 
-He asked: what if a network has many odd intersections? Instead of giving up, you can "fix" the graph by pairing odd nodes and adding the cheapest extra links until every degree becomes even. The result is an Eulerian tour in the augmented graph—a walk covering every street exactly once, with repeats chosen as efficiently as possible.
+He asked: what if a network has many odd intersections? Instead of giving up, you can "fix" the graph by pairing odd nodes and adding the cheapest extra links until every degree becomes even. The result is an Eulerian tour in the augmented graph: a walk covering every street exactly once, with repeats chosen as efficiently as possible.
 
 Kwan's formulation became known as the **Chinese Postman Problem**, after the everyday scenario that inspired it.
 

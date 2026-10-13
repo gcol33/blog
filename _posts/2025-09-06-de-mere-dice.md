@@ -9,13 +9,11 @@ excerpt: "In 1654, a French nobleman had a problem. Two gambling wagers that see
 
 ## When $1+1$ Is Not $2$
 
-In 1654, a French nobleman named Antoine Gombaud—better known as the Chevalier de Méré—had a problem. Two gambling wagers that seemed identical by his reasoning behaved differently at the tables. One made money over time. The other slowly drained it.
+In 1654, a French nobleman named Antoine Gombaud, better known as the Chevalier de Méré, had a problem. Two gambling wagers that seemed identical by his reasoning behaved differently at the tables. One made money over time. The other slowly drained it.
 
-De Méré was no mathematician. But he knew someone who was. He brought the puzzle to Blaise Pascal, then thirty-one and already famous for his work on vacuum and pressure.
+De Méré brought the puzzle to Blaise Pascal, then thirty-one and already famous for his work on vacuum and pressure.
 
-Pascal took the problem seriously. He wrote to Pierre de Fermat, a magistrate in Toulouse who pursued mathematics in his spare time. Over several months, the two exchanged letters dissecting de Méré's wagers.
-
-That correspondence laid the foundations of probability theory.
+Pascal took the problem seriously. He wrote to Pierre de Fermat, a magistrate in Toulouse who pursued mathematics in his spare time. Over several months, the two exchanged letters dissecting de Méré's wagers. Their exchange is now seen as the starting point of modern probability theory.
 
 ---
 
@@ -42,8 +40,6 @@ $$
 
 Same expectation. De Méré reasoned that if the expected count of successes is the same, the probability of winning should be the same.
 
-The gambling tables disagreed.
-
 ---
 
 ## The First Wager: One Die, Four Rolls
@@ -60,7 +56,7 @@ $$
 1 - \left(\frac{5}{6}\right)^4 \approx 0.518
 $$
 
-Slightly favorable. Bet this long enough, and you win.
+This wager is slightly favorable.
 
 ---
 
@@ -78,7 +74,7 @@ $$
 1 - \left(\frac{35}{36}\right)^{24} \approx 0.491
 $$
 
-Slightly unfavorable. Bet this long enough, and you lose.
+This wager is slightly unfavorable.
 
 ---
 
@@ -86,7 +82,7 @@ Slightly unfavorable. Bet this long enough, and you lose.
 
 Both wagers give the same expected number of successes: $2/3$. But the probability of winning differs. The reason: two different measures are involved.
 
-**Expectation is linear.** If each trial has probability $p$ of success, then $n$ trials have expected successes $np$. Double the trials, double the expectation. Simple addition.
+**Expectation is linear.** If each trial has probability $p$ of success, then $n$ trials have expected successes $np$. Double the trials, double the expectation.
 
 **Probability of at least one success is nonlinear.** It equals $1 - (1-p)^n$. Failures compound. When $p$ is small, $(1-p)^n$ stays close to 1 even for moderately large $n$.
 
@@ -112,18 +108,14 @@ After 100 rounds the losing wager is still ahead, 51% against 46%. Only after se
 
 The confusion between expectation and probability appears far beyond dice.
 
-**Lotteries.** A ticket costing &#36;2 with a 1-in-10-million chance at &#36;10 million has expected value near &#36;1. Buy a million tickets and your expected return is about &#36;1 million. But your probability of winning even once is still only about 10%. Expectation scales; probability does not.
+**Lotteries.** A ticket costing &#36;2 with a 1-in-10-million chance at &#36;10 million has expected value near &#36;1. Buy a million tickets and your expected return is about &#36;1 million. But your probability of winning even once is still only about 10%.
 
-**Medical screening.** A test with 99% sensitivity and 1% false positive rate sounds reliable. If the disease prevalence is 0.1%, most positive results are false positives. The expected number of true positives per thousand tests is about 1. The probability that *your* positive result is correct is only about 9%. Doctors routinely confuse these.
+**Medical screening.** A test with 99% sensitivity and 1% false positive rate sounds reliable. If the disease prevalence is 0.1%, most positive results are false positives. The expected number of true positives per thousand tests is about 1. The probability that *your* positive result is correct is only about 9%.
 
 **Rare risks.** The expected number of fatal accidents on a commute might be 0.0001 per trip. Over 10,000 trips, the expectation is 1. But the probability of at least one fatal accident is about 63% (by $1 - e^{-1}$), not 100%. Expectation and probability diverge most sharply for rare events repeated many times.
-
-The linear intuition that works for averages misleads when applied to probabilities, and the confusion is as common now as it was in 1654.
 
 ---
 
 ## The Pascal-Fermat Correspondence
 
 Pascal's letters to Fermat did more than resolve a gambling puzzle. They introduced methods for counting arrangements, dividing stakes fairly, and reasoning systematically about future outcomes. Within a generation, Christiaan Huygens had turned that correspondence into the first textbook on probability, and Jacob Bernoulli would use Pascal's methods to prove the law of large numbers. By the eighteenth century, Laplace had extended these ideas to astronomy, insurance, and the theory of errors.
-
-De Méré himself never understood the mathematics, but the letter he prompted Pascal to write traveled further than any of his wagers.

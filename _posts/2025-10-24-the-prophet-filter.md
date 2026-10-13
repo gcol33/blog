@@ -14,7 +14,7 @@ You ignore it. But the next day, you check, and it did close up.
 
 A week later, another email: "Tech stocks will drop on Friday." You're skeptical. Friday comes. Tech stocks drop.
 
-This keeps happening. Five predictions. Six. Seven. All correct. By the eighth email, you're paying attention. The sender offers access to a "premium service" for $500. After all, this person has never been wrong.
+This keeps happening. Five predictions. Six. Seven. All correct. By the eighth email, you're paying attention. The sender offers access to a "premium service" for &#36;500. After all, this person has never been wrong.
 
 Would you pay?
 
@@ -32,7 +32,7 @@ Repeating the split for ten rounds halves the list ten times. The number of peop
 
 {% include figure.html src="the-prophet-filter-survivors.svg" alt="Recipients remaining on a logarithmic axis against the number of correct predictions seen, from 0 to 10, falling in a straight line from 1,000,000 to 976." %}
 
-To those 976 people, the prophet seems infallible. To everyone else, the prophet doesn't exist.
+To those 976 people, the prophet seems infallible.
 
 ---
 
@@ -54,13 +54,13 @@ $$
 10^6 \times \left(\frac{1}{2}\right)^{10} = 976
 $$
 
-Nearly a thousand people witness a perfect streak. Not because the prophet knows anything, but because selection guarantees survivors.
+Almost a thousand people will see ten perfect predictions, not because of prophecy, but because of simple arithmetic.
 
 ---
 
 ## The Scam in the Wild
 
-In the 1990s and 2000s, "stock-picking" newsletters ran exactly this scheme. Some were prosecuted; many were not. The scheme works because victims never see the full picture. They see only their own experience of ten correct predictions.
+The scheme works because each recipient sees only their own ten correct predictions, never the full mailing list.
 
 Variations appear everywhere:
 
@@ -76,9 +76,9 @@ The mechanism is survivorship bias, applied deliberately.
 
 ## Aristotle Saw It First
 
-In *On Divination in Sleep*, Aristotle observed that people who dream of disasters and later learn of matching events believe they foresaw them. They forget the thousands of dreams that matched nothing.
+In *On Prophesying by Dreams*, Aristotle argued that most dreams said to foretell events are coincidences, and compared them to mentioning someone just before that person turns up:
 
-> "The principle is the same as in the case of mentioning a particular person, and then that person appearing. For there is nothing strange in this: the cause is that one has had a thousand dreams, and something happens that corresponds to one of them."
+> "As one's mentioning a particular person is neither token nor cause of this person's presenting himself, so, in the parallel instance, the dream is, to him who has seen it, neither token nor cause of its [so-called] fulfilment, but a mere coincidence."
 
 If the probability of a dream matching reality is $p$, and you have $N$ dreams over a lifetime, the chance of at least one match:
 
@@ -86,7 +86,7 @@ $$
 P(\text{at least one match}) = 1 - (1-p)^N
 $$
 
-For small $p$, this approximates $Np$. Dream thousands of dreams, and coincidences become inevitable.
+For small $p$, this approximates $Np$. Even when $p$ is tiny, large $N$ makes coincidences inevitable.
 
 ---
 
@@ -112,7 +112,7 @@ $$
 1 - e^{-8000} \approx 1
 $$
 
-Every day, things happen to people that had a one-in-a-million chance of happening to them. Given the scale, such occurrences are inevitable.
+Coincidences of enormous improbability must occur somewhere simply because there are enough chances for them to happen.
 
 ---
 
@@ -120,7 +120,7 @@ Every day, things happen to people that had a one-in-a-million chance of happeni
 
 The prophet filter exploits three cognitive biases at once.
 
-**Survivorship bias.** We see the winners, not the losers. The 976 believers are vocal; the 999,024 who saw failures have no story to tell.
+**Survivorship bias.** The 976 believers are vocal; the 999,024 who saw failures have no story to tell.
 
 **Confirmation bias.** Once we suspect someone has a gift, we weight hits more heavily than misses. Each correct prediction strengthens belief; each miss is explained away.
 
@@ -132,8 +132,6 @@ The second question has an easy answer: near certainty.
 
 ## The Meaning of Evidence
 
-A track record of ten correct predictions is genuinely impressive if you know you were the only recipient. But if a million people received the first email, your experience proves nothing.
+A track record of ten correct predictions is impressive if you know you were the only recipient. If a million people received the first email, it is what selection alone would produce. Ten correct predictions count as evidence only if you know that no one else was receiving different predictions.
 
-The evidence that would update your beliefs is not "I saw ten correct predictions" but "Ten correct predictions, and I know no one else was receiving different predictions."
-
-The scam works because you cannot see the counterfactual. The failed recipients don't complain; they simply stopped receiving emails. From your vantage point, the prophet has always been right, and that is exactly the problem with evaluating evidence when you don't know the selection process that produced it.
+The failed recipients don't complain; they simply stopped receiving emails. The same principle drives scams, forecasts, and even published research, where visible success hides invisible failure.

@@ -20,7 +20,7 @@ But look at the breakdown by severity:
 - Drug group: 192 of 263 recovered (73%)
 - Control group: 55 of 80 recovered (69%)
 
-The drug improves recovery in mild cases. It improves recovery in severe cases. Yet when you combine the groups, recovery is worse with the drug.
+The drug improves recovery in both mild and severe cases, yet when you combine the groups, recovery is worse with the drug.
 
 This is Simpson's Paradox: a trend that appears in subgroups can reverse or disappear when the subgroups are combined.
 
@@ -28,7 +28,7 @@ This is Simpson's Paradox: a trend that appears in subgroups can reverse or disa
 
 ## The Arithmetic
 
-The numbers aren't a trick of rounding. They follow from how the patients were distributed.
+The reversal follows from how the patients were distributed.
 
 |  | Drug | Control |
 |--|------|---------|
@@ -50,7 +50,7 @@ $$
 \text{Control: } \frac{234 + 55}{270 + 80} = \frac{289}{350} = 82.6\%
 $$
 
-The aggregate reverses the subgroup pattern because severity—which affects both treatment assignment and outcome—isn't held constant.
+The aggregate reverses the subgroup pattern because severity, which affects both treatment assignment and outcome, isn't held constant.
 
 ---
 
@@ -72,20 +72,20 @@ Swapping the allocation, so that most drug patients are mild, gives 88.5% agains
 
 The paradox made headlines in a 1975 paper by Bickel, Hammel, and O'Connell examining graduate admissions at UC Berkeley.
 
-The aggregate numbers looked damning:
+The aggregate numbers:
 
 |  | Applicants | Admitted |
 |--|------------|----------|
 | Men | 8,442 | 44% |
 | Women | 4,321 | 35% |
 
-A nine-point gap. The university faced accusations of discrimination.
+Men were admitted at a rate nine points higher than women, which raised concerns about discrimination.
 
 But when the researchers examined individual departments, the pattern reversed. In most departments, women were admitted at equal or higher rates than men. Four of the six largest departments favored women.
 
-The explanation: women applied disproportionately to competitive departments (English, History) with low acceptance rates for everyone. Men applied more often to less competitive departments (Engineering, Chemistry) with high acceptance rates for everyone.
+The explanation: women applied disproportionately to competitive departments with low acceptance rates for everyone. Men applied more often to less competitive departments with high acceptance rates for everyone. The paper identifies the departments only by letter.
 
-The admissions process within each department showed no bias. The aggregate showed a gap because of where candidates chose to apply.
+Within departments, the data showed no bias against women. The aggregate showed a gap because of where candidates chose to apply.
 
 ---
 
@@ -103,7 +103,7 @@ Treatment A wins in both categories but loses overall.
 
 The reason: doctors assigned the newer, gentler Treatment B to easier cases (small stones). Treatment A, being more invasive, was reserved for difficult cases (large stones). When you ignore stone size and just count successes, Treatment B looks better because it was given to patients who would have done well anyway.
 
-This matters for medical decisions. A patient with large kidney stones should prefer Treatment A, despite its worse aggregate numbers.
+A patient with large kidney stones should prefer Treatment A, despite its worse aggregate numbers.
 
 ---
 
@@ -117,9 +117,9 @@ Graphically:
 
 {% include figure.html src="simpsons-paradox-confounding.svg" alt="Causal diagram: Severity causes both Treatment and Recovery; Treatment causes Recovery." %}
 
-Severity affects treatment assignment. Severity affects recovery. If you ignore severity, you conflate its effect with the treatment's effect.
+Because severity affects both treatment assignment and recovery, ignoring it conflates its effect with the treatment's effect.
 
-The solution is **stratification**: analyze within levels of the confounder. The drug works in mild cases and works in severe cases. That's the real story. The aggregate is misleading because it mixes two different populations.
+The solution is **stratification**: analyze within levels of the confounder. The drug works in mild cases and works in severe cases. The aggregate is misleading because it mixes two different populations.
 
 ---
 
@@ -127,13 +127,13 @@ The solution is **stratification**: analyze within levels of the confounder. The
 
 The paradox raises a practical question: which answer is right? Should we trust the subgroup analysis or the aggregate?
 
-There's no universal rule. It depends on the causal structure.
+The answer depends on the causal structure.
 
-**Pool when** the subgroups are arbitrary divisions that don't affect the outcome. If you split patients by birth month and find different treatment effects in each month, you should probably pool—birth month isn't a cause of recovery.
+**Pool when** the subgroups are arbitrary divisions that don't affect the outcome. If you split patients by birth month and find different treatment effects in each month, you should probably pool, since birth month isn't a cause of recovery.
 
 **Split when** the subgroups reflect a genuine confounder that affects both treatment and outcome. If sicker patients systematically receive one treatment and do worse regardless of treatment, you need to control for severity.
 
-The Berkeley case is instructive. Should we pool across departments or not? It depends what question you're asking. If you're asking "Are admissions committees biased?", split by department—that's where decisions happen. If you're asking "Do women face barriers to graduate education at Berkeley?", the aggregate might matter, because whatever steered women toward competitive departments is part of the system.
+The Berkeley case is instructive. Should we pool across departments or not? It depends what question you're asking. If you're asking "Are admissions committees biased?", split by department, since that's where decisions happen. If you're asking "Do women face barriers to graduate education at Berkeley?", the aggregate might matter, because whatever steered women toward competitive departments is part of the system.
 
 ---
 
@@ -143,10 +143,4 @@ The paradox carries Edward Simpson's name from his 1951 paper, but the phenomeno
 
 Udny Yule noted in 1903 that correlations could reverse when populations were combined, and Karl Pearson described similar reversals around the same time. Some call it the Yule-Simpson effect.
 
-The name "paradox" overstates the case. Once you understand confounding, the reversal is arithmetically inevitable under certain conditions. The surprise comes from expecting aggregates to preserve subgroup relationships—an expectation that probability doesn't guarantee.
-
----
-
-## Aggregation and Interpretation
-
-Averages are summaries, and summaries discard information. When the discarded information matters, the summary misleads. The same numbers support opposite conclusions depending on which comparisons you make, and choosing the right comparison requires understanding the causal structure: what causes what, and what you're trying to learn.
+The name "paradox" overstates the case. Once you understand confounding, the reversal is arithmetically inevitable under certain conditions. The surprise comes from expecting aggregates to preserve subgroup relationships, which probability does not guarantee.

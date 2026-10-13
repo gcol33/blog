@@ -18,11 +18,9 @@ $$
 H = -\sum_i p_i \log p_i
 $$
 
-In physics, $p_i$ is the probability of a microstate. In ecology, $p_i$ is the fraction of individuals belonging to species $i$. The formula doesn't care which world it measures. It counts possibilities.
+In physics, $p_i$ is the probability of a microstate. In ecology, $p_i$ is the fraction of individuals belonging to species $i$. In both cases the formula counts possibilities.
 
-And here's the twist: global warming doesn't just raise temperatures. It *cools* ecosystems in the entropic sense. As the planet heats up, biological diversity collapses. The living world becomes simpler, more uniform, more predictable.
-
-In the entropic sense, the living world is getting colder.
+Global warming raises temperatures, and it also *cools* ecosystems in this entropic sense: as the planet heats up, biological diversity declines and communities become simpler and more uniform.
 
 ---
 
@@ -40,7 +38,7 @@ The community starts at $H = 2.30$, about 9.9 effective species ($e^H$). By the 
 
 The connection between entropy and counting goes back to Ludwig Boltzmann.
 
-In the 1870s, Boltzmann was fighting a lonely battle in Vienna. He believed that thermodynamics—the rules governing heat, work, and efficiency—could be explained by statistics. Count all the ways particles can arrange themselves, he argued, and entropy falls out naturally.
+In the 1870s, Boltzmann argued in Vienna that the laws of heat, work, and efficiency could be explained by statistics. Count all the ways particles can arrange themselves, he argued, and entropy falls out naturally.
 
 His formula:
 
@@ -50,15 +48,15 @@ $$
 
 $W$ is the number of microstates compatible with a given macrostate. $k$ is Boltzmann's constant. The more ways a system can be arranged while looking the same from the outside, the higher its entropy.
 
-The physics establishment resisted. Ernst Mach and others denied that atoms even existed. Boltzmann grew isolated and depressed. In 1906, while on vacation in Trieste, he took his own life.
+The physics establishment resisted. Ernst Mach and others denied that atoms even existed. Boltzmann grew isolated and depressed. In 1906, while on holiday in Duino near Trieste, he took his own life.
 
-The equation was later carved on his tombstone in Vienna's Zentralfriedhof. Within a decade, atoms were confirmed, and Boltzmann's vision became the foundation of statistical mechanics.
+The equation was later carved on his tombstone in Vienna's Zentralfriedhof. Within a few years, Jean Perrin's experiments on Brownian motion confirmed that atoms exist.
 
 ---
 
 ## Shannon's Surprise
 
-An engineer at Bell Labs in 1948 was trying to understand the limits of communication, with no interest in physics. His name was Claude Shannon.
+In 1948 Claude Shannon, an engineer at Bell Labs, was working on the limits of communication.
 
 His question: how much information can you send through a noisy channel? To answer it, he needed a way to measure uncertainty. If you're about to receive a message, how surprised will you be by each symbol?
 
@@ -72,17 +70,17 @@ If all symbols are equally likely, uncertainty is high. If one symbol dominates,
 
 When Shannon showed his work to John von Neumann, von Neumann reportedly said: "You should call it entropy, for two reasons. First, the formula is the same as in statistical mechanics. Second, nobody really understands entropy, so in any debate you'll have the advantage."
 
-Whether the story is true or not, Shannon had independently arrived at Boltzmann's formula, starting from completely different premises.
+Whether or not the story is true, Shannon had arrived at the entropy of statistical mechanics from entirely different premises.
 
 ---
 
-## The Formula Doesn't Care
+## Same Formula, Different Systems
 
 The entropy formula measures *possibilities*, regardless of what those possibilities represent.
 
 In a gas, $p_i$ is the probability of microstate $i$, and entropy measures how spread out the system is across configurations. In a message, $p_i$ is the probability of symbol $i$, so entropy captures average surprise per symbol. Apply the same formula to an ecosystem, where $p_i$ is the fraction of individuals belonging to species $i$, and you get a measure of how evenly the community is distributed.
 
-Same arithmetic, different subject matter. The formula counts equivalent configurations that produce the same observable outcome.
+The formula counts equivalent configurations that produce the same observable outcome.
 
 ---
 
@@ -102,7 +100,7 @@ Consider two forests, each with 1000 trees and 4 species.
 - Birch: 50 trees
 - Pine: 50 trees
 
-Both have the same *richness* (4 species). Their entropies differ dramatically.
+Both have the same *richness* (4 species). Their entropies differ.
 
 For Forest A:
 
@@ -118,13 +116,13 @@ $$
 
 Forest A has more than twice the entropy of Forest B.
 
-What does this mean? Pick a random tree. In Forest A, you genuinely don't know what species you'll get. In Forest B, guess "Oak" and you're right 85% of the time. The community is predictable, uniform, simple.
+What does this mean? Pick a random tree. In Forest A, each species is equally likely. In Forest B, guess "Oak" and you're right 85% of the time.
 
-The "effective number of species"—defined as $e^H$—captures this:
+The "effective number of species", $e^H$, captures this:
 - Forest A: $e^{1.386} = 4.0$ effective species
 - Forest B: $e^{0.543} = 1.7$ effective species
 
-Forest B has 4 species on paper. It has 1.7 species worth of diversity.
+Forest B has 4 species but the diversity of 1.7 equally common ones.
 
 ---
 
@@ -140,64 +138,56 @@ Species have thermal tolerances. As temperatures rise, some can't cope:
 
 The species that survive tend to be the same everywhere: widespread, adaptable, generalist species. Ecologists call this *biotic homogenization*.
 
-The pattern is consistent across ecosystems:
+Similar shifts have been reported across ecosystems:
 - Coral reefs lose specialist species; weedy corals take over
 - Forests lose endemic understory plants; invasive grasses spread
 - Streams lose sensitive mayflies; pollution-tolerant midges dominate
 
-In each case, the community shifts from Forest A toward Forest B. Richness drops. The remaining species become dominant. Entropy falls.
+In each case, the community shifts from Forest A toward Forest B. Richness drops, a few species become dominant, and entropy falls.
 
 ---
 
 ## The Thermodynamic Irony
 
-In the physical sense, global warming adds heat to the Earth system. Temperatures rise. You might expect entropy to increase—hotter systems explore more states.
+In the physical sense, global warming adds heat to the Earth system. Temperatures rise. You might expect entropy to increase, since hotter systems explore more states.
 
-But in the biological sense, the opposite happens. Ecosystems become simpler. Communities lose species. The number of possible ecological configurations shrinks. Shannon entropy—applied to species abundances—decreases.
+In the biological sense the opposite happens: communities lose species, the number of possible ecological configurations shrinks, and the Shannon entropy of species abundances decreases.
 
 The planet heats up while life, in the entropic sense, cools down.
 
-Physical entropy and ecological entropy measure different things, so there is no contradiction. But both track possibilities, and the parallel is instructive: fewer possible configurations means less structure and less capacity to absorb further disturbance.
+Physical entropy and ecological entropy measure different things, so there is no contradiction. Both count possible configurations, of molecules in one case and of individuals among species in the other.
 
 ---
 
 ## Energy Flow and Order
 
-There's a deeper connection still.
+Life on Earth runs on the *flow* of energy from high-quality (low entropy) to low-quality (high entropy).
 
-Life on Earth doesn't run on heat. It runs on the *flow* of energy from high-quality (low entropy) to low-quality (high entropy).
+Sunlight arrives as concentrated, high-frequency photons. Plants capture it, store it in chemical bonds, and pass it up the food chain. Eventually, the same energy radiates back to space as diffuse infrared: the same total energy, spread across many more photons, at much higher entropy.
 
-Sunlight arrives as concentrated, high-frequency photons. Plants capture it, store it in chemical bonds, and pass it up the food chain. Eventually, the same energy radiates back to space as diffuse infrared—same total energy, but spread across many more photons, much higher entropy.
+This flow from order to disorder powers every living thing. Schrödinger described organisms as feeding on "negative entropy": living systems maintain their structure by exporting entropy to their environment.
 
-This flow—from order to disorder—powers every living thing. Schrödinger called it "negentropy." Living systems maintain their structure by exporting entropy to their environment.
-
-Global warming disrupts this flow. Greenhouse gases trap outgoing infrared, reducing the rate at which Earth can shed entropy. The gradient flattens.
-
-A healthy ecosystem is a dissipative structure—it maintains complexity by channeling energy flow. When the flow is disrupted, the structure simplifies. Species drop out. Communities homogenize. Entropy, in the ecological sense, falls.
+An ecosystem is a dissipative structure in this sense: it maintains its complexity by channeling that flow of energy.
 
 ---
 
 ## What We Lose
 
-A species is not just a name on a list. It's a node in a network of interactions, a repository of genetic information, a way of making a living that took millions of years to evolve.
+A species is a node in a network of interactions, a repository of genetic information, and a way of making a living that took millions of years to evolve.
 
-When diversity collapses, we lose more than species:
+When diversity declines, the losses include:
 
 - **Functional redundancy**: Multiple species doing similar jobs means the ecosystem can absorb shocks
 - **Ecosystem services**: Pollination, decomposition, water filtration, carbon storage
 - **Evolutionary potential**: The raw material for future adaptation
-- **Information**: Each species encodes solutions to survival problems we may never understand
+- **Information**: Each species carries genetic adaptations to its own survival problems
 
-The entropy formula captures something real: the number of ways an ecosystem can be configured while still functioning. When that number drops, the system becomes brittle. It loses its ability to respond to further change.
-
-A low-entropy ecosystem is like a language with only a few words. You can still communicate, but you've lost the capacity for precision and adaptation.
+Low abundance entropy often goes with low functional redundancy, which can leave a community less able to absorb further change.
 
 ---
 
 ## The Equation on the Tombstone
 
-Boltzmann's formula links microscopic chaos to macroscopic order. Shannon adapted it to communication. Ecologists applied it to species abundances. The mathematics is the same; the systems are not.
+Boltzmann's formula links microscopic chaos to macroscopic order. Shannon adapted it to communication. Ecologists applied it to species abundances.
 
-When we burn fossil fuels and heat the planet, we trigger a cascade that runs through physics, chemistry, and biology. Temperatures rise. Species shift and vanish. Communities simplify. The entropy of the living world falls.
-
-That the formula on Boltzmann's tombstone appears in ecology textbooks is not a coincidence. Both track the number of possible configurations a system can occupy. The living world is losing its configurations, one species at a time.
+Heating the planet changes which species can persist. As communities lose species and come to be dominated by a few, the entropy of the living world falls.

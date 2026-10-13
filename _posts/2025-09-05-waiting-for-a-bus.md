@@ -9,7 +9,7 @@ categories: probability paradox everyday-math
 
 You arrive at the stop. The sign says buses come every 10 minutes. Your watch says you should be fine.
 
-But the street is empty. Five minutes pass. Seven. A distant growl—just a truck. Finally, after nine long minutes, the bus arrives, already packed.
+But the street is empty. Five minutes pass. Seven. A distant growl, only a truck. Finally, after nine long minutes, the bus arrives, already packed.
 
 It feels like you always catch the long gaps. Bad luck, you think.
 
@@ -35,13 +35,13 @@ $$
 \mathbb{E}[W] = \frac{T}{2}
 $$
 
-Mean interval $T$, mean wait $T/2$. Half the gap. Clean and predictable.
+The mean interval is $T$ and the mean wait is exactly half of it. Simple and predictable.
 
 ---
 
 ## The Chaotic World
 
-Now consider the opposite extreme. Buses arrive at random, following a Poisson process. The mean gap is still $T$—exactly the same as before. What changes is the variability. Most gaps are short. Some are long. But on average, $T$.
+Now consider the opposite extreme. Buses arrive at random, following a Poisson process. The mean gap is still $T$, exactly the same as before. What changes is the variability. The gaps are exponential: many are short, some are long, but on average $T$.
 
 If you arrive at a random moment, your wait is exponentially distributed:
 
@@ -63,7 +63,7 @@ $$
 \mathbb{E}[W] = \frac{\mathbb{E}[S^2]}{2\,\mathbb{E}[S]}
 $$
 
-This reveals why variance matters. If gaps never vary ($\mathrm{Var}(S) = 0$), the mean wait is $T/2$. As variability increases, so does the wait. For exponential gaps with $\mathrm{Var}(S) = T^2$, the mean wait reaches $T$.
+This shows why variance matters. If gaps never vary ($\mathrm{Var}(S) = 0$), the mean wait is $T/2$. As variability increases, so does the wait. For exponential gaps with $\mathrm{Var}(S) = T^2$, the mean wait reaches $T$.
 
 The more variable the schedule, the longer the average wait.
 
@@ -102,9 +102,13 @@ Now imagine 100 passengers, one arriving each minute.
 - 25 land in short gaps (5 gaps × 5 minutes each)
 - 75 land in long gaps (5 gaps × 15 minutes each)
 
-Three times as many passengers experience the long waits. The average wait across all passengers is 6.75 minutes—not the 5 minutes you'd expect from perfect regularity.
+Three times as many passengers experience the long waits. Counting each passenger's wait in whole minutes, the average is
 
-Long gaps cover more time. More people land inside them. The schedule average and the passenger average diverge.
+$$
+\frac{5 \cdot (15+14+\dots+1) + 5 \cdot (5+4+\dots+1)}{100} = 6.75
+$$
+
+instead of the 5.5 minutes the same count gives for perfectly regular 10-minute gaps. Long gaps cover more time, so more people land inside them.
 
 ---
 
@@ -132,6 +136,4 @@ The experienced average exceeds the scheduled average whenever individuals are m
 | Poisson (random) | $T$ | $T$ |
 | Irregular (variable) | $T$ | between $T/2$ and $T$ |
 
-The schedule average and the passenger average measure different things. Schedules average over intervals. Passengers average over time spent inside them.
-
-That's why standing at the bus stop feels worse than the timetable suggests. You sample the gaps between buses, not the buses themselves—and long gaps, by definition, take up more of your time.
+The schedule average and the passenger average measure different things. Schedules average over intervals. Passengers average over time spent inside them. That difference is why the long gaps are so hard to avoid.

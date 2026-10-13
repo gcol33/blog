@@ -9,33 +9,33 @@ categories: probability measure-theory bayesian
 
 You fit a regression model predicting tree growth from elevation and soil moisture. You want to know: how does elevation affect growth?
 
-A frequentist hands you a plot with a line and a confidence band. A Bayesian hands you a plot with a line and a credible band. The lines are similar. The bands look similar. But they mean completely different things.
+A frequentist hands you a plot with a line and a confidence band. A Bayesian hands you a plot with a line and a credible band. The lines and the bands look alike, but the two bands answer different questions.
 
 The frequentist band says: if we repeated this experiment many times, 95% of such bands would contain the true line.
 
 The Bayesian band says: given what we observed, there's a 95% probability the true value lies here.
 
-Same data. Same model. Different answers to different questions. The difference comes down to a choice: do you slice through uncertainty, or let it cast a shadow?
+Both come from the same data and the same model. The difference lies in how each handles the uncertainty about the parameters: slice through it, or let it cast a shadow.
 
 ---
 
 ## A Mountain of Uncertainty
 
-Picture the joint posterior distribution of two regression coefficients—$\beta_1$ for elevation, $\beta_2$ for soil moisture. This distribution forms a three-dimensional mountain rising over the $(\beta_1, \beta_2)$ plane. The peak sits where the parameters are most plausible; the slopes fall away toward less likely combinations.
+Picture the joint posterior distribution of two regression coefficients, $\beta_1$ for elevation and $\beta_2$ for soil moisture. This distribution forms a three-dimensional mountain rising over the $(\beta_1, \beta_2)$ plane. The peak sits where the parameters are most plausible; the slopes fall away toward less likely combinations.
 
 Now suppose you want to report just the effect of elevation, $\beta_1$. You have two options.
 
-**Slice.** Take a vertical cut through the mountain at some fixed value of $\beta_2$—say, the point estimate. You're left with a one-dimensional curve: the distribution of $\beta_1$ *given that* $\beta_2$ equals exactly that value. This is conditioning. It's what frequentists typically do.
+**Slice.** Take a vertical cut through the mountain at some fixed value of $\beta_2$, say the point estimate. You're left with a one-dimensional curve: the distribution of $\beta_1$ *given that* $\beta_2$ equals exactly that value. This is conditioning. It's what frequentists typically do.
 
 **Shadow.** Shine light along the $\beta_2$ axis so the entire mountain casts a shadow onto the $\beta_1$ axis. At each point, you accumulate all the probability mass across every possible $\beta_2$. This is marginalizing. It's what Bayesians typically do.
 
-The slice is sharp. It pretends $\beta_2$ is known. The shadow is diffuse. It admits $\beta_2$ could be many things.
+The slice treats $\beta_2$ as known, so it is narrower than the shadow, which spreads over every plausible value of $\beta_2$.
 
 ---
 
 ## Pushforwards: The Machinery Behind Both
 
-Measure theory provides the language for what's happening here. A probability distribution is a **pushforward**—a way of transferring measure from one space to another through a function.
+In measure theory, a probability distribution is a **pushforward**: measure transferred from one space to another through a function.
 
 Start with a probability space $(\Omega, \mathcal{F}, P)$: outcomes $\Omega$, measurable sets $\mathcal{F}$, and a measure $P$. A random variable $X: \Omega \to \mathbb{R}$ maps outcomes to numbers. The distribution of $X$ is defined by pushing $P$ forward through $X$:
 
@@ -59,7 +59,7 @@ $$
 Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \varepsilon
 $$
 
-To visualize the effect of elevation $x_1$, we fix soil moisture at a reference value—say $x_2 = 0.2$—and plot:
+To visualize the effect of elevation $x_1$, we fix soil moisture at a reference value, say $x_2 = 0.2$, and plot:
 
 $$
 \mathbb{E}[Y \mid x_1, x_2 = 0.2] = \hat\beta_0 + \hat\beta_1 x_1 + \hat\beta_2 \cdot 0.2
@@ -69,7 +69,7 @@ The hat marks estimates. The line is conditional on two things: fixed covariate 
 
 The confidence band comes from the sampling distribution of $\hat{\boldsymbol{\beta}}$. It answers a hypothetical question: if we repeated this experiment infinitely many times, how often would such bands contain the true line?
 
-This is a slice through parameter space—a single point, plus the variation from sampling.
+This is a slice through parameter space: a single point, plus the variation from sampling.
 
 ---
 
@@ -91,15 +91,15 @@ $$
 
 The posterior $p(\boldsymbol{\beta} \mid \text{data})$ weights each parameter combination by its plausibility. The integral sums their contributions.
 
-The credible band has a direct interpretation: given the data, there's a 95% probability the outcome lies within this range. No hypothetical repetitions required.
+The credible band has a direct interpretation: given the data, there's a 95% probability the outcome lies within this range.
 
-This is the shadow—the full uncertainty of the parameter mountain, projected onto the prediction.
+This is the shadow: the full uncertainty of the parameter mountain, projected onto the prediction.
 
 ---
 
 ## What the Plots Actually Show
 
-Both approaches produce a curve with a band. The visual similarity obscures a deep difference.
+Both approaches produce a curve with a band.
 
 |   | Frequentist | Bayesian |
 |:--|:--|:--|
@@ -116,6 +116,6 @@ The frequentist slices through the mountain at a single point, then asks how tha
 
 Seen through measure theory, both traditions construct pushforwards. The difference lies in what they push forward.
 
-Frequentists push a single slice of parameter space—estimates held fixed—into the outcome space. Bayesians push the entire posterior, letting its uncertainty propagate into predictions.
+Frequentists push a single slice of parameter space, with the estimates held fixed, into the outcome space. Bayesians push the entire posterior, letting its uncertainty propagate into predictions.
 
-The regression line you plot, whether adorned with confidence or credible bands, traces the image of this pushforward. The difference between the two traditions reduces to what gets pushed: a point estimate, or the full posterior.
+The regression line you plot, whether adorned with confidence or credible bands, traces the image of this pushforward.
